@@ -1,5 +1,8 @@
 package com.github.freedownloadhere.killauravideo
 
+import com.github.freedownloadhere.killauravideo.utils.Chat
+import com.github.freedownloadhere.killauravideo.utils.RandomTimer
+import com.github.freedownloadhere.killauravideo.utils.Renderer
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.Tessellator
 import net.minecraftforge.client.event.DrawBlockHighlightEvent

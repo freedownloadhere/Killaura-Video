@@ -1,4 +1,4 @@
-package com.github.freedownloadhere.killauravideo
+package com.github.freedownloadhere.killauravideo.utils
 
 import com.google.common.base.Predicate
 import com.google.common.base.Predicates
@@ -13,22 +13,19 @@ object RayTrace {
     fun trace(
         player: EntityPlayerSP,
         look: Vec3,
-        baseReach: Double,
+        attackReach: Double,
+        blockReach: Double,
         world: WorldClient
     ): Entity? {
         var hitEntity: Entity? = null
 
-        val eyeBegin = player.getPositionEyes(PartialTicks.asFloat)
+        val eyeBegin = player.getPositionEyes(PartialTicks.asFloat) + smallOffset
 
-        val blockRay = traceBlocks(eyeBegin, look, baseReach, world)
-        val reach = if(blockRay == null) baseReach
+        val blockRay = traceBlocks(eyeBegin, look, blockReach, world)
+        val reach = if(blockRay == null) blockReach
                     else eyeBegin.distanceTo(blockRay.hitVec)
 
-        val eyeEnd = eyeBegin.addVector(
-            look.xCoord * reach,
-            look.yCoord * reach,
-            look.zCoord * reach
-        )
+        val eyeEnd = eyeBegin + (look * reach)
 
         val aabbToSearch = player.entityBoundingBox
             .addCoord(look.xCoord * reach, look.yCoord * reach, look.zCoord * reach)
@@ -54,20 +51,26 @@ object RayTrace {
 
             else if(intercept != null) {
                 val hitDistance = eyeBegin.distanceTo(intercept.hitVec)
-                if(hitDistance < closestHit || closestHit == 0.0) {
-                    closestHit = hitDistance
-                    hitEntity = entity
-                }
+                if(hitDistance > closestHit) continue
+
+                closestHit = hitDistance
+                hitEntity = entity
             }
         }
+
+        if(closestHit > attackReach)
+            return null
 
         return hitEntity
     }
 
+    // avoid some BS perfect alignment issues
+    private val smallOffset = Vec3(1e-5, 2 * 1e-5, 3 * 1e-5)
+
     @Suppress("RedundantSamConstructor", "RemoveExplicitTypeArguments")
     private val fullPredicate = Predicates.and(
         EntitySelectors.NOT_SPECTATING,
-        Predicate<Entity> { input: Entity? -> input?.canBeCollidedWith() ?: false }
+        Predicate<Entity> { input: Entity? -> input?.canBeCollidedWith() ?: false },
     )
 
     private fun traceBlocks(
@@ -76,11 +79,7 @@ object RayTrace {
         reach: Double,
         world: WorldClient
     ): MovingObjectPosition? {
-        val end = start.addVector(
-            look.xCoord * reach,
-            look.yCoord * reach,
-            look.zCoord * reach
-        )
-        return world.rayTraceBlocks(start, end, false, false, true)
+        val end = start + (look * reach)
+        return world.rayTraceBlocks(start, end, false, false, false)
     }
 }

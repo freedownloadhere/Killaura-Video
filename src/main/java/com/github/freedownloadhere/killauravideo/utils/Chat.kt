@@ -1,4 +1,4 @@
-package com.github.freedownloadhere.killauravideo
+package com.github.freedownloadhere.killauravideo.utils
 
 import net.minecraft.client.Minecraft
 import net.minecraft.util.ChatComponentText

@@ -1,5 +1,6 @@
 package com.github.freedownloadhere.killauravideo
 
+import com.github.freedownloadhere.killauravideo.commands.CommandToggle
 import net.minecraftforge.client.ClientCommandHandler
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.common.Mod

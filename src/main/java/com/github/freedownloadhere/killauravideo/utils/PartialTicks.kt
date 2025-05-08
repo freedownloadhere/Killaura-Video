@@ -1,4 +1,4 @@
-package com.github.freedownloadhere.killauravideo
+package com.github.freedownloadhere.killauravideo.utils
 
 import com.github.freedownloadhere.killauravideo.mixin.AccessorMinecraft
 import net.minecraft.client.Minecraft
