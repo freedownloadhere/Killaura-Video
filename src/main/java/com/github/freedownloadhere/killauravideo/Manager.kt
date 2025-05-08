@@ -1,6 +1,8 @@
 package com.github.freedownloadhere.killauravideo
 
 import net.minecraft.client.Minecraft
+import net.minecraft.client.renderer.Tessellator
+import net.minecraftforge.client.event.DrawBlockHighlightEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.gameevent.TickEvent
 
@@ -25,6 +27,16 @@ object Manager {
             // checking if we are in a world
             return
 
+        RandomTimer.updateAllTimers()
         killaura.update(player, world)
+    }
+
+    @SubscribeEvent
+    fun blockHighlight(e: DrawBlockHighlightEvent) {
+        val player = Minecraft.getMinecraft().thePlayer
+        val tess = Tessellator.getInstance()
+        if(player == null) return
+
+        Renderer.renderAll(tess, player)
     }
 }
