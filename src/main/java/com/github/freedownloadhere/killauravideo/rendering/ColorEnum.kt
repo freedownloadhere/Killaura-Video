@@ -1,4 +1,4 @@
-package com.github.freedownloadhere.killauravideo.utils
+package com.github.freedownloadhere.killauravideo.rendering
 
 enum class ColorEnum(
     val r: Int,

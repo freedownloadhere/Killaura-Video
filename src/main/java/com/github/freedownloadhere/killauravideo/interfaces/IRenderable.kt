@@ -1,4 +1,4 @@
-package com.github.freedownloadhere.killauravideo
+package com.github.freedownloadhere.killauravideo.interfaces
 
 import net.minecraft.client.renderer.Tessellator
 

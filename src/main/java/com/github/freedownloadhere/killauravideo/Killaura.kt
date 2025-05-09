@@ -1,5 +1,7 @@
 package com.github.freedownloadhere.killauravideo
 
+import com.github.freedownloadhere.killauravideo.rendering.ColorEnum
+import com.github.freedownloadhere.killauravideo.rendering.EntityTracker
 import com.github.freedownloadhere.killauravideo.utils.*
 import net.minecraft.client.entity.EntityPlayerSP
 import net.minecraft.client.multiplayer.WorldClient

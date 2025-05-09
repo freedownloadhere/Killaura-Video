@@ -1,5 +1,7 @@
 package com.github.freedownloadhere.killauravideo
 
+import com.github.freedownloadhere.killauravideo.rendering.EntityTracker
+import com.github.freedownloadhere.killauravideo.rendering.Renderer
 import com.github.freedownloadhere.killauravideo.utils.*
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.Tessellator
@@ -40,7 +42,7 @@ object Manager {
         entityTracker.playerPosForRendering = EntityPositions.head(player)
 
         Renderer.beginHighlight(EntityPositions.base(player))
-        Renderer.render(entityTracker, tess)
+        entityTracker.render(tess)
         Renderer.endHighlight()
     }
 
