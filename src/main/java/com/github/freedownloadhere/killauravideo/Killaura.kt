@@ -1,5 +1,6 @@
 package com.github.freedownloadhere.killauravideo
 
+import com.github.freedownloadhere.killauravideo.interfaces.IRenderable
 import com.github.freedownloadhere.killauravideo.rendering.ColorEnum
 import com.github.freedownloadhere.killauravideo.rendering.EntityTracker
 import com.github.freedownloadhere.killauravideo.utils.*
@@ -8,14 +9,22 @@ import net.minecraft.client.multiplayer.WorldClient
 import net.minecraft.entity.Entity
 import net.minecraft.entity.EntityLivingBase
 import net.minecraft.network.play.client.C02PacketUseEntity
+import net.minecraftforge.common.MinecraftForge
+import net.minecraftforge.event.entity.player.AttackEntityEvent
 import kotlin.math.abs
 import kotlin.math.atan2
 import kotlin.math.hypot
 
-class Killaura {
+class Killaura(
+    private val attacker: EntityPlayerSP,
+    private val world: WorldClient
+) : IRenderable {
     private var toggled = false
+
+    private var attackReach = 3.0
     private val attackTimer = RandomTimer(70L, 40L, 0.1)
-    val entityTracker = EntityTracker()
+    private val attackRangeLimiter = AttackRangeLimiter(attacker, maxReach = attackReach)
+    private val entityTracker = EntityTracker(attacker)
 
     fun isEnabled() = toggled
 
@@ -23,27 +32,27 @@ class Killaura {
         toggled = !toggled
     }
 
-    fun update(attacker: EntityPlayerSP, world: WorldClient) {
+    fun update() {
         if(!toggled) return
 
         if(!attackTimer.hasFinished()) return
 
         entityTracker.resetTrackers()
-        for(target in world.loadedEntityList) {
-            if(!goodEntityCheck(attacker, target)) continue
-            if(!distanceCheck(attacker, target)) continue
-            if(!fovCheck(attacker, target)) continue
-            if(!rayTraceCheck(attacker, target, world)) continue
 
-            entityTracker.trackEntity(target, EntityTracker.TrackType.HITBOX_HIGHLIGHT, ColorEnum.RED)
-            simulateAttack(attacker, target)
+        for(target in world.loadedEntityList) {
+            if(!goodEntityCheck(target)) continue
+            if(!attackRangeLimiter.isInRange(target)) continue
+            if(!rayTraceCheck(target)) continue
+
+            entityTracker.trackEntity(target, EntityTracker.TrackType.HITBOX_HIGHLIGHT, ColorEnum.GREEN)
+            simulateAttack(target)
 
             attackTimer.reset()
             return
         }
     }
 
-    private fun goodEntityCheck(attacker: EntityPlayerSP, target: Entity): Boolean {
+    private fun goodEntityCheck(target: Entity): Boolean {
         if(target !is EntityLivingBase) return false
         if(target == attacker) return false
         if(target.isDead) return false
@@ -51,18 +60,10 @@ class Killaura {
         return true
     }
 
-    private fun distanceCheck(attacker: EntityPlayerSP, target: Entity): Boolean {
-        val attackerPos = attacker.positionVector
-        val targetPos = target.positionVector
-        val distance = attackerPos.distanceTo(targetPos)
-        return (distance <= 4.0)
-    }
-
-    private fun rayTraceCheck(attacker: EntityPlayerSP, target: Entity, world: WorldClient): Boolean {
+    private fun rayTraceCheck(target: Entity): Boolean {
         val discardPastThis = 6.0
 
-        val attackReach = 3.0
-        val blockReach = 4.5
+        val blockReach = 1.5 * attackReach
 
         val targetSamples = arrayOf(
             EntityPositions.head(target),
@@ -85,26 +86,17 @@ class Killaura {
         return false
     }
 
-    private fun fovCheck(attacker: EntityPlayerSP, target: Entity): Boolean {
-        val attackerVec = attacker.positionVector
-        val entityVec = target.positionVector
-        val deltaVec = entityVec.subtract(attackerVec)
-
-        val posYaw = -atan2(deltaVec.xCoord, deltaVec.zCoord).toDegrees().toFloat().cropAngle180()
-        val posPitch = -atan2(deltaVec.yCoord, hypot(deltaVec.xCoord, deltaVec.zCoord)).toDegrees().toFloat()
-
-        val currentYaw = attacker.rotationYaw.cropAngle180()
-        val currentPitch = attacker.rotationPitch
-
-        val deltaYaw = (posYaw - currentYaw).cropAngle180()
-        val deltaPitch = posPitch - currentPitch
-
-        return abs(deltaYaw) <= 70.0f && abs(deltaPitch) <= 70.0f
-    }
-
-    private fun simulateAttack(attacker: EntityPlayerSP, target: Entity) {
+    private fun simulateAttack(target: Entity) {
         val packet = C02PacketUseEntity(target, C02PacketUseEntity.Action.ATTACK)
         attacker.swingItem()
         attacker.sendQueue.addToSendQueue(packet)
+        MinecraftForge.EVENT_BUS.post(AttackEntityEvent(attacker, target))
+    }
+
+    override fun render() {
+        if(!toggled) return
+
+        entityTracker.render()
+        attackRangeLimiter.render()
     }
 }
