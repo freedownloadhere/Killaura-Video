@@ -17,16 +17,18 @@ class Killaura {
         toggled = !toggled
     }
 
-    fun update(attacker: EntityPlayerSP, world: WorldClient) {
+    fun update(attacker: EntityPlayerSP, world: WorldClient, entityTracker: EntityTracker) {
         if(!toggled) return
 
         if(!attackTimer.hasFinished()) return
 
+        entityTracker.resetTrackers()
         for(target in world.loadedEntityList) {
             if(!goodEntityCheck(attacker, target)) continue
             if(!distanceCheck(attacker, target)) continue
             if(!visibleAndReachableCheck(attacker, target, world)) continue
 
+            entityTracker.trackEntity(target, EntityTracker.TrackType.HITBOX_HIGHLIGHT, ColorEnum.RED)
             simulateAttack(attacker, target)
 
             attackTimer.reset()
@@ -63,8 +65,8 @@ class Killaura {
 
         val attackerEyePosition = EntityPositions.head(attacker)
 
-        Renderer.resetLinesFromPlayer()
-        Renderer.resetCuboids()
+//        Renderer.resetLinesFromPlayer()
+//        Renderer.resetCuboids()
 
         for(sample in targetSamples) {
             val distance = attackerEyePosition.distanceTo(sample)
@@ -73,7 +75,7 @@ class Killaura {
             val dir = (sample - attackerEyePosition).normalize()
 
             if(RayTrace.trace(attacker, dir, attackReach, blockReach, world) == target) {
-                Renderer.addCuboid(target, Renderer.Color.GREEN_FADED)
+//                Renderer.addCuboid(target, Renderer.Color.GREEN_FADED)
                 return true
             }
         }
