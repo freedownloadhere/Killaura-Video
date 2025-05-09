@@ -1,5 +1,6 @@
 package com.github.freedownloadhere.killauravideo
 
+import com.github.freedownloadhere.killauravideo.rendering.ColorEnum
 import com.github.freedownloadhere.killauravideo.rendering.EntityTracker
 import com.github.freedownloadhere.killauravideo.rendering.Renderer
 import com.github.freedownloadhere.killauravideo.utils.*
@@ -12,7 +13,6 @@ import net.minecraftforge.fml.common.gameevent.TickEvent
 
 object Manager {
     private val killaura = Killaura()
-    private val entityTracker = EntityTracker()
 
     fun toggleKillaura() {
         killaura.toggle()
@@ -29,7 +29,7 @@ object Manager {
         if(player == null || world == null) return
 
         RandomTimer.updateAllTimers()
-        killaura.update(player, world, entityTracker)
+        killaura.update(player, world)
     }
 
     @SubscribeEvent
@@ -39,15 +39,23 @@ object Manager {
         if(player == null || world == null) return
 
         val tess = Tessellator.getInstance()
-        entityTracker.playerPosForRendering = EntityPositions.head(player)
+        killaura.entityTracker.playerPosForRendering = EntityPositions.head(player)
 
         Renderer.beginHighlight(EntityPositions.base(player))
-        entityTracker.render(tess)
+        Renderer.drawSlice(
+            EntityPositions.base(player),
+            3.0,
+            ColorEnum.RED_FADED,
+            70.0,
+            player.rotationYaw,
+            tess
+        )
+        killaura.entityTracker.render(tess)
         Renderer.endHighlight()
     }
 
     @SubscribeEvent
     fun worldUnload(e: WorldEvent.Unload) {
-        entityTracker.resetTrackers()
+        killaura.entityTracker.resetTrackers()
     }
 }

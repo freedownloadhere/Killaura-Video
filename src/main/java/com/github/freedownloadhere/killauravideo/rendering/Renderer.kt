@@ -9,6 +9,9 @@ import net.minecraft.client.renderer.WorldRenderer
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
 import net.minecraft.util.Vec3
 import org.lwjgl.opengl.GL11
+import kotlin.math.PI
+import kotlin.math.cos
+import kotlin.math.sin
 
 object Renderer {
     data class Point(val coord: Vec3, val color: ColorEnum)
@@ -55,6 +58,39 @@ object Renderer {
 
     fun render(renderable: IRenderable, tess: Tessellator) {
         renderable.render(tess)
+    }
+
+    fun drawCircleXZ(center: Vec3, radius: Double, color: ColorEnum, divisions: Int, tess: Tessellator) {
+        val wr = tess.worldRenderer
+        wr.begin(GL11.GL_LINE_LOOP, DefaultVertexFormats.POSITION_COLOR)
+        GlStateManager.pushMatrix()
+        GlStateManager.translate(center.xCoord, center.yCoord, center.zCoord)
+        GlStateManager.scale(radius, 1.0, radius)
+        for(i in 1 .. divisions) {
+            val angleRad = (2.0 * PI * i) / divisions
+            wr.pos(cos(angleRad), 0.0, sin(angleRad)).color(color.r, color.g, color.b, color.a).endVertex()
+        }
+        tess.draw()
+        GlStateManager.popMatrix()
+    }
+
+    fun drawSlice(center: Vec3, radius: Double, color: ColorEnum, openingDegrees: Double, startAngleDegrees: Float, tess: Tessellator) {
+        val wr = tess.worldRenderer
+        wr.begin(GL11.GL_POLYGON, DefaultVertexFormats.POSITION_COLOR)
+        GlStateManager.pushMatrix()
+        GlStateManager.translate(center.xCoord, center.yCoord + 1e-2, center.zCoord)
+        GlStateManager.scale(radius, 1.0, radius)
+        GlStateManager.rotate(-startAngleDegrees - openingDegrees.toFloat(), 0.0f, 1.0f, 0.0f)
+        val divisions = openingDegrees.toInt() / 3
+        val maxRad = 2.0 * (openingDegrees * PI / 180.0)
+        for(i in 0 .. divisions) {
+            val angleRad = maxRad * i / divisions
+            wr.pos(sin(angleRad), 0.0, cos(angleRad)).color(color.r, color.g, color.b, color.a).endVertex()
+        }
+        wr.pos(0.0, 0.0, 0.0).color(color.r, color.g, color.b, color.a).endVertex()
+        wr.pos(0.0, 0.0, 1.0).color(color.r, color.g, color.b, color.a).endVertex()
+        tess.draw()
+        GlStateManager.popMatrix()
     }
 
     fun addLineFromPlayer(to: Vec3, color: ColorEnum) {
