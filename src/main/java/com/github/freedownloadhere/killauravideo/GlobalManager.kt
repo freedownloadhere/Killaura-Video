@@ -11,18 +11,14 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.gameevent.TickEvent
 import org.apache.logging.log4j.LogManager
 
-object Manager {
-    private var killaura: Killaura? = null
-    private var sprintReset: SprintReset? = null
+object GlobalManager {
+    private var clientInstance: ClientInstance? = null
 
     private var lastPlayer: EntityPlayerSP? = null
     private var lastWorld: WorldClient? = null
 
-    fun toggleKillaura() {
-        if(killaura == null) return
-        killaura!!.toggle()
-        val toggledMessage = if(killaura!!.isEnabled()) "\u00A7aEnabled" else "\u00A7cDisabled"
-        Chat.addMessage("Killaura", toggledMessage)
+    fun toggleModule(name: String) {
+        clientInstance?.toggleModule(name)
     }
 
     @SubscribeEvent
@@ -34,46 +30,37 @@ object Manager {
         val world = Minecraft.getMinecraft().theWorld
 
         if(player != lastPlayer || world != lastWorld)
-            onPlayerOrWorldChange(player, world)
+            contextChange(player, world)
 
         lastPlayer = player
         lastWorld = world
 
-        if(player == null || world == null)
-            return
-
-        killaura?.update()
-        sprintReset?.update()
+        clientInstance?.tickUpdate()
     }
 
     @SubscribeEvent
     fun blockHighlight(e: DrawBlockHighlightEvent) {
-        Timer.updateAllTimers()
-        RandomTimer.updateAllTimers()
-
         val player = Minecraft.getMinecraft().thePlayer
         val world = Minecraft.getMinecraft().theWorld
         if(player == null || world == null) return
 
         RenderUtils.beginHighlight()
         RenderUtils.useAbsolutePos(EntityPositions.base(player))
-        killaura?.render()
+        clientInstance?.renderUpdate()
         RenderUtils.endHighlight()
     }
 
+    // TODO fix
     @SubscribeEvent
     fun playerAttackEntity(e: AttackEntityEvent) {
-        LogManager.getLogger().info("Attack entity")
-        sprintReset?.stopSprint()
+        // sprintReset?.stopSprint()
     }
 
-    private fun onPlayerOrWorldChange(player: EntityPlayerSP?, world: WorldClient?) {
+    private fun contextChange(player: EntityPlayerSP?, world: WorldClient?) {
         if(player == null || world == null) {
-            killaura = null
-            sprintReset = null
+            clientInstance = null
             return
         }
-        killaura = Killaura(player, world)
-        sprintReset = SprintReset(player, Minecraft.getMinecraft().gameSettings.keyBindForward)
+        clientInstance = ClientInstance(player, world, Minecraft.getMinecraft().gameSettings)
     }
 }

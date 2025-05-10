@@ -1,11 +1,8 @@
-package com.github.freedownloadhere.killauravideo
+package com.github.freedownloadhere.killauravideo.utils
 
 import com.github.freedownloadhere.killauravideo.interfaces.IRenderable
 import com.github.freedownloadhere.killauravideo.rendering.ColorEnum
 import com.github.freedownloadhere.killauravideo.rendering.RenderUtils
-import com.github.freedownloadhere.killauravideo.utils.EntityPositions
-import com.github.freedownloadhere.killauravideo.utils.cropAngle180
-import com.github.freedownloadhere.killauravideo.utils.toDegrees
 import net.minecraft.client.entity.EntityPlayerSP
 import net.minecraft.entity.Entity
 import kotlin.math.abs

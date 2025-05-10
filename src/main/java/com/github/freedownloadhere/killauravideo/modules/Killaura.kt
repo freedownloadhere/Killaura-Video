@@ -1,9 +1,10 @@
-package com.github.freedownloadhere.killauravideo
+package com.github.freedownloadhere.killauravideo.modules
 
 import com.github.freedownloadhere.killauravideo.interfaces.IRenderable
 import com.github.freedownloadhere.killauravideo.rendering.ColorEnum
 import com.github.freedownloadhere.killauravideo.rendering.EntityTracker
 import com.github.freedownloadhere.killauravideo.utils.*
+import com.github.freedownloadhere.killauravideo.utils.timer.TimerManager
 import net.minecraft.client.entity.EntityPlayerSP
 import net.minecraft.client.multiplayer.WorldClient
 import net.minecraft.entity.Entity
@@ -11,30 +12,20 @@ import net.minecraft.entity.EntityLivingBase
 import net.minecraft.network.play.client.C02PacketUseEntity
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.entity.player.AttackEntityEvent
-import kotlin.math.abs
-import kotlin.math.atan2
-import kotlin.math.hypot
 
 class Killaura(
     private val attacker: EntityPlayerSP,
-    private val world: WorldClient
-) : IRenderable {
-    private var toggled = false
-
+    private val world: WorldClient,
+    timerManager: TimerManager
+) : Module("Killaura"), IRenderable
+{
     private var attackReach = 3.0
-    private val attackTimer = RandomTimer(70L, 40L, 0.1)
+    private val attackTimer = timerManager.newRandomTimer(70L, 40L, 0.1)
     private val attackRangeLimiter = AttackRangeLimiter(attacker, maxReach = attackReach)
     private val entityTracker = EntityTracker(attacker)
 
-    fun isEnabled() = toggled
-
-    fun toggle() {
-        toggled = !toggled
-    }
-
-    fun update() {
+    override fun update() {
         if(!toggled) return
-
         if(!attackTimer.hasFinished()) return
 
         entityTracker.resetTrackers()

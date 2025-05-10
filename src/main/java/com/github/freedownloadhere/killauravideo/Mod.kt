@@ -10,7 +10,7 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent
 class Mod {
     @Mod.EventHandler
     fun init(e: FMLInitializationEvent) {
-        MinecraftForge.EVENT_BUS.register(Manager)
+        MinecraftForge.EVENT_BUS.register(GlobalManager)
         ClientCommandHandler.instance.registerCommand(CommandToggle())
     }
 }
