@@ -9,4 +9,10 @@ object Chat {
             ChatComponentText("\u00A7l[$category]\u00A7r \u00A77$msg")
         )
     }
+
+    fun error(msg: String) {
+        Minecraft.getMinecraft().thePlayer.addChatMessage(
+            ChatComponentText("\u00A7c\u00A7l[Error]\u00A7r \u00A77$msg")
+        )
+    }
 }

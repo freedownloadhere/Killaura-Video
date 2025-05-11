@@ -7,5 +7,7 @@ class ModuleMap(
 
     fun allModules(): Collection<Module> = moduleMap.values
 
+    fun allNames(): Collection<String> = moduleMap.keys
+
     fun module(name: String) = moduleMap[name.lowercase()]
 }

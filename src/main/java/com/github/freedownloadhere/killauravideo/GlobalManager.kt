@@ -9,17 +9,13 @@ import net.minecraftforge.client.event.DrawBlockHighlightEvent
 import net.minecraftforge.event.entity.player.AttackEntityEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.gameevent.TickEvent
-import org.apache.logging.log4j.LogManager
 
 object GlobalManager {
-    private var clientInstance: ClientInstance? = null
+    var clientInstance: ClientInstance? = null
+        private set
 
     private var lastPlayer: EntityPlayerSP? = null
     private var lastWorld: WorldClient? = null
-
-    fun toggleModule(name: String) {
-        clientInstance?.toggleModule(name)
-    }
 
     @SubscribeEvent
     fun clientTick(e: TickEvent.ClientTickEvent) {

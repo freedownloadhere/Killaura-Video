@@ -17,7 +17,7 @@ class ClientInstance(
 ) {
     private val timerManager = TimerManager()
 
-    private val moduleMap = ModuleMap(
+    val moduleMap = ModuleMap(
         Killaura(player, world, timerManager),
         SprintReset(player, gameSettings.keyBindForward, timerManager)
     )
