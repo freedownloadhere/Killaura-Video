@@ -1,9 +1,19 @@
 package com.github.freedownloadhere.killauravideo.modules
 
+import com.lukflug.panelstudio.setting.ICategory
+
 class ModuleMap(
-    vararg modules: Module
+    vararg categories: Pair<String, List<Module>>
 ) {
-    private val moduleMap = modules.associateBy { it.name.lowercase() }
+    private val categoryMap = categories
+        .map { Category(it.first, it.second) }
+        .associateBy { it.displayName }
+
+    private val moduleMap = categories
+        .flatMap { it.second }
+        .associateBy { it.name.lowercase() }
+
+    fun allCategories(): Collection<ICategory> = categoryMap.values
 
     fun allModules(): Collection<Module> = moduleMap.values
 

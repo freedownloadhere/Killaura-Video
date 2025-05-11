@@ -6,7 +6,6 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.entity.EntityPlayerSP
 import net.minecraft.client.multiplayer.WorldClient
 import net.minecraftforge.client.event.DrawBlockHighlightEvent
-import net.minecraftforge.event.entity.player.AttackEntityEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.gameevent.TickEvent
 
@@ -46,17 +45,13 @@ object GlobalManager {
         RenderUtils.endHighlight()
     }
 
-    // TODO fix
-    @SubscribeEvent
-    fun playerAttackEntity(e: AttackEntityEvent) {
-        // sprintReset?.stopSprint()
-    }
-
     private fun contextChange(player: EntityPlayerSP?, world: WorldClient?) {
         if(player == null || world == null) {
+            clientInstance?.destroy()
             clientInstance = null
             return
         }
         clientInstance = ClientInstance(player, world, Minecraft.getMinecraft().gameSettings)
+        clientInstance!!.init()
     }
 }

@@ -25,7 +25,7 @@ class Killaura(
     private val entityTracker = EntityTracker(attacker)
 
     override fun update() {
-        if(!toggled) return
+        if(!toggleSwitch.isOn) return
         if(!attackTimer.hasFinished()) return
 
         entityTracker.resetTrackers()
@@ -85,7 +85,7 @@ class Killaura(
     }
 
     override fun render() {
-        if(!toggled) return
+        if(!toggleSwitch.isOn) return
 
         entityTracker.render()
         attackRangeLimiter.render()

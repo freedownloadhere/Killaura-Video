@@ -75,6 +75,7 @@ repositories {
     maven("https://repo.spongepowered.org/maven/")
     // If you don't want to log in with your real minecraft account, remove this line
     maven("https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1")
+    maven("https://lukflug.github.io/maven/")
 }
 
 val shadowImpl: Configuration by configurations.creating {
@@ -87,6 +88,7 @@ dependencies {
     forge("net.minecraftforge:forge:1.8.9-11.15.1.2318-1.8.9")
 
     shadowImpl(kotlin("stdlib-jdk8"))
+    //implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
 
     // If you don't want mixins, remove these lines
     shadowImpl("org.spongepowered:mixin:0.7.11-SNAPSHOT") {
@@ -96,7 +98,9 @@ dependencies {
 
     // If you don't want to log in with your real minecraft account, remove this line
     runtimeOnly("me.djtheredstoner:DevAuth-forge-legacy:1.2.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
+
+    shadowImpl("com.lukflug:panelstudio:0.2.4")
+    shadowImpl("com.lukflug:panelstudio-mc8-forge:0.2.4")
 }
 
 // Tasks:
