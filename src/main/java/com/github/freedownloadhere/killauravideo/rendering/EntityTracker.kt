@@ -2,14 +2,10 @@ package com.github.freedownloadhere.killauravideo.rendering
 
 import com.github.freedownloadhere.killauravideo.interfaces.IRenderable
 import com.github.freedownloadhere.killauravideo.utils.EntityPositions
-import com.github.freedownloadhere.killauravideo.utils.minus
+import com.github.freedownloadhere.killauravideo.utils.extensions.minus
 import net.minecraft.client.entity.EntityPlayerSP
-import net.minecraft.client.renderer.GlStateManager
-import net.minecraft.client.renderer.Tessellator
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats
 import net.minecraft.entity.Entity
 import net.minecraft.util.Vec3
-import org.lwjgl.opengl.GL11
 
 class EntityTracker(
     private val playerForTracerRendering: EntityPlayerSP

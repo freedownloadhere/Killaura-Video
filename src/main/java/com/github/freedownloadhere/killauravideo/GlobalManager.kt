@@ -21,6 +21,8 @@ object GlobalManager {
         if(e.phase != TickEvent.Phase.START)
             return
 
+        KeybindMap.update()
+
         val player = Minecraft.getMinecraft().thePlayer
         val world = Minecraft.getMinecraft().theWorld
 

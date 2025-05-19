@@ -1,4 +1,4 @@
-package com.github.freedownloadhere.killauravideo.utils
+package com.github.freedownloadhere.killauravideo.utils.extensions
 
 import net.minecraft.util.Vec3
 

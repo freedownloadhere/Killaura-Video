@@ -15,7 +15,15 @@ class SprintReset(
 ) : Module("SprintReset")
 {
     private var breakingSprint = false
-    private val timer = timerManager.newTimer(50L)
+    private val timer = timerManager.newTimer(100L)
+
+    override fun init() {
+        MinecraftForge.EVENT_BUS.register(this)
+    }
+
+    override fun destroy() {
+        MinecraftForge.EVENT_BUS.unregister(this)
+    }
 
     override fun init() {
         MinecraftForge.EVENT_BUS.register(this)

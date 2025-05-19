@@ -1,6 +1,6 @@
 package com.github.freedownloadhere.killauravideo.rendering
 
-import com.github.freedownloadhere.killauravideo.utils.toRadians
+import com.github.freedownloadhere.killauravideo.utils.extensions.toRadians
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.client.renderer.Tessellator
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats

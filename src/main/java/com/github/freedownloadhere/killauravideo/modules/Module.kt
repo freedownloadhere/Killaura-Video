@@ -1,23 +1,19 @@
 package com.github.freedownloadhere.killauravideo.modules
 
-import com.github.freedownloadhere.killauravideo.modules.components.ToggleSwitch
-import com.lukflug.panelstudio.base.IToggleable
-import com.lukflug.panelstudio.setting.IModule
-import com.lukflug.panelstudio.setting.ISetting
-import java.util.stream.Stream
+import com.github.freedownloadhere.killauravideo.interfaces.IDestructible
+import com.github.freedownloadhere.killauravideo.interfaces.IInitializable
 
 abstract class Module(
     val name: String
-) : IModule
+) : IInitializable, IDestructible
 {
-    val toggleSwitch = ToggleSwitch()
-    private val settings = listOf<ISetting<*>>()
+    protected var toggled = false
 
-    open fun init() {}
-    open fun destroy() {}
+    fun isEnabled() = toggled
+    fun toggle() { toggled = !toggled }
+
+    override fun init() { }
+    override fun destroy() { }
+
     abstract fun update()
-
-    override fun getDisplayName(): String = name
-    override fun isEnabled(): IToggleable = toggleSwitch
-    override fun getSettings(): Stream<ISetting<*>> = settings.stream()
 }

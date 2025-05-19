@@ -1,5 +1,7 @@
 package com.github.freedownloadhere.killauravideo.utils
 
+import com.github.freedownloadhere.killauravideo.utils.extensions.plus
+import com.github.freedownloadhere.killauravideo.utils.extensions.times
 import com.google.common.base.Predicate
 import com.google.common.base.Predicates
 import net.minecraft.client.entity.EntityPlayerSP

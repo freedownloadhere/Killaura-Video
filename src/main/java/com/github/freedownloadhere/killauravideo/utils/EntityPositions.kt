@@ -1,5 +1,6 @@
 package com.github.freedownloadhere.killauravideo.utils
 
+import com.github.freedownloadhere.killauravideo.utils.extensions.plus
 import net.minecraft.entity.Entity
 import net.minecraft.util.Vec3
 

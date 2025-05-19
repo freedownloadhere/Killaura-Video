@@ -1,4 +1,4 @@
-package com.github.freedownloadhere.killauravideo.utils
+package com.github.freedownloadhere.killauravideo.utils.extensions
 
 private const val ONE_EIGHTY_OVER_PI = 57.29577951308232
 private const val PI_OVER_ONE_EIGHTY = 0.017453292f

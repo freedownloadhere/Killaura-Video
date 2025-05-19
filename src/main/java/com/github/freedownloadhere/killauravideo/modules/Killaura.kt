@@ -4,6 +4,7 @@ import com.github.freedownloadhere.killauravideo.interfaces.IRenderable
 import com.github.freedownloadhere.killauravideo.rendering.ColorEnum
 import com.github.freedownloadhere.killauravideo.rendering.EntityTracker
 import com.github.freedownloadhere.killauravideo.utils.*
+import com.github.freedownloadhere.killauravideo.utils.extensions.minus
 import com.github.freedownloadhere.killauravideo.utils.timer.TimerManager
 import net.minecraft.client.entity.EntityPlayerSP
 import net.minecraft.client.multiplayer.WorldClient
