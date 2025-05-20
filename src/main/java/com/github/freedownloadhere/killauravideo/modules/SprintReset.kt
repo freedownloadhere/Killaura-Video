@@ -6,7 +6,6 @@ import net.minecraft.client.settings.KeyBinding
 import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.event.entity.player.AttackEntityEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
-import org.apache.logging.log4j.LogManager
 
 class SprintReset(
     private val player: EntityPlayerSP,
@@ -25,16 +24,8 @@ class SprintReset(
         MinecraftForge.EVENT_BUS.unregister(this)
     }
 
-    override fun init() {
-        MinecraftForge.EVENT_BUS.register(this)
-    }
-
-    override fun destroy() {
-        MinecraftForge.EVENT_BUS.unregister(this)
-    }
-
     override fun update() {
-        if(!toggleSwitch.isOn) return
+        if(!toggled) return
 
         if(breakingSprint) {
             KeyBinding.setKeyBindState(forwardKey.keyCode, false)
