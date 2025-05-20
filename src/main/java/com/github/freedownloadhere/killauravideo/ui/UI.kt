@@ -2,7 +2,6 @@ package com.github.freedownloadhere.killauravideo.ui
 
 import com.github.freedownloadhere.killauravideo.ui.interfaces.IDrawable
 import com.github.freedownloadhere.killauravideo.ui.interfaces.IParent
-import com.github.freedownloadhere.killauravideo.ui.utils.UISemanticSize
 
 abstract class UI {
     internal var x = 0.0
