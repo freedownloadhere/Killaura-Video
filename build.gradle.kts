@@ -98,9 +98,6 @@ dependencies {
 
     // If you don't want to log in with your real minecraft account, remove this line
     runtimeOnly("me.djtheredstoner:DevAuth-forge-legacy:1.2.1")
-
-    shadowImpl("com.lukflug:panelstudio:0.2.4")
-    shadowImpl("com.lukflug:panelstudio-mc8-forge:0.2.4")
 }
 
 // Tasks:
