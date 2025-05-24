@@ -1,6 +1,7 @@
 package com.github.freedownloadhere.killauravideo
 
 import com.github.freedownloadhere.killauravideo.rendering.RenderUtils
+import com.github.freedownloadhere.killauravideo.ui.core.Core
 import com.github.freedownloadhere.killauravideo.utils.*
 import net.minecraft.client.Minecraft
 import net.minecraft.client.entity.EntityPlayerSP
@@ -11,6 +12,8 @@ import net.minecraftforge.fml.common.gameevent.TickEvent
 
 object GlobalManager {
     var clientInstance: ClientInstance? = null
+        private set
+    var core: Core? = null
         private set
 
     private var lastPlayer: EntityPlayerSP? = null

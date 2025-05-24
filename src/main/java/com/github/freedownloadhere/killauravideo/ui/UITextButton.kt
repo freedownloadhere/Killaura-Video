@@ -2,7 +2,7 @@ package com.github.freedownloadhere.killauravideo.ui
 
 import com.github.freedownloadhere.killauravideo.ui.interfaces.ILayoutPost
 import com.github.freedownloadhere.killauravideo.ui.interfaces.IParent
-import com.github.freedownloadhere.killauravideo.ui.utils.UILayoutUtils
+import com.github.freedownloadhere.killauravideo.ui.core.LayoutUtils
 
 class UITextButton(str : String, callback : () -> Unit)
     : UIButton(callback), IParent, ILayoutPost
@@ -13,7 +13,7 @@ class UITextButton(str : String, callback : () -> Unit)
         get() = children[0]
 
     override fun applyLayoutPost() {
-        UILayoutUtils.stretchToFit(this)
-        UILayoutUtils.centerIn(textGui, UILayoutUtils.Rectangle(this))
+        LayoutUtils.stretchToFit(this)
+        LayoutUtils.centerIn(textGui, LayoutUtils.Rectangle(this))
     }
 }

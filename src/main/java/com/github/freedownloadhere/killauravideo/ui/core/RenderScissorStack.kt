@@ -1,7 +1,6 @@
-package com.github.freedownloadhere.killauravideo.ui.utils
+package com.github.freedownloadhere.killauravideo.ui.core
 
 import com.github.freedownloadhere.killauravideo.ui.UI
-import com.github.freedownloadhere.killauravideo.ui.UICore
 import org.lwjgl.opengl.GL11
 import java.util.Stack
 import kotlin.math.max
@@ -18,7 +17,7 @@ class RenderScissorStack {
     private val stk = Stack<ScissorData>()
 
     fun push(gui : UI) {
-        val a = ScissorData(gui.x.toInt(), gui.y.toInt(), (gui.x + gui.w).toInt(), (gui.y + gui.h).toInt())
+        val a = ScissorData(gui.relX.toInt(), gui.relY.toInt(), (gui.relX + gui.width).toInt(), (gui.relY + gui.height).toInt())
 
         if(stk.empty()) {
             stk.push(a)
@@ -57,18 +56,18 @@ class RenderScissorStack {
 
     fun enable() {
         GL11.glEnable(GL11.GL_SCISSOR_TEST)
-        GL11.glScissor(0, 0, UICore.width, UICore.height)
+        GL11.glScissor(0, 0, Core.width, Core.height)
     }
 
     /**
      * everything should be applied by the stack push / pop
      */
     private fun apply() {
-        val thickness = UICore.config.borderThickness.toInt()
+        val thickness = Core.config.borderThickness.toInt()
         val top = stk.peek()
         GL11.glScissor(
             top.x1 - thickness,
-            UICore.height - thickness - top.y2,
+            Core.height - thickness - top.y2,
             (top.x2 - top.x1) + 2 * thickness,
             (top.y2 - top.y1) + 2 * thickness
         )

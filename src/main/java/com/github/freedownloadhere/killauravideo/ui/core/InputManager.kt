@@ -1,9 +1,9 @@
-package com.github.freedownloadhere.killauravideo.ui.utils
+package com.github.freedownloadhere.killauravideo.ui.core
 
-import com.github.freedownloadhere.killauravideo.ui.UICore.height
+import com.github.freedownloadhere.killauravideo.GlobalManager
 import org.lwjgl.input.Mouse
 
-class UIInputManager {
+class InputManager {
     var lastMouseX = -1
         private set
     var lastMouseY = -1
@@ -19,7 +19,7 @@ class UIInputManager {
 
     fun updateMouse() {
         lastMouseX = Mouse.getEventX()
-        lastMouseY = height - Mouse.getEventY() - 1
+        lastMouseY = GlobalManager.core!!.height - Mouse.getEventY() - 1
         lastDwheel = Mouse.getEventDWheel()
     }
 }

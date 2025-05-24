@@ -1,18 +1,17 @@
-package com.github.freedownloadhere.killauravideo.ui.utils
+package com.github.freedownloadhere.killauravideo.ui.core
 
 import com.github.freedownloadhere.killauravideo.ui.UI
 import com.github.freedownloadhere.killauravideo.ui.UIListContainer
-import com.github.freedownloadhere.killauravideo.ui.UICore
 import net.minecraft.client.Minecraft
 
-object UITextUtils {
+object TextUtils {
     fun wordWrap(str : String, parent : UI, scaleMult : Double = 1.0) : List<String> {
         val fr = Minecraft.getMinecraft().fontRendererObj
-        val ts = scaleMult * UICore.config.textScale
+        val ts = scaleMult * Core.config.textScale
         val strList = mutableListOf<String>()
-        val rect = UILayoutUtils.Rectangle(parent)
+        val rect = LayoutUtils.Rectangle(parent)
         if(parent is UIListContainer)
-            rect.scale(1.0 - 2.0 * UICore.config.listSpacingScale)
+            rect.scale(1.0 - 2.0 * Core.config.listSpacingScale)
 
         var width = 0.0
         val buffer = StringBuilder()

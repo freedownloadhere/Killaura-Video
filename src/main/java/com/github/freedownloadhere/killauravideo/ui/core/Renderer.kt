@@ -1,11 +1,10 @@
-package com.github.freedownloadhere.killauravideo.ui.utils
+package com.github.freedownloadhere.killauravideo.ui.core
 
+import com.github.freedownloadhere.killauravideo.GlobalManager
 import com.github.freedownloadhere.killauravideo.ui.UI
 import com.github.freedownloadhere.killauravideo.mixin.AccessorFontRenderer
-import com.github.freedownloadhere.killauravideo.ui.UICore
 import com.github.freedownloadhere.killauravideo.ui.interfaces.IDrawable
-import com.github.freedownloadhere.killauravideo.ui.UICore.height
-import com.github.freedownloadhere.killauravideo.ui.UICore.width
+import com.github.freedownloadhere.killauravideo.ui.util.RecursiveIterator
 import com.github.freedownloadhere.killauravideo.utils.ColorHelper
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.GlStateManager
@@ -13,53 +12,62 @@ import net.minecraft.client.renderer.Tessellator
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
 import org.lwjgl.opengl.GL11
 
-class UIRenderer {
+class Renderer(
+    private val config: Config,
+    private val interactionManager: InteractionManager
+)
+{
+    companion object {
+        val renderIterator = RecursiveIterator(
+            onBegin = { GlStateManager.translate(relX, relY, 0.0) },
+            onEnd = { GlStateManager.translate(-relX, -relY, 0.0) }
+        )
+    }
+
     val scissorStack = RenderScissorStack()
 
-    fun drawBasicBG(gui : UI) {
-        if(gui !is IDrawable)
-            return
-        if(gui == UICore.interactionManager.focused)
+    fun <T> drawBasicBG(gui : T) where T: UI, T: IDrawable {
+        if(gui == interactionManager.focused)
             drawHL(gui)
         else
             drawBorder(gui)
         drawBG(gui, gui.baseColor)
     }
 
-    fun drawBorder(gui : UI, col : ColorHelper = ColorHelper.GuiNeutralLight) {
-        val t = UICore.config.borderThickness
+    private fun drawBorder(gui : UI, col : ColorHelper = ColorHelper.GuiNeutralLight) {
+        val t = config.borderThickness
         GlStateManager.matrixMode(GL11.GL_MODELVIEW)
         GlStateManager.pushMatrix()
-        GlStateManager.translate(gui.x - t, gui.y - t, 0.0)
-        GlStateManager.scale(gui.w + 2 * t, gui.h + 2 * t, 1.0)
+        GlStateManager.translate(gui.relX - t, gui.relY - t, 0.0)
+        GlStateManager.scale(gui.width + 2 * t, gui.height + 2 * t, 1.0)
         drawRect(col)
         GlStateManager.popMatrix()
     }
 
-    fun drawBG(gui : UI, col : ColorHelper = ColorHelper.GuiNeutral) {
+    private fun drawBG(gui : UI, col : ColorHelper = ColorHelper.GuiNeutral) {
         GlStateManager.matrixMode(GL11.GL_MODELVIEW)
         GlStateManager.pushMatrix()
-        GlStateManager.translate(gui.x, gui.y, 0.0)
-        GlStateManager.scale(gui.w, gui.h, 1.0)
+        GlStateManager.translate(gui.relX, gui.relY, 0.0)
+        GlStateManager.scale(gui.width, gui.height, 1.0)
         drawRect(col)
         GlStateManager.popMatrix()
     }
 
-    fun drawHL(gui : UI) {
-        val t1 = UICore.config.borderThickness
+    private fun drawHL(gui : UI) {
+        val t1 = GlobalManager.core!!.config.borderThickness
         GlStateManager.matrixMode(GL11.GL_MODELVIEW)
         GlStateManager.pushMatrix()
-        GlStateManager.translate(gui.x - t1, gui.y - t1, 0.0)
-        GlStateManager.scale(gui.w + 2 * t1, gui.h + 2 * t1, 1.0)
+        GlStateManager.translate(gui.relX - t1, gui.relY - t1, 0.0)
+        GlStateManager.scale(gui.width + 2 * t1, gui.height + 2 * t1, 1.0)
         drawRect(ColorHelper.GuiPrimary)
         GlStateManager.popMatrix()
     }
 
-    fun beginGuiState() {
+    fun withUIState(block: () -> Unit) {
         GlStateManager.matrixMode(GL11.GL_PROJECTION)
         GlStateManager.pushMatrix()
         GlStateManager.loadIdentity()
-        GlStateManager.ortho(0.0, width.toDouble(), height.toDouble(), 0.0, -1.0, 1.0)
+        GlStateManager.ortho(0.0, config.screenWidth, config.screenHeight, 0.0, -1.0, 1.0)
 
         GlStateManager.matrixMode(GL11.GL_MODELVIEW)
         GlStateManager.pushMatrix()
@@ -69,9 +77,9 @@ class UIRenderer {
         GlStateManager.disableLighting()
 
         scissorStack.enable()
-    }
 
-    fun endGuiState() {
+        block()
+
         scissorStack.disable()
 
         GlStateManager.enableLighting()
@@ -83,7 +91,7 @@ class UIRenderer {
         GlStateManager.popMatrix()
     }
 
-    fun beginTextState() {
+    fun withTextState(block: () -> Unit) {
         val fr = Minecraft.getMinecraft().fontRendererObj
         val fontTex = (fr as AccessorFontRenderer).fontLocation_killauravideo
 
@@ -96,9 +104,9 @@ class UIRenderer {
         GlStateManager.loadIdentity()
 
         Minecraft.getMinecraft().textureManager.bindTexture(fontTex)
-    }
 
-    fun endTextState() {
+        block()
+
         GlStateManager.disableBlend()
         GlStateManager.disableTexture2D()
         GlStateManager.popMatrix()

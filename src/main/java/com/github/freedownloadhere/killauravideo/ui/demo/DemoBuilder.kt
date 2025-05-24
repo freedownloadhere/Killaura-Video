@@ -1,12 +1,12 @@
-package com.github.freedownloadhere.killauravideo.ui.utils
+package com.github.freedownloadhere.killauravideo.ui.demo
 
 import com.github.freedownloadhere.killauravideo.utils.Chat
 
-class UIDemoWindow {
+class DemoBuilder {
     private fun testParagraph() : String { var str = ""; for(i in 1..100) str += "Lorem Ipsum Dolor Sit Amet "; return str }
 
     val base =
-        UIWindowBuilder("Demo Window Test")
+        WindowBuilder("Demo Window Test")
             .header("This is the window list")
             .button("A test button") { Chat.addMessage("UI Test", "This is a button callback message") }
             .textBox("This is a textbox")

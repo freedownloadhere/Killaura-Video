@@ -2,7 +2,7 @@ package com.github.freedownloadhere.killauravideo.ui
 
 import com.github.freedownloadhere.killauravideo.ui.interfaces.ILayoutPre
 import com.github.freedownloadhere.killauravideo.ui.interfaces.IParent
-import com.github.freedownloadhere.killauravideo.ui.utils.UILayoutUtils
+import com.github.freedownloadhere.killauravideo.ui.core.LayoutUtils
 
 class UIWindow(title : String)
     : UI(), IParent, ILayoutPre
@@ -18,16 +18,16 @@ class UIWindow(title : String)
         get() = children[1] as UIListContainer
 
     override fun applyLayoutPre() {
-        UILayoutUtils.scaleIn(this, UILayoutUtils.Rectangle.wholeScreen, 0.9)
+        LayoutUtils.scaleIn(this, LayoutUtils.Rectangle.wholeScreen, 0.9)
 
-        UILayoutUtils.scaleHeightTo(titleBar, 0.1 * h)
-        titleBar.w = w
+        LayoutUtils.scaleHeightTo(titleBar, 0.1 * height)
+        titleBar.width = width
 
-        UILayoutUtils.scaleHeightTo(contents, 0.9 * h)
-        contents.w = w
+        LayoutUtils.scaleHeightTo(contents, 0.9 * height)
+        contents.width = width
 
-        UILayoutUtils.list(this, 0.0, 0.0)
+        LayoutUtils.list(this, 0.0, 0.0)
 
-        UILayoutUtils.centerIn(this, UILayoutUtils.Rectangle.wholeScreen)
+        LayoutUtils.centerIn(this, LayoutUtils.Rectangle.wholeScreen)
     }
 }

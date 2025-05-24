@@ -1,51 +1,38 @@
 package com.github.freedownloadhere.killauravideo.ui
 
+import com.github.freedownloadhere.killauravideo.ui.core.Renderer
 import com.github.freedownloadhere.killauravideo.ui.interfaces.IDrawable
-import com.github.freedownloadhere.killauravideo.ui.interfaces.IParent
+import com.github.freedownloadhere.killauravideo.ui.util.RecursiveIterator
 
 abstract class UI {
-    internal var x = 0.0
-    internal var y = 0.0
-    internal var w = 1.0
-    internal var h = 1.0
+    internal var relX = 0.0
+    internal var relY = 0.0
+    internal var width = 0.0
+    internal var height = 0.0
 
     var toggled = true
         private set
 
-    open fun update(deltaTime : Long) {
+    fun renderRecursive() {
         if(!toggled) return
-        // maybe dont every frame
-        if(this is IDrawable)
-            draw()
-        if(this is IParent)
-            for(child in children)
-                child.update(deltaTime)
+        Renderer.renderIterator.dfs(this) {
+            if(this is IDrawable) draw()
+        }
     }
 
-    open fun toggle() {
-        toggled = !toggled
-        if(this !is IParent)
-            return
-
-        if(toggled)
-            for(child in children)
-                child.enable()
-        else
-            for(child in children)
-                child.disable()
+    fun updateRecursive(deltaTime: Long) {
+        if(!toggled) return
+        RecursiveIterator.basic.dfs(this) {
+            update(deltaTime)
+        }
     }
 
-    open fun enable() {
-        toggled = true
-        if(this is IParent)
-            for(child in children)
-                child.enable()
-    }
+    open fun update(deltaTime: Long) { }
 
-    open fun disable() {
-        toggled = false
-        if(this is IParent)
-            for(child in children)
-                child.disable()
+    open fun toggle() = changeToggleState(!toggled)
+    open fun enable() = changeToggleState(true)
+    open fun disable() = changeToggleState(false)
+    private fun changeToggleState(state: Boolean) = RecursiveIterator.basic.dfs(this) {
+        toggled = state
     }
 }

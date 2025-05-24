@@ -1,17 +1,19 @@
 package com.github.freedownloadhere.killauravideo.ui
 
+import com.github.freedownloadhere.killauravideo.ui.core.Core
 import com.github.freedownloadhere.killauravideo.ui.interfaces.IDrawable
 import com.github.freedownloadhere.killauravideo.ui.interfaces.ILayoutPost
 import com.github.freedownloadhere.killauravideo.ui.interfaces.IParent
 import com.github.freedownloadhere.killauravideo.ui.interfaces.ITypable
-import com.github.freedownloadhere.killauravideo.ui.utils.UILayoutUtils
+import com.github.freedownloadhere.killauravideo.ui.core.LayoutUtils
 import com.github.freedownloadhere.killauravideo.utils.ColorHelper
 import org.lwjgl.input.Keyboard
 import kotlin.math.max
 import kotlin.math.min
 
-class UITextBox(private val placeholder : String)
-    : UI(), ITypable, IDrawable, ILayoutPost, IParent
+class UITextBox(
+    private val placeholder : String
+) : UI(), ITypable, IDrawable, ILayoutPost, IParent
 {
     override var baseColor = ColorHelper.GuiNeutralDark
     override val children = listOf(UIText(placeholder))
@@ -31,7 +33,7 @@ class UITextBox(private val placeholder : String)
                 cursorPos++
             }
 
-            textGui.str = if(builder.isEmpty()) {
+            textGui.text = if(builder.isEmpty()) {
                 textGui.baseColor = ColorHelper.GuiNeutralLight
                 placeholder
             } else {
@@ -70,17 +72,17 @@ class UITextBox(private val placeholder : String)
     }
 
     override fun applyLayoutPost() {
-        UILayoutUtils.stretchToFitHeight(this)
-        UILayoutUtils.list(this, 0.0, 0.0)
+        LayoutUtils.stretchToFitHeight(this)
+        LayoutUtils.list(this, 0.0, 0.0)
     }
 
     override fun draw() {
-        UICore.renderer.drawBasicBG(this)
+        Core.renderer.drawBasicBG(this)
     }
 
     override fun update(deltaTime: Long) {
-        UICore.renderer.scissorStack.push(this)
+        Core.renderer.scissorStack.push(this)
         super.update(deltaTime)
-        UICore.renderer.scissorStack.pop()
+        Core.renderer.scissorStack.pop()
     }
 }

@@ -1,8 +1,8 @@
-package com.github.freedownloadhere.killauravideo.ui.utils
+package com.github.freedownloadhere.killauravideo.ui.core
 
 import java.time.Instant
 
-class UITimeUtil {
+class TimeUtil {
     private var lastTime = Instant.now().toEpochMilli()
     fun newDeltaTime() : Long {
         val currTime = Instant.now().toEpochMilli()

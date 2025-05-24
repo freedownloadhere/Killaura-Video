@@ -1,5 +1,7 @@
 package com.github.freedownloadhere.killauravideo.ui
 
+import com.github.freedownloadhere.killauravideo.GlobalManager
+import com.github.freedownloadhere.killauravideo.ui.core.Core
 import com.github.freedownloadhere.killauravideo.utils.ColorHelper
 import com.github.freedownloadhere.killauravideo.ui.interfaces.IClickable
 import com.github.freedownloadhere.killauravideo.ui.interfaces.IDrawable
@@ -19,13 +21,13 @@ open class UIButton(private val callback: () -> Unit)
     override var baseColor = ColorHelper.GuiNeutral
 
     override fun draw() {
-        UICore.renderer.drawBasicBG(this)
+        GlobalManager.core?.renderer?.drawBasicBG(this)
     }
 
     override fun onClick(button: Int) {
         if(button == 0 && clickCooldown == 0L) {
             callback()
-            clickCooldown = UICore.config.buttonClickCooldown
+            clickCooldown = 100L
         }
     }
 

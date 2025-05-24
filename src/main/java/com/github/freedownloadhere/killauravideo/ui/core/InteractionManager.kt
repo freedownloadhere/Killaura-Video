@@ -1,9 +1,9 @@
-package com.github.freedownloadhere.killauravideo.ui.utils
+package com.github.freedownloadhere.killauravideo.ui.core
 
 import com.github.freedownloadhere.killauravideo.ui.UI
 import com.github.freedownloadhere.killauravideo.ui.interfaces.*
 
-class UIInteractionManager(private val inputManager: UIInputManager, private val rootGui : UI?) {
+class InteractionManager(private val inputManager: InputManager, private val rootGui : UI?) {
     var focused : UI? = null
         private set
     private var hovered : UI? = null
@@ -61,8 +61,8 @@ class UIInteractionManager(private val inputManager: UIInputManager, private val
 
         val x = inputManager.lastMouseX
         val y = inputManager.lastMouseY
-        if(u.x <= x && x <= u.x + u.w)
-            if(u.y <= y && y <= u.y + u.h)
+        if(u.relX <= x && x <= u.relX + u.width)
+            if(u.relY <= y && y <= u.relY + u.height)
                 if(u is IInteractable)
                     return u
 
