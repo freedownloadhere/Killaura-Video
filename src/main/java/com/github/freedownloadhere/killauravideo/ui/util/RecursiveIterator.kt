@@ -16,7 +16,7 @@ class RecursiveIterator(
         ui.forEach()
         if(ui is IParent)
             for(child in ui.children)
-                dfs(ui, forEach)
+                dfs(child, forEach)
         onEnd?.invoke(ui)
     }
 }

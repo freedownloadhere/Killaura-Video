@@ -19,7 +19,8 @@ class Mod {
         ClientCommandHandler.instance.registerCommand(CommandToggle())
 
         KeybindMap.addKey(KeyBinding("Toggle UI", Keyboard.KEY_J, "")) {
-            Minecraft.getMinecraft().displayGuiScreen(Core)
+            GlobalManager.core = Core()
+            Minecraft.getMinecraft().displayGuiScreen(GlobalManager.core!!)
         }
     }
 }

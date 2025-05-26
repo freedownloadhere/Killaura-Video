@@ -14,7 +14,6 @@ object GlobalManager {
     var clientInstance: ClientInstance? = null
         private set
     var core: Core? = null
-        private set
 
     private var lastPlayer: EntityPlayerSP? = null
     private var lastWorld: WorldClient? = null

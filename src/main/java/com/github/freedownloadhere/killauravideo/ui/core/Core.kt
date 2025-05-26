@@ -1,15 +1,20 @@
 package com.github.freedownloadhere.killauravideo.ui.core
 
+import com.github.freedownloadhere.killauravideo.ui.basic.UI
 import com.github.freedownloadhere.killauravideo.ui.basic.UIText
+import com.github.freedownloadhere.killauravideo.ui.containers.UIFreeBox
 import com.github.freedownloadhere.killauravideo.ui.core.io.InputManager
 import com.github.freedownloadhere.killauravideo.ui.core.io.InteractionManager
 import com.github.freedownloadhere.killauravideo.ui.core.rendering.Renderer
+import com.github.freedownloadhere.killauravideo.ui.interfaces.ILayout
 import com.github.freedownloadhere.killauravideo.ui.util.Config
 import com.github.freedownloadhere.killauravideo.ui.util.TimeUtil
 import com.github.freedownloadhere.killauravideo.ui.util.ui
 import com.github.freedownloadhere.killauravideo.utils.Chat
+import com.github.freedownloadhere.killauravideo.utils.ColorHelper
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiScreen
+import net.minecraft.client.renderer.GlStateManager
 
 class Core : GuiScreen() {
     init {
@@ -17,34 +22,43 @@ class Core : GuiScreen() {
         height = Minecraft.getMinecraft().displayHeight
     }
 
-    private val ui = ui {
-        vbox {
-            hbox {
-                onLeft {
-                    text("gurt:") { scale = UIText.Scale.LARGE }
-                    text("yo")
-                }
-                onRight {
-                    centerbox(text("epic")) { padded = true }
-                    button {
-                        text = "this is a button"
-                        action = { Chat.addMessage("Button", "Yoo") }
-                    }
-                }
-            }
-            freebox {
-                width = 200.0
-                height = 150.0
-            }
-        }
-    }
-
     val config = Config(screenWidth = width.toDouble(), screenHeight = height.toDouble())
+    private lateinit var ui: UI
+
     private val inputManager = InputManager()
-    private val interactionManager = InteractionManager(inputManager, ui)
-    val renderer = Renderer(config, interactionManager)
+
+    private lateinit var interactionManager: InteractionManager
+    lateinit var renderer: Renderer
 
     private val timeUtil = TimeUtil()
+
+    override fun initGui() {
+        super.initGui()
+        ui = ui {
+            vbox {
+                hbox {
+                    onLeft {
+                        text("gurt:") { scale = UIText.Scale.LARGE }
+                        text("yo")
+                    }
+                    onRight {
+                        centerbox(text("epic")) { padded = true }
+                        button {
+                            text = "this is a button"
+                            action = { Chat.addMessage("Button", "Yoo") }
+                        }
+                    }
+                }
+                freebox {
+                    width = 200.0
+                    height = 150.0
+                }
+            }
+        }
+
+        interactionManager = InteractionManager(inputManager, ui)
+        renderer = Renderer(config, interactionManager)
+    }
 
     override fun drawScreen(mouseX: Int, mouseY: Int, partialTicks: Float) {
         val deltaTime = timeUtil.newDeltaTime()
@@ -52,8 +66,10 @@ class Core : GuiScreen() {
         drawDefaultBackground()
 
         renderer.withUIState {
-            ui.applyLayout()
-            ui.update(deltaTime)
+            if(ui is ILayout)
+                (ui as ILayout).applyLayout()
+            ui.updateRecursive(deltaTime)
+            ui.renderRecursive()
         }
     }
 

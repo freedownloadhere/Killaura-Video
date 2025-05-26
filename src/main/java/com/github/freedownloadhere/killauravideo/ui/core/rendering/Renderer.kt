@@ -40,7 +40,7 @@ class Renderer(
         val t = config.borderThickness
         GlStateManager.matrixMode(GL11.GL_MODELVIEW)
         GlStateManager.pushMatrix()
-        GlStateManager.translate(gui.relX - t, gui.relY - t, 0.0)
+        GlStateManager.translate(-t, -t, 0.0)
         GlStateManager.scale(gui.width + 2 * t, gui.height + 2 * t, 1.0)
         drawRect(col)
         GlStateManager.popMatrix()
@@ -49,7 +49,6 @@ class Renderer(
     private fun drawBG(gui : UI, col : ColorHelper = ColorHelper.GuiNeutral) {
         GlStateManager.matrixMode(GL11.GL_MODELVIEW)
         GlStateManager.pushMatrix()
-        GlStateManager.translate(gui.relX, gui.relY, 0.0)
         GlStateManager.scale(gui.width, gui.height, 1.0)
         drawRect(col)
         GlStateManager.popMatrix()
@@ -59,7 +58,7 @@ class Renderer(
         val t1 = GlobalManager.core!!.config.borderThickness
         GlStateManager.matrixMode(GL11.GL_MODELVIEW)
         GlStateManager.pushMatrix()
-        GlStateManager.translate(gui.relX - t1, gui.relY - t1, 0.0)
+        GlStateManager.translate(-t1, -t1, 0.0)
         GlStateManager.scale(gui.width + 2 * t1, gui.height + 2 * t1, 1.0)
         drawRect(ColorHelper.GuiPrimary)
         GlStateManager.popMatrix()
@@ -78,11 +77,11 @@ class Renderer(
         GlStateManager.disableTexture2D()
         GlStateManager.disableLighting()
 
-        scissorStack.enable()
+//        scissorStack.enable()
 
         block()
 
-        scissorStack.disable()
+//        scissorStack.disable()
 
         GlStateManager.enableLighting()
         GlStateManager.enableTexture2D()
@@ -101,20 +100,15 @@ class Renderer(
         GlStateManager.enableBlend()
         GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA)
 
-        GlStateManager.matrixMode(GL11.GL_MODELVIEW)
-        GlStateManager.pushMatrix()
-        GlStateManager.loadIdentity()
-
         Minecraft.getMinecraft().textureManager.bindTexture(fontTex)
 
         block()
 
         GlStateManager.disableBlend()
         GlStateManager.disableTexture2D()
-        GlStateManager.popMatrix()
     }
 
-    private fun drawRect(col : ColorHelper) {
+    fun drawRect(col : ColorHelper) {
         val worldRenderer = Tessellator.getInstance().worldRenderer
         worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_COLOR)
         worldRenderer.pos(0.0, 0.0, 0.0).color(col.r, col.g, col.b, col.a).endVertex()

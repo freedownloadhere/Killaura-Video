@@ -38,8 +38,10 @@ open class UIText(
 
         GlobalManager.core!!.renderer.withTextState {
             val fr = Minecraft.getMinecraft().fontRendererObj
+            GlStateManager.pushMatrix()
             GlStateManager.scale(scale.numeric, scale.numeric, 1.0)
             fr.drawStringWithShadow(text, 0.0f, 0.0f, baseColor.toPackedARGB())
+            GlStateManager.popMatrix()
         }
     }
 }
