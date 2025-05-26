@@ -2,7 +2,7 @@ package com.github.freedownloadhere.killauravideo.ui.containers
 
 import com.github.freedownloadhere.killauravideo.GlobalManager
 import com.github.freedownloadhere.killauravideo.ui.basic.UI
-import com.github.freedownloadhere.killauravideo.ui.interfaces.IParentExtendable
+import com.github.freedownloadhere.killauravideo.ui.interfaces.parents.IParentExtendable
 import kotlin.math.max
 
 class UIVerticalBox: UIBox(), IParentExtendable

@@ -1,20 +1,16 @@
 package com.github.freedownloadhere.killauravideo.ui.core
 
 import com.github.freedownloadhere.killauravideo.ui.basic.UI
-import com.github.freedownloadhere.killauravideo.ui.basic.UIText
-import com.github.freedownloadhere.killauravideo.ui.containers.UIFreeBox
 import com.github.freedownloadhere.killauravideo.ui.core.io.InputManager
 import com.github.freedownloadhere.killauravideo.ui.core.io.InteractionManager
-import com.github.freedownloadhere.killauravideo.ui.core.rendering.Renderer
-import com.github.freedownloadhere.killauravideo.ui.interfaces.ILayout
+import com.github.freedownloadhere.killauravideo.ui.core.render.Renderer
+import com.github.freedownloadhere.killauravideo.ui.interfaces.layout.ILayout
 import com.github.freedownloadhere.killauravideo.ui.util.Config
 import com.github.freedownloadhere.killauravideo.ui.util.TimeUtil
 import com.github.freedownloadhere.killauravideo.ui.util.ui
 import com.github.freedownloadhere.killauravideo.utils.Chat
-import com.github.freedownloadhere.killauravideo.utils.ColorHelper
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiScreen
-import net.minecraft.client.renderer.GlStateManager
 
 class Core : GuiScreen() {
     init {

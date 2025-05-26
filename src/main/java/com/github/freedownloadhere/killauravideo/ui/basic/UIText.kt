@@ -1,7 +1,7 @@
 package com.github.freedownloadhere.killauravideo.ui.basic
 
 import com.github.freedownloadhere.killauravideo.GlobalManager
-import com.github.freedownloadhere.killauravideo.ui.interfaces.IDrawable
+import com.github.freedownloadhere.killauravideo.ui.interfaces.render.IDrawable
 import com.github.freedownloadhere.killauravideo.utils.ColorHelper
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.GlStateManager

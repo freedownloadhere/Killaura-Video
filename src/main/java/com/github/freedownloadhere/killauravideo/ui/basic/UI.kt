@@ -1,7 +1,7 @@
 package com.github.freedownloadhere.killauravideo.ui.basic
 
-import com.github.freedownloadhere.killauravideo.ui.core.rendering.Renderer
-import com.github.freedownloadhere.killauravideo.ui.interfaces.IDrawable
+import com.github.freedownloadhere.killauravideo.ui.core.render.Renderer
+import com.github.freedownloadhere.killauravideo.ui.interfaces.render.IDrawable
 import com.github.freedownloadhere.killauravideo.ui.util.RecursiveIterator
 
 abstract class UI {

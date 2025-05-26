@@ -1,4 +1,6 @@
-package com.github.freedownloadhere.killauravideo.ui.interfaces
+package com.github.freedownloadhere.killauravideo.ui.interfaces.layout
+
+import com.github.freedownloadhere.killauravideo.ui.interfaces.parents.IParent
 
 interface ILayout {
     fun applyLayout() {

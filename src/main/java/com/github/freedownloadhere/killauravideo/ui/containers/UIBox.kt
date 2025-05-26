@@ -2,9 +2,9 @@ package com.github.freedownloadhere.killauravideo.ui.containers
 
 import com.github.freedownloadhere.killauravideo.GlobalManager
 import com.github.freedownloadhere.killauravideo.ui.basic.UI
-import com.github.freedownloadhere.killauravideo.ui.interfaces.IDrawable
-import com.github.freedownloadhere.killauravideo.ui.interfaces.ILayoutPost
-import com.github.freedownloadhere.killauravideo.ui.interfaces.IParent
+import com.github.freedownloadhere.killauravideo.ui.interfaces.render.IDrawable
+import com.github.freedownloadhere.killauravideo.ui.interfaces.layout.ILayoutPost
+import com.github.freedownloadhere.killauravideo.ui.interfaces.parents.IParent
 import com.github.freedownloadhere.killauravideo.utils.ColorHelper
 
 abstract class UIBox: UI(), ILayoutPost, IParent, IDrawable

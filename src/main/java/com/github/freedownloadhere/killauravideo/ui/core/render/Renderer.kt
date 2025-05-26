@@ -1,11 +1,10 @@
-package com.github.freedownloadhere.killauravideo.ui.core.rendering
+package com.github.freedownloadhere.killauravideo.ui.core.render
 
-import com.github.freedownloadhere.killauravideo.GlobalManager
 import com.github.freedownloadhere.killauravideo.ui.basic.UI
 import com.github.freedownloadhere.killauravideo.mixin.AccessorFontRenderer
 import com.github.freedownloadhere.killauravideo.ui.util.Config
 import com.github.freedownloadhere.killauravideo.ui.core.io.InteractionManager
-import com.github.freedownloadhere.killauravideo.ui.interfaces.IDrawable
+import com.github.freedownloadhere.killauravideo.ui.interfaces.render.IDrawable
 import com.github.freedownloadhere.killauravideo.ui.util.RecursiveIterator
 import com.github.freedownloadhere.killauravideo.utils.ColorHelper
 import net.minecraft.client.Minecraft

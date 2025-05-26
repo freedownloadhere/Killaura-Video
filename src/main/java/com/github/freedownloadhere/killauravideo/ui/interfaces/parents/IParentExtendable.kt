@@ -1,4 +1,4 @@
-package com.github.freedownloadhere.killauravideo.ui.interfaces
+package com.github.freedownloadhere.killauravideo.ui.interfaces.parents
 
 import com.github.freedownloadhere.killauravideo.ui.basic.UI
 import com.github.freedownloadhere.killauravideo.ui.composite.UIButton

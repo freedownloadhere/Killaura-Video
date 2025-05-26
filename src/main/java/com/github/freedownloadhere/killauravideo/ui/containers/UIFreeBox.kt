@@ -1,7 +1,7 @@
 package com.github.freedownloadhere.killauravideo.ui.containers
 
 import com.github.freedownloadhere.killauravideo.ui.basic.UI
-import com.github.freedownloadhere.killauravideo.ui.interfaces.IParentExtendable
+import com.github.freedownloadhere.killauravideo.ui.interfaces.parents.IParentExtendable
 
 class UIFreeBox: UIBox(), IParentExtendable
 {

@@ -4,9 +4,9 @@ import com.github.freedownloadhere.killauravideo.GlobalManager
 import com.github.freedownloadhere.killauravideo.ui.basic.UIText
 import com.github.freedownloadhere.killauravideo.ui.containers.UICenteredBox
 import com.github.freedownloadhere.killauravideo.utils.ColorHelper
-import com.github.freedownloadhere.killauravideo.ui.interfaces.IClickable
-import com.github.freedownloadhere.killauravideo.ui.interfaces.IDrawable
-import com.github.freedownloadhere.killauravideo.ui.interfaces.IHoverable
+import com.github.freedownloadhere.killauravideo.ui.interfaces.io.IClickable
+import com.github.freedownloadhere.killauravideo.ui.interfaces.render.IDrawable
+import com.github.freedownloadhere.killauravideo.ui.interfaces.io.IHoverable
 import kotlin.math.max
 
 open class UIButton: UICenteredBox<UIText>(UIText()), IClickable, IHoverable, IDrawable

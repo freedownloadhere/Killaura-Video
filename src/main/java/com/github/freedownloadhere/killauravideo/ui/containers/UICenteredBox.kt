@@ -2,7 +2,7 @@ package com.github.freedownloadhere.killauravideo.ui.containers
 
 import com.github.freedownloadhere.killauravideo.GlobalManager
 import com.github.freedownloadhere.killauravideo.ui.basic.UI
-import com.github.freedownloadhere.killauravideo.ui.interfaces.IUniqueParent
+import com.github.freedownloadhere.killauravideo.ui.interfaces.parents.IUniqueParent
 import kotlin.math.max
 
 open class UICenteredBox<T: UI>(

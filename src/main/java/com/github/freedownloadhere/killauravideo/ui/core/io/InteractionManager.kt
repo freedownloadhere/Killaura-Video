@@ -1,8 +1,8 @@
 package com.github.freedownloadhere.killauravideo.ui.core.io
 
 import com.github.freedownloadhere.killauravideo.ui.basic.UI
-import com.github.freedownloadhere.killauravideo.ui.interfaces.*
-import com.github.freedownloadhere.killauravideo.utils.Chat
+import com.github.freedownloadhere.killauravideo.ui.interfaces.io.*
+import com.github.freedownloadhere.killauravideo.ui.interfaces.parents.IParent
 
 class InteractionManager(private val inputManager: InputManager, private val rootGui : UI?) {
     var focused : UI? = null

@@ -1,7 +1,7 @@
 package com.github.freedownloadhere.killauravideo.ui.util
 
 import com.github.freedownloadhere.killauravideo.ui.basic.UI
-import com.github.freedownloadhere.killauravideo.ui.interfaces.IParent
+import com.github.freedownloadhere.killauravideo.ui.interfaces.parents.IParent
 
 class RecursiveIterator(
     private val onBegin: (UI.()->Unit)? = null,

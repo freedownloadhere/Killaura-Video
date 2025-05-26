@@ -1,4 +1,4 @@
-package com.github.freedownloadhere.killauravideo.ui.core.rendering
+package com.github.freedownloadhere.killauravideo.ui.core.render
 
 import com.github.freedownloadhere.killauravideo.GlobalManager
 import com.github.freedownloadhere.killauravideo.ui.basic.UI

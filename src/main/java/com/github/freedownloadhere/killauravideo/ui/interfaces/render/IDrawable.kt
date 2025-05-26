@@ -1,4 +1,4 @@
-package com.github.freedownloadhere.killauravideo.ui.interfaces
+package com.github.freedownloadhere.killauravideo.ui.interfaces.render
 
 import com.github.freedownloadhere.killauravideo.utils.ColorHelper
 
