@@ -1,4 +1,4 @@
-package com.github.freedownloadhere.killauravideo.ui.core
+package com.github.freedownloadhere.killauravideo.ui.core.io
 
 import com.github.freedownloadhere.killauravideo.GlobalManager
 import org.lwjgl.input.Mouse

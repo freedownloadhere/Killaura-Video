@@ -1,4 +1,4 @@
-package com.github.freedownloadhere.killauravideo.ui.core
+package com.github.freedownloadhere.killauravideo.ui.util
 
 class Config(
     val borderThickness : Double = 4.0,

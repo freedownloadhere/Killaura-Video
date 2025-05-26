@@ -1,6 +1,6 @@
-package com.github.freedownloadhere.killauravideo.ui.core
+package com.github.freedownloadhere.killauravideo.ui.core.io
 
-import com.github.freedownloadhere.killauravideo.ui.UI
+import com.github.freedownloadhere.killauravideo.ui.basic.UI
 import com.github.freedownloadhere.killauravideo.ui.interfaces.*
 
 class InteractionManager(private val inputManager: InputManager, private val rootGui : UI?) {

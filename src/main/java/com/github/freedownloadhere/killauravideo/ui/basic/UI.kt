@@ -1,6 +1,6 @@
-package com.github.freedownloadhere.killauravideo.ui
+package com.github.freedownloadhere.killauravideo.ui.basic
 
-import com.github.freedownloadhere.killauravideo.ui.core.Renderer
+import com.github.freedownloadhere.killauravideo.ui.core.rendering.Renderer
 import com.github.freedownloadhere.killauravideo.ui.interfaces.IDrawable
 import com.github.freedownloadhere.killauravideo.ui.util.RecursiveIterator
 

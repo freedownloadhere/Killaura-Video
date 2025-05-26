@@ -1,4 +1,4 @@
-package com.github.freedownloadhere.killauravideo.ui.core
+package com.github.freedownloadhere.killauravideo.ui.util
 
 import java.time.Instant
 

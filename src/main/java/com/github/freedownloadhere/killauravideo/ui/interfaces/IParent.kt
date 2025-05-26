@@ -1,7 +1,7 @@
 package com.github.freedownloadhere.killauravideo.ui.interfaces
 
-import com.github.freedownloadhere.killauravideo.ui.UI
+import com.github.freedownloadhere.killauravideo.ui.basic.UI
 
 interface IParent {
-    val children : List<UI>
+    val children: Sequence<UI>
 }

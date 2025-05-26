@@ -1,6 +1,7 @@
-package com.github.freedownloadhere.killauravideo.ui.core
+package com.github.freedownloadhere.killauravideo.ui.core.rendering
 
-import com.github.freedownloadhere.killauravideo.ui.UI
+import com.github.freedownloadhere.killauravideo.GlobalManager
+import com.github.freedownloadhere.killauravideo.ui.basic.UI
 import org.lwjgl.opengl.GL11
 import java.util.Stack
 import kotlin.math.max
@@ -56,18 +57,15 @@ class RenderScissorStack {
 
     fun enable() {
         GL11.glEnable(GL11.GL_SCISSOR_TEST)
-        GL11.glScissor(0, 0, Core.width, Core.height)
+        GL11.glScissor(0, 0, GlobalManager.core!!.width, GlobalManager.core!!.height)
     }
 
-    /**
-     * everything should be applied by the stack push / pop
-     */
     private fun apply() {
-        val thickness = Core.config.borderThickness.toInt()
+        val thickness = GlobalManager.core!!.config.borderThickness.toInt()
         val top = stk.peek()
         GL11.glScissor(
             top.x1 - thickness,
-            Core.height - thickness - top.y2,
+            GlobalManager.core!!.height - thickness - top.y2,
             (top.x2 - top.x1) + 2 * thickness,
             (top.y2 - top.y1) + 2 * thickness
         )

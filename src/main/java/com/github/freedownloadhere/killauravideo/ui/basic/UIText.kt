@@ -1,17 +1,17 @@
-package com.github.freedownloadhere.killauravideo.ui
+package com.github.freedownloadhere.killauravideo.ui.basic
 
 import com.github.freedownloadhere.killauravideo.GlobalManager
-import com.github.freedownloadhere.killauravideo.ui.core.Core
 import com.github.freedownloadhere.killauravideo.ui.interfaces.IDrawable
 import com.github.freedownloadhere.killauravideo.utils.ColorHelper
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.GlStateManager
 
 open class UIText(
-    initialText: String,
-    private val scale: Scale
+    initialText: String = ""
 ): UI(), IDrawable
 {
+    var scale = Scale.MEDIUM
+
     enum class Scale(val numeric: Double) {
         SMALL(1.5),
         MEDIUM(2.0),

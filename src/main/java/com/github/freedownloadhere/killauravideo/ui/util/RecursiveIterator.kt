@@ -1,6 +1,6 @@
 package com.github.freedownloadhere.killauravideo.ui.util
 
-import com.github.freedownloadhere.killauravideo.ui.UI
+import com.github.freedownloadhere.killauravideo.ui.basic.UI
 import com.github.freedownloadhere.killauravideo.ui.interfaces.IParent
 
 class RecursiveIterator(
