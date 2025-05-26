@@ -33,25 +33,21 @@ class Core : GuiScreen() {
     private val timeUtil = TimeUtil()
 
     override fun initGui() {
-        super.initGui()
         ui = ui {
             vbox {
                 hbox {
-                    onLeft {
-                        text("gurt:") { scale = UIText.Scale.LARGE }
-                        text("yo")
+                    button {
+                        text = "button 1"
+                        action = { Chat.addMessage("button 1", "actioned") }
                     }
-                    onRight {
-                        centerbox(text("epic")) { padded = true }
-                        button {
-                            text = "this is a button"
-                            action = { Chat.addMessage("Button", "Yoo") }
-                        }
-                    }
+                    text("hehehe")
                 }
-                freebox {
-                    width = 200.0
-                    height = 150.0
+                hbox {
+                    button {
+                        text = "button 2 yoo"
+                        action = { Chat.addMessage("button 2", "actioned") }
+                    }
+                    text("redundants")
                 }
             }
         }

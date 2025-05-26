@@ -2,6 +2,7 @@ package com.github.freedownloadhere.killauravideo.ui.core.io
 
 import com.github.freedownloadhere.killauravideo.ui.basic.UI
 import com.github.freedownloadhere.killauravideo.ui.interfaces.*
+import com.github.freedownloadhere.killauravideo.utils.Chat
 
 class InteractionManager(private val inputManager: InputManager, private val rootGui : UI?) {
     var focused : UI? = null
@@ -11,7 +12,7 @@ class InteractionManager(private val inputManager: InputManager, private val roo
 
     fun handleMouseInput() {
         if(rootGui == null) return
-        lastMouseOn = findMouseOn(rootGui)
+        lastMouseOn = findMouseOn(rootGui, 0.0, 0.0)
         onHover()
         onMouseClick()
         onScroll()
@@ -48,21 +49,21 @@ class InteractionManager(private val inputManager: InputManager, private val roo
         }
     }
 
-    private fun findMouseOn(u : UI) : UI? {
+    private fun findMouseOn(u: UI, absX: Double, absY: Double): UI? {
         if(!u.toggled)
             return null
 
         if(u is IParent)
             for(v in u.children) {
-                val gui = findMouseOn(v)
+                val gui = findMouseOn(v, absX + v.relX, absY + v.relY)
                 if(gui != null)
                     return gui
             }
 
         val x = inputManager.lastMouseX
         val y = inputManager.lastMouseY
-        if(u.relX <= x && x <= u.relX + u.width)
-            if(u.relY <= y && y <= u.relY + u.height)
+        if(absX <= x && x <= absX + u.width)
+            if(absY <= y && y <= absY + u.height)
                 if(u is IInteractable)
                     return u
 

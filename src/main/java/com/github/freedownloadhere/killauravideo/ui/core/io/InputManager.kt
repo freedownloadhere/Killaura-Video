@@ -19,7 +19,7 @@ class InputManager {
 
     fun updateMouse() {
         lastMouseX = Mouse.getEventX()
-        lastMouseY = GlobalManager.core!!.height - Mouse.getEventY() - 1
+        lastMouseY = GlobalManager.core!!.config.screenHeight.toInt() - Mouse.getEventY() - 1
         lastDwheel = Mouse.getEventDWheel()
     }
 }

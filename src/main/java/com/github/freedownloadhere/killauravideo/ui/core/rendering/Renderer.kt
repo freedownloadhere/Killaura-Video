@@ -28,7 +28,7 @@ class Renderer(
 
     val scissorStack = RenderScissorStack()
 
-    fun <T> drawBasicBG(gui : T) where T: UI, T: IDrawable {
+    fun <T> drawBasicBG(gui: T) where T: UI, T: IDrawable {
         if(gui == interactionManager.focused)
             drawHL(gui)
         else
@@ -36,31 +36,15 @@ class Renderer(
         drawBG(gui, gui.baseColor)
     }
 
-    private fun drawBorder(gui : UI, col : ColorHelper = ColorHelper.GuiNeutralLight) {
-        val t = config.borderThickness
-        GlStateManager.matrixMode(GL11.GL_MODELVIEW)
-        GlStateManager.pushMatrix()
-        GlStateManager.translate(-t, -t, 0.0)
-        GlStateManager.scale(gui.width + 2 * t, gui.height + 2 * t, 1.0)
-        drawRect(col)
-        GlStateManager.popMatrix()
-    }
+    private fun drawHL(ui: UI) = drawUIrect(ui, ColorHelper.GuiPrimary, filled = false)
+    private fun drawBorder(ui: UI) = drawUIrect(ui, ColorHelper.GuiNeutralLight, filled = false)
+    private fun drawBG(ui: UI, col: ColorHelper) = drawUIrect(ui, col, filled = true)
 
-    private fun drawBG(gui : UI, col : ColorHelper = ColorHelper.GuiNeutral) {
+    private fun drawUIrect(ui: UI, col: ColorHelper, filled: Boolean) {
         GlStateManager.matrixMode(GL11.GL_MODELVIEW)
         GlStateManager.pushMatrix()
-        GlStateManager.scale(gui.width, gui.height, 1.0)
-        drawRect(col)
-        GlStateManager.popMatrix()
-    }
-
-    private fun drawHL(gui : UI) {
-        val t1 = GlobalManager.core!!.config.borderThickness
-        GlStateManager.matrixMode(GL11.GL_MODELVIEW)
-        GlStateManager.pushMatrix()
-        GlStateManager.translate(-t1, -t1, 0.0)
-        GlStateManager.scale(gui.width + 2 * t1, gui.height + 2 * t1, 1.0)
-        drawRect(ColorHelper.GuiPrimary)
+        GlStateManager.scale(ui.width, ui.height, 1.0)
+        drawRect(col, filled)
         GlStateManager.popMatrix()
     }
 
@@ -108,9 +92,10 @@ class Renderer(
         GlStateManager.disableTexture2D()
     }
 
-    fun drawRect(col : ColorHelper) {
+    private fun drawRect(col: ColorHelper, filled: Boolean) {
         val worldRenderer = Tessellator.getInstance().worldRenderer
-        worldRenderer.begin(GL11.GL_QUADS, DefaultVertexFormats.POSITION_COLOR)
+        val type = if(filled) GL11.GL_QUADS else GL11.GL_LINE_LOOP
+        worldRenderer.begin(type, DefaultVertexFormats.POSITION_COLOR)
         worldRenderer.pos(0.0, 0.0, 0.0).color(col.r, col.g, col.b, col.a).endVertex()
         worldRenderer.pos(0.0, 1.0, 0.0).color(col.r, col.g, col.b, col.a).endVertex()
         worldRenderer.pos(1.0, 1.0, 0.0).color(col.r, col.g, col.b, col.a).endVertex()

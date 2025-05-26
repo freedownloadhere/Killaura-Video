@@ -42,7 +42,7 @@ class UIVerticalBox: UIBox(), IParentExtendable
         var bottomY = height - pad
         for(child in top) {
             child.relY = topY
-            topY += child.width
+            topY += child.height
             child.relX = 0.5 * (width - child.width)
         }
         for(child in bottom) {
