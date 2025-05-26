@@ -10,6 +10,7 @@ open class UIText(
     initialText: String = ""
 ): UI(), IDrawable
 {
+    override var hidden = false
     var scale = Scale.MEDIUM
 
     enum class Scale(val numeric: Double) {

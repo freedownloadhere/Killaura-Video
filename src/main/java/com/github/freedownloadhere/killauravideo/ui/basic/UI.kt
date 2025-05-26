@@ -16,7 +16,8 @@ abstract class UI {
     fun renderRecursive() {
         if(!toggled) return
         Renderer.renderIterator.dfs(this) {
-            if(this is IDrawable) draw()
+            if(this is IDrawable && !hidden)
+                draw()
         }
     }
 

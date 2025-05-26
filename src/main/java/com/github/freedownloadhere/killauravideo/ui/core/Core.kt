@@ -19,7 +19,7 @@ class Core : GuiScreen() {
     }
 
     val config = Config(screenWidth = width.toDouble(), screenHeight = height.toDouble())
-    private lateinit var ui: UI
+    private lateinit var topLevelUI: UI
 
     private val inputManager = InputManager()
 
@@ -29,14 +29,16 @@ class Core : GuiScreen() {
     private val timeUtil = TimeUtil()
 
     override fun initGui() {
-        ui = ui {
+        topLevelUI = ui {
             vbox {
+                relX = 200.0
+                relY = 100.0
                 hbox {
-                    button {
+                    onLeft { button {
                         text = "button 1"
                         action = { Chat.addMessage("button 1", "actioned") }
-                    }
-                    text("hehehe")
+                    } }
+                    onRight { text("hehehe") }
                 }
                 hbox {
                     button {
@@ -48,7 +50,7 @@ class Core : GuiScreen() {
             }
         }
 
-        interactionManager = InteractionManager(inputManager, ui)
+        interactionManager = InteractionManager(inputManager, topLevelUI)
         renderer = Renderer(config, interactionManager)
     }
 
@@ -58,10 +60,10 @@ class Core : GuiScreen() {
         drawDefaultBackground()
 
         renderer.withUIState {
-            if(ui is ILayout)
-                (ui as ILayout).applyLayout()
-            ui.updateRecursive(deltaTime)
-            ui.renderRecursive()
+            if(topLevelUI is ILayout)
+                (topLevelUI as ILayout).applyLayout()
+            topLevelUI.updateRecursive(deltaTime)
+            topLevelUI.renderRecursive()
         }
     }
 

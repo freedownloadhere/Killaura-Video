@@ -10,12 +10,12 @@ open class UICenteredBox<T: UI>(
 ) : UIBox(), IUniqueParent<T>
 {
     override fun applyLayoutPost() {
-        super.applyLayoutPost()
+        stretchSelf()
         child.relX = 0.5 * (width - child.width)
         child.relY = 0.5 * (height - child.height)
     }
 
-    override fun stretchToFit() {
+    private fun stretchSelf() {
         val pad = if(padded) 2.0 * GlobalManager.core!!.config.padding else 0.0
         width = max(width, child.width + pad)
         height = max(height, child.height + pad)

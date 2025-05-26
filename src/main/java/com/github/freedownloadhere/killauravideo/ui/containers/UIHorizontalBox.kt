@@ -36,7 +36,7 @@ class UIHorizontalBox: UIBox(), IParentExtendable
     }
 
     override fun applyLayoutPost() {
-        super.applyLayoutPost()
+        stretchSelf()
         val pad = if(padded) GlobalManager.core!!.config.padding else 0.0
         var leftX = pad
         var rightX = width - pad
@@ -52,7 +52,7 @@ class UIHorizontalBox: UIBox(), IParentExtendable
         }
     }
 
-    override fun stretchToFit() {
+    private fun stretchSelf() {
         var minWidth = 0.0
         var minHeight = 0.0
         for(child in children) {

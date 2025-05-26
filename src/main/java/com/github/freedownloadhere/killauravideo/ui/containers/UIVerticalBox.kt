@@ -13,6 +13,8 @@ class UIVerticalBox: UIBox(), IParentExtendable
     private val top = mutableListOf<UI>()
     private val bottom = mutableListOf<UI>()
 
+    var stretchChildren = true
+
     override val children: Sequence<UI>
         get() = top.asSequence() + bottom.asSequence()
 
@@ -36,10 +38,13 @@ class UIVerticalBox: UIBox(), IParentExtendable
     }
 
     override fun applyLayoutPost() {
-        super.applyLayoutPost()
+        stretchSelf()
         val pad = if(padded) GlobalManager.core!!.config.padding else 0.0
         var topY = pad
         var bottomY = height - pad
+        if(stretchChildren) for(child in children) {
+            child.width = width - 2.0 * pad
+        }
         for(child in top) {
             child.relY = topY
             topY += child.height
@@ -52,7 +57,7 @@ class UIVerticalBox: UIBox(), IParentExtendable
         }
     }
 
-    override fun stretchToFit() {
+    private fun stretchSelf() {
         var minWidth = 0.0
         var minHeight = 0.0
         for(child in children) {
