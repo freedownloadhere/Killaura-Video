@@ -3,19 +3,21 @@ package com.github.freedownloadhere.killauravideo.ui.core.io
 import com.github.freedownloadhere.killauravideo.ui.basic.UI
 import com.github.freedownloadhere.killauravideo.ui.interfaces.io.*
 import com.github.freedownloadhere.killauravideo.ui.interfaces.parents.IParent
+import com.github.freedownloadhere.killauravideo.utils.Chat
 
-class InteractionManager(private val inputManager: InputManager, private val rootGui : UI?) {
-    var focused : UI? = null
+class InteractionManager(private val inputManager: InputManager, private val ui: UI) {
+    var focused: UI? = null
         private set
-    private var hovered : UI? = null
-    private var lastMouseOn : UI? = null
+    private var hovered: UI? = null
+    private var lastMouseOn: UI? = null
+    private var moveLock: UI? = null
 
     fun handleMouseInput() {
-        if(rootGui == null) return
-        lastMouseOn = findMouseOn(rootGui, 0.0, 0.0)
+        lastMouseOn = findMouseOn(ui, 0.0, 0.0)
         onHover()
         onMouseClick()
         onScroll()
+        onMove()
     }
 
     fun handleKeyTyped(typedChar : Char, keyCode : Int) {
@@ -34,11 +36,13 @@ class InteractionManager(private val inputManager: InputManager, private val roo
     }
 
     private fun onMouseClick() {
-        if(inputManager.mouseIsClicked) {
-            focused = lastMouseOn
-            if(focused != null && focused is IClickable)
-                (focused as IClickable).onClick(inputManager.mouseButtonMask)
-        }
+        if(!inputManager.mouseIsClicked) return
+        focused = lastMouseOn
+        if(focused == null) return
+        if(focused is IClickable)
+            (focused as IClickable).onClick(inputManager.mouseButtonMask)
+        else if(focused is IMovable && moveLock == null)
+            moveLock = focused
     }
 
     private fun onScroll() {
@@ -47,6 +51,16 @@ class InteractionManager(private val inputManager: InputManager, private val roo
             if(focused != null && focused is IScrollable)
                 (focused as IScrollable).onScroll(d)
         }
+    }
+
+    private fun onMove() {
+        if(!inputManager.mouseIsDown) {
+            moveLock = null
+            return
+        }
+        if(moveLock == null) return
+        moveLock!!.relX += inputManager.mouseDX
+        moveLock!!.relY += inputManager.mouseDY
     }
 
     private fun findMouseOn(u: UI, absX: Double, absY: Double): UI? {

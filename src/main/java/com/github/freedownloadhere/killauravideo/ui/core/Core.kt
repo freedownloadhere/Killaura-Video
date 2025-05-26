@@ -1,6 +1,8 @@
 package com.github.freedownloadhere.killauravideo.ui.core
 
+import com.github.freedownloadhere.killauravideo.GlobalManager
 import com.github.freedownloadhere.killauravideo.ui.basic.UI
+import com.github.freedownloadhere.killauravideo.ui.basic.UIText
 import com.github.freedownloadhere.killauravideo.ui.containers.UIHorizontalBox
 import com.github.freedownloadhere.killauravideo.ui.core.io.InputManager
 import com.github.freedownloadhere.killauravideo.ui.core.io.InteractionManager
@@ -10,10 +12,11 @@ import com.github.freedownloadhere.killauravideo.ui.util.Config
 import com.github.freedownloadhere.killauravideo.ui.util.TimeUtil
 import com.github.freedownloadhere.killauravideo.ui.dsl.ui
 import com.github.freedownloadhere.killauravideo.utils.Chat
+import com.github.freedownloadhere.killauravideo.utils.ColorHelper
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiScreen
 
-class Core : GuiScreen() {
+class Core: GuiScreen() {
     init {
         width = Minecraft.getMinecraft().displayWidth
         height = Minecraft.getMinecraft().displayHeight
@@ -32,22 +35,19 @@ class Core : GuiScreen() {
     override fun initGui() {
         topLevelUI = ui {
             vbox {
+                padded = true
+                canBeMoved = true
                 relX = 200.0
                 relY = 100.0
-                hbox {
-                    UIHorizontalBox.Placement.LEFT
-                    onLeft { button {
-                        text = "button 1"
-                        action = { Chat.addMessage("button 1", "actioned") }
-                    } }
-                    onRight { text("hehehe") }
+                centerbox(UIText("Modules")) {
+                    baseColor = ColorHelper.GuiNeutralDark
                 }
-                hbox {
+                val moduleList = GlobalManager.clientInstance!!.moduleMap.allModules()
+                for(module in moduleList) {
                     button {
-                        text = "button 2 yoo"
-                        action = { Chat.addMessage("button 2", "actioned") }
+                        text = module.name
+                        action = { module.toggle() }
                     }
-                    text("redundants")
                 }
             }
         }
