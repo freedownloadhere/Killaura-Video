@@ -1,4 +1,4 @@
-package com.github.freedownloadhere.killauravideo.ui.util
+package com.github.freedownloadhere.killauravideo.ui.dsl
 
 import com.github.freedownloadhere.killauravideo.GlobalManager
 import com.github.freedownloadhere.killauravideo.ui.containers.UIFreeBox

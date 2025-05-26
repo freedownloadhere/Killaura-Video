@@ -1,9 +1,11 @@
 package com.github.freedownloadhere.killauravideo.ui.basic
 
 import com.github.freedownloadhere.killauravideo.ui.core.render.Renderer
+import com.github.freedownloadhere.killauravideo.ui.dsl.UIScopeMarker
 import com.github.freedownloadhere.killauravideo.ui.interfaces.render.IDrawable
 import com.github.freedownloadhere.killauravideo.ui.util.RecursiveIterator
 
+@UIScopeMarker
 abstract class UI {
     internal var relX = 0.0
     internal var relY = 0.0
