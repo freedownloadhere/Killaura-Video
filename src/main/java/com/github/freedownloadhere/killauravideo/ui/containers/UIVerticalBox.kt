@@ -1,6 +1,5 @@
 package com.github.freedownloadhere.killauravideo.ui.containers
 
-import com.github.freedownloadhere.killauravideo.GlobalManager
 import com.github.freedownloadhere.killauravideo.ui.basic.UI
 import com.github.freedownloadhere.killauravideo.ui.interfaces.parents.IParentExtendable
 import kotlin.math.max
@@ -18,32 +17,19 @@ class UIVerticalBox: UIBox(), IParentExtendable
     override val children: Sequence<UI>
         get() = top.asSequence() + bottom.asSequence()
 
-    fun onTop(block: UIVerticalBox.()->Unit) {
-        placementState = Placement.TOP
-        block()
-    }
-
-    fun onBottom(block: UIVerticalBox.()->Unit) {
-        placementState = Placement.BOTTOM
-        block()
-    }
-
-    override fun <T : UI> child(ui: T, init: T.() -> Unit): T {
-        ui.init()
+    override fun addChild(ui: UI) {
         when(placementState) {
-            Placement.TOP -> top.add(ui)
-            Placement.BOTTOM -> bottom.add(ui)
+            Placement.TOP -> top += ui
+            Placement.BOTTOM -> bottom += ui
         }
-        return ui
     }
 
     override fun applyLayoutPost() {
         stretchSelf()
-        val pad = if(padded) GlobalManager.core!!.config.padding else 0.0
-        var topY = pad
-        var bottomY = height - pad
+        var topY = padding
+        var bottomY = height - padding
         if(stretchChildren) for(child in children) {
-            child.width = width - 2.0 * pad
+            child.width = width - 2.0 * padding
         }
         for(child in top) {
             child.relY = topY
@@ -64,11 +50,8 @@ class UIVerticalBox: UIBox(), IParentExtendable
             minHeight += child.height
             minWidth = max(minWidth, child.width)
         }
-        if(padded) {
-            val pad = 2.0 * GlobalManager.core!!.config.padding
-            minHeight += pad
-            minWidth += pad
-        }
+        minHeight += padding
+        minWidth += padding
         height = max(height, minHeight)
         width = max(width, minWidth)
     }

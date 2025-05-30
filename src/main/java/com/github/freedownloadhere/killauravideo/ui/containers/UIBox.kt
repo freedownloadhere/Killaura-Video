@@ -2,22 +2,22 @@ package com.github.freedownloadhere.killauravideo.ui.containers
 
 import com.github.freedownloadhere.killauravideo.GlobalManager
 import com.github.freedownloadhere.killauravideo.ui.basic.UI
-import com.github.freedownloadhere.killauravideo.ui.interfaces.io.IClickable
+import com.github.freedownloadhere.killauravideo.ui.implementations.BasicBGDraw
 import com.github.freedownloadhere.killauravideo.ui.interfaces.io.IMovable
 import com.github.freedownloadhere.killauravideo.ui.interfaces.render.IDrawable
 import com.github.freedownloadhere.killauravideo.ui.interfaces.layout.ILayoutPost
-import com.github.freedownloadhere.killauravideo.ui.interfaces.layout.IStretchable
+import com.github.freedownloadhere.killauravideo.ui.interfaces.layout.IPadded
 import com.github.freedownloadhere.killauravideo.ui.interfaces.parents.IParent
-import com.github.freedownloadhere.killauravideo.utils.ColorHelper
+import com.github.freedownloadhere.killauravideo.utils.UIColorEnum
 
-abstract class UIBox: UI(), ILayoutPost, IParent, IDrawable, IMovable
+abstract class UIBox
+    : UI(),
+    ILayoutPost,
+    IParent,
+    IDrawable by BasicBGDraw<UIBox>(),
+    IMovable,
+    IPadded
 {
-    var padded = true
-
-    override var hidden = false
+    override val padding = GlobalManager.core!!.config.padding
     override var canBeMoved = false
-    override var baseColor = ColorHelper.GuiNeutral
-    override fun draw() {
-        GlobalManager.core!!.renderer.drawBasicBG(this)
-    }
 }

@@ -3,9 +3,8 @@ package com.github.freedownloadhere.killauravideo.ui.core.io
 import com.github.freedownloadhere.killauravideo.ui.basic.UI
 import com.github.freedownloadhere.killauravideo.ui.interfaces.io.*
 import com.github.freedownloadhere.killauravideo.ui.interfaces.parents.IParent
-import com.github.freedownloadhere.killauravideo.utils.Chat
 
-class InteractionManager(private val inputManager: InputManager, private val ui: UI) {
+class InteractionManager(private val mouseInfo: MouseInfo, private val ui: UI) {
     var focused: UI? = null
         private set
     private var hovered: UI? = null
@@ -36,31 +35,31 @@ class InteractionManager(private val inputManager: InputManager, private val ui:
     }
 
     private fun onMouseClick() {
-        if(!inputManager.mouseIsClicked) return
+        if(!mouseInfo.mouseIsClicked) return
         focused = lastMouseOn
         if(focused == null) return
         if(focused is IClickable)
-            (focused as IClickable).onClick(inputManager.mouseButtonMask)
+            (focused as IClickable).onClick(mouseInfo.mouseButtonMask)
         else if(focused is IMovable && moveLock == null)
             moveLock = focused
     }
 
     private fun onScroll() {
-        if(inputManager.lastDwheel != 0) {
-            val d = inputManager.lastDwheel / inputManager.scrollSens
+        if(mouseInfo.lastDwheel != 0) {
+            val d = mouseInfo.lastDwheel / mouseInfo.scrollSens
             if(focused != null && focused is IScrollable)
                 (focused as IScrollable).onScroll(d)
         }
     }
 
     private fun onMove() {
-        if(!inputManager.mouseIsDown) {
+        if(!mouseInfo.mouseIsDown) {
             moveLock = null
             return
         }
         if(moveLock == null) return
-        moveLock!!.relX += inputManager.mouseDX
-        moveLock!!.relY += inputManager.mouseDY
+        moveLock!!.relX += mouseInfo.mouseDX
+        moveLock!!.relY += mouseInfo.mouseDY
     }
 
     private fun findMouseOn(u: UI, absX: Double, absY: Double): UI? {
@@ -74,8 +73,8 @@ class InteractionManager(private val inputManager: InputManager, private val ui:
                     return gui
             }
 
-        val x = inputManager.lastMouseX
-        val y = inputManager.lastMouseY
+        val x = mouseInfo.lastMouseX
+        val y = mouseInfo.lastMouseY
         if(absX <= x && x <= absX + u.width)
             if(absY <= y && y <= absY + u.height)
                 if(u is IInteractable)

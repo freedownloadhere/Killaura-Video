@@ -1,31 +1,37 @@
 package com.github.freedownloadhere.killauravideo.ui.composite
 
 import com.github.freedownloadhere.killauravideo.GlobalManager
+import com.github.freedownloadhere.killauravideo.ui.basic.UI
 import com.github.freedownloadhere.killauravideo.ui.basic.UIText
-import com.github.freedownloadhere.killauravideo.ui.containers.UICenteredBox
-import com.github.freedownloadhere.killauravideo.utils.ColorHelper
+import com.github.freedownloadhere.killauravideo.ui.implementations.BasicBGDraw
+import com.github.freedownloadhere.killauravideo.utils.UIColorEnum
 import com.github.freedownloadhere.killauravideo.ui.interfaces.io.IClickable
 import com.github.freedownloadhere.killauravideo.ui.interfaces.render.IDrawable
 import com.github.freedownloadhere.killauravideo.ui.interfaces.io.IHoverable
+import com.github.freedownloadhere.killauravideo.ui.interfaces.layout.ILayoutPost
+import com.github.freedownloadhere.killauravideo.ui.interfaces.parents.IUniqueParent
 import kotlin.math.max
 
-open class UIButton: UICenteredBox<UIText>(UIText()), IClickable, IHoverable, IDrawable
+class UIButton
+    : UI(),
+    IUniqueParent,
+    ILayoutPost,
+    IClickable,
+    IHoverable,
+    IDrawable by BasicBGDraw<UIButton>()
 {
-    var text: String
-        get() = child.text
-        set(value) { child.text = value }
+    private var clickCooldown: Long  = 0L
+    override var baseColor = UIColorEnum.NEUTRAL
 
-    var action: ()->Unit = {  }
-    private var clickCooldown = 0L
-    override var baseColor = ColorHelper.GuiNeutral
+    var action: () -> Unit = { }
+
+    override val child: UI = UIText()
+    val text: UIText
+        get() = child as UIText
 
     override fun update(deltaTime: Long) {
         clickCooldown = max(0L, clickCooldown - deltaTime)
         super.update(deltaTime)
-    }
-
-    override fun draw() {
-        GlobalManager.core?.renderer?.drawBasicBG(this)
     }
 
     override fun onClick(button: Int) {
@@ -35,7 +41,7 @@ open class UIButton: UICenteredBox<UIText>(UIText()), IClickable, IHoverable, ID
         }
     }
 
-    override fun onHoverStart() { baseColor = ColorHelper.GuiNeutralLight }
+    override fun onHoverStart() { baseColor = UIColorEnum.NEUTRAL_LIGHT }
 
-    override fun onHoverStop() { baseColor = ColorHelper.GuiNeutral }
+    override fun onHoverStop() { baseColor = UIColorEnum.NEUTRAL }
 }

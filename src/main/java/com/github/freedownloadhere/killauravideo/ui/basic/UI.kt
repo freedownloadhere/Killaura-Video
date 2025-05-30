@@ -13,7 +13,7 @@ abstract class UI {
     internal var height = 0.0
 
     var toggled = true
-        private set
+        set(value) { changeToggleState(value) }
 
     fun renderRecursive() {
         if(!toggled) return

@@ -1,20 +1,18 @@
 package com.github.freedownloadhere.killauravideo.ui.core
 
-import com.github.freedownloadhere.killauravideo.GlobalManager
 import com.github.freedownloadhere.killauravideo.ui.basic.UI
-import com.github.freedownloadhere.killauravideo.ui.basic.UIText
-import com.github.freedownloadhere.killauravideo.ui.containers.UIHorizontalBox
-import com.github.freedownloadhere.killauravideo.ui.core.io.InputManager
+import com.github.freedownloadhere.killauravideo.ui.core.io.MouseInfo
 import com.github.freedownloadhere.killauravideo.ui.core.io.InteractionManager
 import com.github.freedownloadhere.killauravideo.ui.core.render.Renderer
+import com.github.freedownloadhere.killauravideo.ui.dsl.button
+import com.github.freedownloadhere.killauravideo.ui.dsl.verticalBox
 import com.github.freedownloadhere.killauravideo.ui.interfaces.layout.ILayout
 import com.github.freedownloadhere.killauravideo.ui.util.Config
 import com.github.freedownloadhere.killauravideo.ui.util.TimeUtil
-import com.github.freedownloadhere.killauravideo.ui.dsl.ui
 import com.github.freedownloadhere.killauravideo.utils.Chat
-import com.github.freedownloadhere.killauravideo.utils.ColorHelper
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiScreen
+import java.time.Instant
 
 class Core: GuiScreen() {
     init {
@@ -25,7 +23,7 @@ class Core: GuiScreen() {
     val config = Config(screenWidth = width.toDouble(), screenHeight = height.toDouble())
     private lateinit var topLevelUI: UI
 
-    private val inputManager = InputManager()
+    private val mouseInfo = MouseInfo()
 
     private lateinit var interactionManager: InteractionManager
     lateinit var renderer: Renderer
@@ -33,26 +31,15 @@ class Core: GuiScreen() {
     private val timeUtil = TimeUtil()
 
     override fun initGui() {
-        topLevelUI = ui {
-            vbox {
-                padded = true
-                canBeMoved = true
-                relX = 200.0
-                relY = 100.0
-                centerbox(UIText("Modules")) {
-                    baseColor = ColorHelper.GuiNeutralDark
-                }
-                val moduleList = GlobalManager.clientInstance!!.moduleMap.allModules()
-                for(module in moduleList) {
-                    button {
-                        text = module.name
-                        action = { module.toggle() }
-                    }
-                }
+        topLevelUI = verticalBox {
+            canBeMoved = true
+            + button {
+                text.source = { "Time: ${Instant.now().nano}" }
+                action = { Chat.addMessage("LOL", "xd") }
             }
         }
 
-        interactionManager = InteractionManager(inputManager, topLevelUI)
+        interactionManager = InteractionManager(mouseInfo, topLevelUI)
         renderer = Renderer(config, interactionManager)
     }
 
@@ -70,7 +57,7 @@ class Core: GuiScreen() {
     }
 
     override fun handleMouseInput() {
-        inputManager.updateMouse()
+        mouseInfo.updateMouse()
         interactionManager.handleMouseInput()
     }
 

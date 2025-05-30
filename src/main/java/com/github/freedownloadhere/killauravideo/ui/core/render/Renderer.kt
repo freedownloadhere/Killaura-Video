@@ -4,9 +4,8 @@ import com.github.freedownloadhere.killauravideo.ui.basic.UI
 import com.github.freedownloadhere.killauravideo.mixin.AccessorFontRenderer
 import com.github.freedownloadhere.killauravideo.ui.util.Config
 import com.github.freedownloadhere.killauravideo.ui.core.io.InteractionManager
-import com.github.freedownloadhere.killauravideo.ui.interfaces.render.IDrawable
 import com.github.freedownloadhere.killauravideo.ui.util.RecursiveIterator
-import com.github.freedownloadhere.killauravideo.utils.ColorHelper
+import com.github.freedownloadhere.killauravideo.utils.UIColorEnum
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.client.renderer.Tessellator
@@ -27,19 +26,19 @@ class Renderer(
 
     val scissorStack = RenderScissorStack()
 
-    fun <T> drawBasicBG(gui: T) where T: UI, T: IDrawable {
+    fun drawBasicBG(gui: UI, baseColor: UIColorEnum) {
         if(gui == interactionManager.focused)
             drawHL(gui)
         else
             drawBorder(gui)
-        drawBG(gui, gui.baseColor)
+        drawBG(gui, baseColor)
     }
 
-    private fun drawHL(ui: UI) = drawUIrect(ui, ColorHelper.GuiPrimary, filled = false)
-    private fun drawBorder(ui: UI) = drawUIrect(ui, ColorHelper.GuiNeutralLight, filled = false)
-    private fun drawBG(ui: UI, col: ColorHelper) = drawUIrect(ui, col, filled = true)
+    private fun drawHL(ui: UI) = drawUIrect(ui, UIColorEnum.PRIMARY, filled = false)
+    private fun drawBorder(ui: UI) = drawUIrect(ui, UIColorEnum.NEUTRAL_LIGHT, filled = false)
+    private fun drawBG(ui: UI, col: UIColorEnum) = drawUIrect(ui, col, filled = true)
 
-    private fun drawUIrect(ui: UI, col: ColorHelper, filled: Boolean) {
+    private fun drawUIrect(ui: UI, col: UIColorEnum, filled: Boolean) {
         GlStateManager.matrixMode(GL11.GL_MODELVIEW)
         GlStateManager.pushMatrix()
         GlStateManager.scale(ui.width, ui.height, 1.0)
@@ -91,7 +90,7 @@ class Renderer(
         GlStateManager.disableTexture2D()
     }
 
-    private fun drawRect(col: ColorHelper, filled: Boolean) {
+    private fun drawRect(col: UIColorEnum, filled: Boolean) {
         val worldRenderer = Tessellator.getInstance().worldRenderer
         val type = if(filled) GL11.GL_QUADS else GL11.GL_LINE_LOOP
         worldRenderer.begin(type, DefaultVertexFormats.POSITION_COLOR)

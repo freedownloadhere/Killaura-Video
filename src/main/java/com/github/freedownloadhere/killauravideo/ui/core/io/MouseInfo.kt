@@ -3,7 +3,7 @@ package com.github.freedownloadhere.killauravideo.ui.core.io
 import com.github.freedownloadhere.killauravideo.GlobalManager
 import org.lwjgl.input.Mouse
 
-class InputManager {
+class MouseInfo {
     var lastMouseX = -1
         private set
     var lastMouseY = -1

@@ -10,10 +10,8 @@ class UIFreeBox: UIBox(), IParentExtendable
     override val children: Sequence<UI>
         get() = childrenList.asSequence()
 
-    override fun <T : UI> child(ui: T, init: T.() -> Unit): T {
-        ui.init()
-        childrenList.add(ui)
-        return ui
+    override fun addChild(ui: UI) {
+        childrenList += ui
     }
 
     override fun applyLayoutPost() { }
