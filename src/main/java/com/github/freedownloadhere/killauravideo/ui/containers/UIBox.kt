@@ -18,7 +18,7 @@ abstract class UIBox
     IMovable,
     IPadded
 {
-    override val padding: Double = GlobalManager.core!!.config.padding
+    override var padding: Double = GlobalManager.core!!.config.padding
     override var canBeMoved: Boolean = false
     override var hidden: Boolean = false
     override var baseColor: UIColorEnum = UIColorEnum.NEUTRAL

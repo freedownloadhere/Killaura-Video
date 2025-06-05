@@ -27,7 +27,7 @@ class UIButton
     override var hidden: Boolean = false
     override val child: UI = UIText()
 
-    var action: () -> Unit = { }
+    var clickAction: () -> Unit = { }
 
     val text: UIText
         get() = child as UIText
@@ -37,9 +37,9 @@ class UIButton
         super.update(deltaTime)
     }
 
-    override fun onClick(button: Int) {
+    override fun onClick(button: Int, mouseRelX: Double, mouseRelY: Double) {
         if(button == 0 && clickCooldown == 0L) {
-            action()
+            clickAction()
             clickCooldown = GlobalManager.core!!.config.buttonClickCooldown
         }
     }

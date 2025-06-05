@@ -5,6 +5,7 @@ import com.github.freedownloadhere.killauravideo.ui.core.io.MouseInfo
 import com.github.freedownloadhere.killauravideo.ui.core.io.InteractionManager
 import com.github.freedownloadhere.killauravideo.ui.core.render.Renderer
 import com.github.freedownloadhere.killauravideo.ui.dsl.button
+import com.github.freedownloadhere.killauravideo.ui.dsl.slider
 import com.github.freedownloadhere.killauravideo.ui.dsl.verticalBox
 import com.github.freedownloadhere.killauravideo.ui.interfaces.layout.ILayout
 import com.github.freedownloadhere.killauravideo.ui.util.Config
@@ -36,12 +37,18 @@ class Core: GuiScreen() {
 
             + button {
                 text.source = { "Time: ${Instant.now().nano}" }
-                action = { Chat.addMessage("LOL", "xd") }
+                clickAction = { Chat.addMessage("LOL", "xd") }
             }
 
             + button {
                 text.source = { "Epic" }
-                action = {  }
+                clickAction = {  }
+            }
+
+            + slider {
+                minValue = 10.0
+                maxValue = 200.0
+                clickAction = { Chat.addMessage("Slider", "Selected $selectedValue") }
             }
         }
 
@@ -63,7 +70,7 @@ class Core: GuiScreen() {
     }
 
     override fun handleMouseInput() {
-        mouseInfo.updateMouse()
+        mouseInfo.update()
         interactionManager.handleMouseInput()
     }
 

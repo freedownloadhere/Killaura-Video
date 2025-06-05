@@ -4,32 +4,32 @@ import com.github.freedownloadhere.killauravideo.GlobalManager
 import org.lwjgl.input.Mouse
 
 class MouseInfo {
-    var lastMouseX = -1
+    var lastX = -1
         private set
-    var lastMouseY = -1
+    var lastY = -1
         private set
     var lastDwheel = 0
         private set
-    var mouseDX = 0
+    var dX = 0
         private set
-    var mouseDY = 0
+    var dY = 0
         private set
     val scrollSens = 10
 
-    val mouseIsClicked : Boolean
+    val isClicked : Boolean
         get() = Mouse.getEventButtonState()
-    val mouseButtonMask : Int
+    val buttonmask : Int
         get() = Mouse.getEventButton()
-    val mouseIsDown: Boolean
+    val isHeldDown: Boolean
         get() = Mouse.isButtonDown(0)
 
-    fun updateMouse() {
-        val newMouseX = Mouse.getEventX()
-        val newMouseY = GlobalManager.core!!.config.screenHeight.toInt() - Mouse.getEventY() - 1
-        mouseDX = newMouseX - lastMouseX
-        mouseDY = newMouseY - lastMouseY
-        lastMouseX = newMouseX
-        lastMouseY = newMouseY
+    fun update() {
+        val newX = Mouse.getEventX()
+        val newY = GlobalManager.core!!.config.screenHeight.toInt() - Mouse.getEventY() - 1
+        dX = newX - lastX
+        dY = newY - lastY
+        lastX = newX
+        lastY = newY
         lastDwheel = Mouse.getEventDWheel()
     }
 }

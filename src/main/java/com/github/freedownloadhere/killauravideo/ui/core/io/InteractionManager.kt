@@ -9,10 +9,20 @@ class InteractionManager(private val mouseInfo: MouseInfo, private val topUI: UI
         private set
     private var hovered: UI? = null
     private var lastMouseOn: UI? = null
+    private var lastMouseUIAbsX: Double = 0.0
+    private var lastMouseUIAbsY: Double = 0.0
     private var moveLock: UI? = null
 
     fun handleMouseInput() {
-        lastMouseOn = topUI.findMouseOn(0.0, 0.0)
+        val findMouseResult = topUI.findMouseOn(0.0, 0.0)
+        if(findMouseResult != null) {
+            val (newLastMouseOn, absX, absY) = findMouseResult
+            lastMouseOn = newLastMouseOn
+            lastMouseUIAbsX = absX
+            lastMouseUIAbsY = absY
+        } else {
+            lastMouseOn = null
+        }
         onHover()
         onMouseClick()
         onScroll()
@@ -35,11 +45,15 @@ class InteractionManager(private val mouseInfo: MouseInfo, private val topUI: UI
     }
 
     private fun onMouseClick() {
-        if(!mouseInfo.mouseIsClicked) return
+        if(!mouseInfo.isClicked) return
         focused = lastMouseOn
         if(focused == null) return
         if(focused is IClickable)
-            (focused as IClickable).onClick(mouseInfo.mouseButtonMask)
+            (focused as IClickable).onClick(
+                mouseInfo.buttonmask,
+                mouseInfo.lastX.toDouble() - lastMouseUIAbsX,
+                mouseInfo.lastY.toDouble() - lastMouseUIAbsY
+            )
         else if(focused is IMovable && moveLock == null)
             moveLock = focused
     }
@@ -53,16 +67,16 @@ class InteractionManager(private val mouseInfo: MouseInfo, private val topUI: UI
     }
 
     private fun onMove() {
-        if(!mouseInfo.mouseIsDown) {
+        if(!mouseInfo.isHeldDown) {
             moveLock = null
             return
         }
         if(moveLock == null) return
-        moveLock!!.relX += mouseInfo.mouseDX
-        moveLock!!.relY += mouseInfo.mouseDY
+        moveLock!!.relX += mouseInfo.dX
+        moveLock!!.relY += mouseInfo.dY
     }
 
-    private fun UI.findMouseOn(absX: Double, absY: Double): UI? {
+    private fun UI.findMouseOn(absX: Double, absY: Double): Triple<UI, Double, Double>? {
         if(!toggled)
             return null
 
@@ -73,13 +87,13 @@ class InteractionManager(private val mouseInfo: MouseInfo, private val topUI: UI
                     return maybeClicked
             }
 
-        val x = mouseInfo.lastMouseX
-        val y = mouseInfo.lastMouseY
+        val x = mouseInfo.lastX
+        val y = mouseInfo.lastY
 
         if(absX + relX <= x && x <= absX + relX + width)
             if(absY + relY <= y && y <= absY + relY + height)
                 if(this is IInteractable)
-                    return this
+                    return Triple(this, absX + relX, absY + relY)
 
         return null
     }
