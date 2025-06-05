@@ -3,7 +3,8 @@ package com.github.freedownloadhere.killauravideo.ui.composite
 import com.github.freedownloadhere.killauravideo.GlobalManager
 import com.github.freedownloadhere.killauravideo.ui.basic.UI
 import com.github.freedownloadhere.killauravideo.ui.basic.UIText
-import com.github.freedownloadhere.killauravideo.ui.implementations.BasicBGDraw
+import com.github.freedownloadhere.killauravideo.ui.implementations.uiBasicDraw
+import com.github.freedownloadhere.killauravideo.ui.implementations.uiCenterBoxLayout
 import com.github.freedownloadhere.killauravideo.utils.UIColorEnum
 import com.github.freedownloadhere.killauravideo.ui.interfaces.io.IClickable
 import com.github.freedownloadhere.killauravideo.ui.interfaces.render.IDrawable
@@ -18,14 +19,16 @@ class UIButton
     ILayoutPost,
     IClickable,
     IHoverable,
-    IDrawable by BasicBGDraw<UIButton>()
+    IDrawable
 {
     private var clickCooldown: Long  = 0L
-    override var baseColor = UIColorEnum.NEUTRAL
+    override var baseColor: UIColorEnum = UIColorEnum.NEUTRAL
+
+    override var hidden: Boolean = false
+    override val child: UI = UIText()
 
     var action: () -> Unit = { }
 
-    override val child: UI = UIText()
     val text: UIText
         get() = child as UIText
 
@@ -44,4 +47,8 @@ class UIButton
     override fun onHoverStart() { baseColor = UIColorEnum.NEUTRAL_LIGHT }
 
     override fun onHoverStop() { baseColor = UIColorEnum.NEUTRAL }
+
+    override fun applyLayoutPost() = uiCenterBoxLayout()
+
+    override fun draw() = uiBasicDraw()
 }

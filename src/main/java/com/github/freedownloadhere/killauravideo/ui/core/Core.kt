@@ -33,9 +33,15 @@ class Core: GuiScreen() {
     override fun initGui() {
         topLevelUI = verticalBox {
             canBeMoved = true
+
             + button {
                 text.source = { "Time: ${Instant.now().nano}" }
                 action = { Chat.addMessage("LOL", "xd") }
+            }
+
+            + button {
+                text.source = { "Epic" }
+                action = {  }
             }
         }
 

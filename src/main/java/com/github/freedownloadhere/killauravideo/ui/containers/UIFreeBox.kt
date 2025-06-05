@@ -2,6 +2,7 @@ package com.github.freedownloadhere.killauravideo.ui.containers
 
 import com.github.freedownloadhere.killauravideo.ui.basic.UI
 import com.github.freedownloadhere.killauravideo.ui.interfaces.parents.IParentExtendable
+import com.github.freedownloadhere.killauravideo.utils.UIColorEnum
 
 class UIFreeBox: UIBox(), IParentExtendable
 {
@@ -14,5 +15,7 @@ class UIFreeBox: UIBox(), IParentExtendable
         childrenList += ui
     }
 
-    override fun applyLayoutPost() { }
+    override fun applyLayoutPost() {
+
+    }
 }

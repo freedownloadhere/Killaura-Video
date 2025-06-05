@@ -45,8 +45,8 @@ class UIHorizontalBox: UIBox(), IParentExtendable
             minWidth += child.width
             minHeight = max(minHeight, child.height)
         }
-        minWidth += padding
-        minHeight += padding
+        minWidth += 2.0 * padding
+        minHeight += 2.0 * padding
         width = max(width, minWidth)
         height = max(height, minHeight)
     }

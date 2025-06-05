@@ -4,7 +4,7 @@ import com.github.freedownloadhere.killauravideo.ui.basic.UI
 import com.github.freedownloadhere.killauravideo.ui.interfaces.io.*
 import com.github.freedownloadhere.killauravideo.ui.interfaces.parents.IParent
 
-class InteractionManager(private val mouseInfo: MouseInfo, private val ui: UI) {
+class InteractionManager(private val mouseInfo: MouseInfo, private val topUI: UI) {
     var focused: UI? = null
         private set
     private var hovered: UI? = null
@@ -12,7 +12,7 @@ class InteractionManager(private val mouseInfo: MouseInfo, private val ui: UI) {
     private var moveLock: UI? = null
 
     fun handleMouseInput() {
-        lastMouseOn = findMouseOn(ui, 0.0, 0.0)
+        lastMouseOn = topUI.findMouseOn(0.0, 0.0)
         onHover()
         onMouseClick()
         onScroll()
@@ -62,23 +62,24 @@ class InteractionManager(private val mouseInfo: MouseInfo, private val ui: UI) {
         moveLock!!.relY += mouseInfo.mouseDY
     }
 
-    private fun findMouseOn(u: UI, absX: Double, absY: Double): UI? {
-        if(!u.toggled)
+    private fun UI.findMouseOn(absX: Double, absY: Double): UI? {
+        if(!toggled)
             return null
 
-        if(u is IParent)
-            for(v in u.children) {
-                val gui = findMouseOn(v, absX + v.relX, absY + v.relY)
-                if(gui != null)
-                    return gui
+        if(this is IParent)
+            for(child in children) {
+                val maybeClicked = child.findMouseOn(absX + relX, absY + relY)
+                if(maybeClicked != null)
+                    return maybeClicked
             }
 
         val x = mouseInfo.lastMouseX
         val y = mouseInfo.lastMouseY
-        if(absX <= x && x <= absX + u.width)
-            if(absY <= y && y <= absY + u.height)
-                if(u is IInteractable)
-                    return u
+
+        if(absX + relX <= x && x <= absX + relX + width)
+            if(absY + relY <= y && y <= absY + relY + height)
+                if(this is IInteractable)
+                    return this
 
         return null
     }

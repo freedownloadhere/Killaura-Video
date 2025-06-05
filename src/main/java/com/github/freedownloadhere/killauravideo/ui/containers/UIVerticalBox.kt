@@ -50,8 +50,8 @@ class UIVerticalBox: UIBox(), IParentExtendable
             minHeight += child.height
             minWidth = max(minWidth, child.width)
         }
-        minHeight += padding
-        minWidth += padding
+        minHeight += 2.0 * padding
+        minWidth += 2.0 * padding
         height = max(height, minHeight)
         width = max(width, minWidth)
     }
