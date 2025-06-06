@@ -24,7 +24,8 @@ class InteractionManager(private val mouseInfo: MouseInfo, private val topUI: UI
             lastMouseOn = null
         }
         onHover()
-        onMouseClick()
+        onClick()
+        onHold()
         onScroll()
         onMove()
     }
@@ -44,7 +45,7 @@ class InteractionManager(private val mouseInfo: MouseInfo, private val topUI: UI
         }
     }
 
-    private fun onMouseClick() {
+    private fun onClick() {
         if(!mouseInfo.isClicked) return
         focused = lastMouseOn
         if(focused == null) return
@@ -56,6 +57,17 @@ class InteractionManager(private val mouseInfo: MouseInfo, private val topUI: UI
             )
         else if(focused is IMovable && moveLock == null)
             moveLock = focused
+    }
+
+    private fun onHold() {
+        if(!mouseInfo.isHeldDown) return
+        if(focused != lastMouseOn) return
+        if(focused is IClickHoldable)
+            (focused as IClickHoldable).onClickHold(
+                mouseInfo.buttonmask,
+                mouseInfo.lastX.toDouble() - lastMouseUIAbsX,
+                mouseInfo.lastY.toDouble() - lastMouseUIAbsY
+            )
     }
 
     private fun onScroll() {

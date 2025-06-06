@@ -1,15 +1,15 @@
 package com.github.freedownloadhere.killauravideo.ui.core
 
 import com.github.freedownloadhere.killauravideo.ui.basic.UI
+import com.github.freedownloadhere.killauravideo.ui.basic.UIText
 import com.github.freedownloadhere.killauravideo.ui.core.io.MouseInfo
 import com.github.freedownloadhere.killauravideo.ui.core.io.InteractionManager
 import com.github.freedownloadhere.killauravideo.ui.core.render.Renderer
-import com.github.freedownloadhere.killauravideo.ui.dsl.button
-import com.github.freedownloadhere.killauravideo.ui.dsl.slider
-import com.github.freedownloadhere.killauravideo.ui.dsl.verticalBox
+import com.github.freedownloadhere.killauravideo.ui.dsl.*
 import com.github.freedownloadhere.killauravideo.ui.interfaces.layout.ILayout
 import com.github.freedownloadhere.killauravideo.ui.util.Config
 import com.github.freedownloadhere.killauravideo.ui.util.TimeUtil
+import com.github.freedownloadhere.killauravideo.ui.util.round
 import com.github.freedownloadhere.killauravideo.utils.Chat
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiScreen
@@ -45,10 +45,31 @@ class Core: GuiScreen() {
                 clickAction = {  }
             }
 
-            + slider {
-                minValue = 10.0
-                maxValue = 200.0
-                clickAction = { Chat.addMessage("Slider", "Selected $selectedValue") }
+            + verticalBox {
+                val epicSlider = slider {
+                    minValue = 10.0
+                    maxValue = 200.0
+                    segmented = true
+                }
+
+                + horizontalBox {
+                    placeLeft()
+                    + text {
+                        source = { epicSlider.minValue.toString() }
+                        scale = UIText.Scale.SMALL
+                    }
+                    placeRight()
+                    + text {
+                        source = { epicSlider.maxValue.toString() }
+                        scale = UIText.Scale.SMALL
+                    }
+                }
+
+                + epicSlider
+
+                + text {
+                    source = { "Selected: ${epicSlider.selectedValue.round(1)}" }
+                }
             }
         }
 

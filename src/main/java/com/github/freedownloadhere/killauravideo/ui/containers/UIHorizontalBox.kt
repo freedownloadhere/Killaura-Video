@@ -15,6 +15,16 @@ class UIHorizontalBox: UIBox(), IParentExtendable
     override val children: Sequence<UI>
         get() = left.asSequence() + right.asSequence()
 
+    fun placeLeft(block: () -> Unit = { }) {
+        placementState = Placement.LEFT
+        block()
+    }
+
+    fun placeRight(block: () -> Unit = { }) {
+        placementState = Placement.RIGHT
+        block()
+    }
+
     override fun addChild(ui: UI) {
         when(placementState) {
             Placement.LEFT -> left += ui

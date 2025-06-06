@@ -2,7 +2,7 @@ package com.github.freedownloadhere.killauravideo.ui.composite
 
 import com.github.freedownloadhere.killauravideo.GlobalManager
 import com.github.freedownloadhere.killauravideo.ui.basic.UI
-import com.github.freedownloadhere.killauravideo.ui.interfaces.io.IClickable
+import com.github.freedownloadhere.killauravideo.ui.interfaces.io.IClickHoldable
 import com.github.freedownloadhere.killauravideo.ui.interfaces.layout.ILayoutPost
 import com.github.freedownloadhere.killauravideo.ui.interfaces.layout.IPadded
 import com.github.freedownloadhere.killauravideo.ui.interfaces.render.IDrawable
@@ -11,12 +11,13 @@ import net.minecraft.client.renderer.Tessellator
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
 import org.apache.logging.log4j.LogManager
 import org.lwjgl.opengl.GL11
+import kotlin.math.floor
 import kotlin.math.max
 
 class UISlider
     : UI(),
     IPadded,
-    IClickable,
+    IClickHoldable,
     IDrawable,
     ILayoutPost
 {
@@ -30,9 +31,16 @@ class UISlider
 
     var clickAction: () -> Unit = { }
 
-    override fun onClick(button: Int, mouseRelX: Double, mouseRelY: Double) {
+    var segmented: Boolean = true
+    var segmentCount: Int = 5
+
+    override fun onClickHold(button: Int, mouseRelX: Double, mouseRelY: Double) {
         LogManager.getLogger().info("$mouseRelX : $position")
         position = mouseRelX / width
+        if(segmented) {
+            val segmentLength = 1.0 / segmentCount
+            position = floor(position / segmentLength) * segmentLength
+        }
         clickAction()
     }
 
@@ -47,6 +55,12 @@ class UISlider
         wr.pos(0.0, 0.5 * height - 1.0, 0.0).color(baseColor.r, baseColor.g, baseColor.b, baseColor.a).endVertex()
         wr.pos(width, 0.5 * height - 1.0, 0.0).color(baseColor.r, baseColor.g, baseColor.b, baseColor.a).endVertex()
         tess.draw()
+        for(i in 0..segmentCount) {
+            wr.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION_COLOR)
+            wr.pos((width * i) / segmentCount, height * 0.25, 0.0).color(baseColor.r, baseColor.g, baseColor.b, baseColor.a).endVertex()
+            wr.pos((width * i) / segmentCount, height * 0.75, 0.0).color(baseColor.r, baseColor.g, baseColor.b, baseColor.a).endVertex()
+            tess.draw()
+        }
         GL11.glLineWidth(4.0f)
         wr.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION_COLOR)
         wr.pos(width * position, 0.0, 0.0).color(baseColor.r, baseColor.g, baseColor.b, baseColor.a).endVertex()

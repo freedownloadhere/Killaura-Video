@@ -19,7 +19,7 @@ class UIText(
         LARGE(3.5)
     }
 
-    val scale: Scale = Scale.MEDIUM
+    var scale: Scale = Scale.MEDIUM
     var source: () -> String = { defaultText }
 
     val text: String
