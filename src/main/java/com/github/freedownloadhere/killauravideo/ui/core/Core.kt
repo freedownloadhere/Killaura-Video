@@ -46,6 +46,8 @@ class Core: GuiScreen() {
             }
 
             + verticalBox {
+                spacing = 5.0
+
                 val epicSlider = slider {
                     minValue = 10.0
                     maxValue = 200.0

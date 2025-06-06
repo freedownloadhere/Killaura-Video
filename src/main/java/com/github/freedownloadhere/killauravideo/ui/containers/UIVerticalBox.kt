@@ -14,6 +14,8 @@ class UIVerticalBox: UIBox(), IParentExtendable
 
     var stretchChildren = true
 
+    var spacing: Double = 0.0
+
     override val children: Sequence<UI>
         get() = top.asSequence() + bottom.asSequence()
 
@@ -33,11 +35,11 @@ class UIVerticalBox: UIBox(), IParentExtendable
         }
         for(child in top) {
             child.relY = topY
-            topY += child.height
+            topY += (child.height + spacing)
             child.relX = 0.5 * (width - child.width)
         }
         for(child in bottom) {
-            bottomY -= child.height
+            bottomY -= (child.height + spacing)
             child.relY = bottomY
             child.relX = 0.5 * (width - child.width)
         }
@@ -50,7 +52,7 @@ class UIVerticalBox: UIBox(), IParentExtendable
             minHeight += child.height
             minWidth = max(minWidth, child.width)
         }
-        minHeight += 2.0 * padding
+        minHeight += 2.0 * padding + (top.size + bottom.size - 1) * spacing
         minWidth += 2.0 * padding
         height = max(height, minHeight)
         width = max(width, minWidth)
