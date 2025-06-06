@@ -1,5 +1,7 @@
 package com.github.freedownloadhere.killauravideo.ui.core
 
+import com.github.freedownloadhere.killauravideo.GlobalManager
+import com.github.freedownloadhere.killauravideo.modules.Killaura
 import com.github.freedownloadhere.killauravideo.ui.basic.UI
 import com.github.freedownloadhere.killauravideo.ui.basic.UIText
 import com.github.freedownloadhere.killauravideo.ui.core.io.MouseInfo
@@ -33,44 +35,37 @@ class Core: GuiScreen() {
 
     override fun initGui() {
         topLevelUI = verticalBox {
-            canBeMoved = true
+            val ka = GlobalManager.clientInstance!!.moduleMap.module("killaura") as Killaura
 
-            + button {
-                text.source = { "Time: ${Instant.now().nano}" }
-                clickAction = { Chat.addMessage("LOL", "xd") }
-            }
-
-            + button {
-                text.source = { "Epic" }
-                clickAction = {  }
+            + centerBox {
+                child = text("Killaura")
             }
 
             + verticalBox {
-                spacing = 5.0
+                spacing = 10.0
+                + button {
+                    text.source = { "Toggle" }
+                    clickAction = { ka.toggle() }
+                }
 
-                val epicSlider = slider {
-                    minValue = 10.0
-                    maxValue = 200.0
+                + text { source = { "Reach: ${ka.limiter.maxReach}" } }
+                + slider {
+                    minValue = 3.0
+                    maxValue = 6.0
                     segmented = true
+                    segmentCount = 6
+                    selectedValue = ka.limiter.maxReach
+                    clickAction = { ka.limiter.maxReach = selectedValue }
                 }
 
-                + horizontalBox {
-                    placeLeft()
-                    + text {
-                        source = { epicSlider.minValue.toString() }
-                        scale = UIText.Scale.SMALL
-                    }
-                    placeRight()
-                    + text {
-                        source = { epicSlider.maxValue.toString() }
-                        scale = UIText.Scale.SMALL
-                    }
-                }
-
-                + epicSlider
-
-                + text {
-                    source = { "Selected: ${epicSlider.selectedValue.round(1)}" }
+                + text { source = { "FOV: ${ka.limiter.maxFov}" } }
+                + slider {
+                    minValue = 30.0
+                    maxValue = 180.0
+                    segmented = true
+                    segmentCount = 15
+                    selectedValue = ka.limiter.maxFov.toDouble()
+                    clickAction = { ka.limiter.maxFov = selectedValue.toFloat() }
                 }
             }
         }

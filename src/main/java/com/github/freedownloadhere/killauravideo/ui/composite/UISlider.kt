@@ -26,8 +26,10 @@ class UISlider
     var minValue: Double = 0.0
     var maxValue: Double = 1.0
     private var position: Double = 0.0
-    val selectedValue: Double
+
+    var selectedValue: Double
         get() = minValue + (maxValue - minValue) * position
+        set(value) { position = (value - minValue) / (maxValue - minValue) }
 
     var clickAction: () -> Unit = { }
 

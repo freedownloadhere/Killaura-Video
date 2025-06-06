@@ -3,6 +3,7 @@ package com.github.freedownloadhere.killauravideo.ui.containers
 import com.github.freedownloadhere.killauravideo.GlobalManager
 import com.github.freedownloadhere.killauravideo.ui.basic.UI
 import com.github.freedownloadhere.killauravideo.ui.implementations.uiBasicDraw
+import com.github.freedownloadhere.killauravideo.ui.interfaces.io.IHoverable
 import com.github.freedownloadhere.killauravideo.ui.interfaces.io.IMovable
 import com.github.freedownloadhere.killauravideo.ui.interfaces.render.IDrawable
 import com.github.freedownloadhere.killauravideo.ui.interfaces.layout.ILayoutPost
@@ -16,7 +17,8 @@ abstract class UIBox
     IParent,
     IDrawable,
     IMovable,
-    IPadded
+    IPadded,
+    IHoverable
 {
     override var padding: Double = GlobalManager.core!!.config.padding
     override var canBeMoved: Boolean = false
@@ -24,4 +26,6 @@ abstract class UIBox
     override var baseColor: UIColorEnum = UIColorEnum.NEUTRAL
 
     override fun draw() = uiBasicDraw()
+    override fun onHoverStart() { baseColor = UIColorEnum.NEUTRAL_LIGHT }
+    override fun onHoverStop() { baseColor = UIColorEnum.NEUTRAL }
 }

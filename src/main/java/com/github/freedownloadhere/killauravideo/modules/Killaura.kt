@@ -20,9 +20,9 @@ class Killaura(
     timerManager: TimerManager
 ) : Module("Killaura"), IRenderable
 {
-    private var attackReach = 3.0
+    val limiter = AttackRangeLimiter(attacker, maxReach = 3.0)
+
     private val attackTimer = timerManager.newRandomTimer(70L, 40L, 0.1)
-    private val attackRangeLimiter = AttackRangeLimiter(attacker, maxReach = attackReach)
     private val entityTracker = EntityTracker(attacker)
 
     override fun update() {
@@ -33,7 +33,7 @@ class Killaura(
 
         for(target in world.loadedEntityList) {
             if(!goodEntityCheck(target)) continue
-            if(!attackRangeLimiter.isInRange(target)) continue
+            if(!limiter.isInRange(target)) continue
             if(!rayTraceCheck(target)) continue
 
             entityTracker.trackEntity(target, EntityTracker.TrackType.HITBOX_HIGHLIGHT, ColorEnum.GREEN)
@@ -55,7 +55,7 @@ class Killaura(
     private fun rayTraceCheck(target: Entity): Boolean {
         val discardPastThis = 6.0
 
-        val blockReach = 1.5 * attackReach
+        val blockReach = 1.5 * limiter.maxReach
 
         val targetSamples = arrayOf(
             EntityPositions.head(target),
@@ -71,7 +71,7 @@ class Killaura(
 
             val dir = (sample - attackerEyePosition).normalize()
 
-            if(RayTrace.trace(attacker, dir, attackReach, blockReach, world) == target)
+            if(RayTrace.trace(attacker, dir, limiter.maxReach, blockReach, world) == target)
                 return true
         }
 
@@ -89,6 +89,6 @@ class Killaura(
         if(!toggled) return
 
         entityTracker.render()
-        attackRangeLimiter.render()
+        limiter.render()
     }
 }

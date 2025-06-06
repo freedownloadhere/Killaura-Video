@@ -41,12 +41,19 @@ class UIButton
         if(button == 0 && clickCooldown == 0L) {
             clickAction()
             clickCooldown = GlobalManager.core!!.config.buttonClickCooldown
+            baseColor = UIColorEnum.NEUTRAL_DARK
         }
     }
 
-    override fun onHoverStart() { baseColor = UIColorEnum.NEUTRAL_LIGHT }
+    override fun onHoverStart() {
+        if(clickCooldown == 0L)
+            baseColor = UIColorEnum.NEUTRAL_LIGHT
+    }
 
-    override fun onHoverStop() { baseColor = UIColorEnum.NEUTRAL }
+    override fun onHoverStop() {
+        if(clickCooldown == 0L)
+            baseColor = UIColorEnum.NEUTRAL
+    }
 
     override fun applyLayoutPost() = uiCenterBoxLayout()
 

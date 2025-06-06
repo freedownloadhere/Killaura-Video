@@ -12,8 +12,8 @@ import kotlin.math.atan2
 
 class AttackRangeLimiter(
     private val attacker: EntityPlayerSP,
-    private var maxReach: Double = 3.0,
-    private var maxFov: Float = 30.0f
+    var maxReach: Double = 3.0,
+    var maxFov: Float = 30.0f
 ) : IRenderable {
     fun isInRange(target: Entity): Boolean {
         return reachCheck(target) && fovCheck(target)
