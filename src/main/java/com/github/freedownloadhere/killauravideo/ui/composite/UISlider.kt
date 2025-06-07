@@ -36,7 +36,7 @@ class UISlider
     var segmented: Boolean = true
     var segmentCount: Int = 5
 
-    override fun onClickHold(button: Int, mouseRelX: Double, mouseRelY: Double) {
+    override fun clickHoldCallback(button: Int, mouseRelX: Double, mouseRelY: Double) {
         LogManager.getLogger().info("$mouseRelX : $position")
         position = mouseRelX / width
         if(segmented) {
@@ -48,7 +48,7 @@ class UISlider
 
     override var hidden: Boolean = false
     override var baseColor: UIColorEnum = UIColorEnum.NEUTRAL_LIGHT
-    override fun draw() {
+    override fun renderCallback() {
         val tess = Tessellator.getInstance()
         val wr = tess.worldRenderer
         val lineWidth = GL11.glGetFloat(GL11.GL_LINE_WIDTH)
@@ -71,7 +71,7 @@ class UISlider
         GL11.glLineWidth(lineWidth)
     }
 
-    override fun applyLayoutPost() {
+    override fun layoutPostCallback() {
         width = max(width, 2.0 * padding)
         height = max(height, 2.0 * padding)
     }

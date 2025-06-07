@@ -11,11 +11,8 @@ import com.github.freedownloadhere.killauravideo.ui.dsl.*
 import com.github.freedownloadhere.killauravideo.ui.interfaces.layout.ILayout
 import com.github.freedownloadhere.killauravideo.ui.util.Config
 import com.github.freedownloadhere.killauravideo.ui.util.TimeUtil
-import com.github.freedownloadhere.killauravideo.ui.util.round
-import com.github.freedownloadhere.killauravideo.utils.Chat
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiScreen
-import java.time.Instant
 
 class Core: GuiScreen() {
     init {
@@ -39,33 +36,58 @@ class Core: GuiScreen() {
 
             + centerBox {
                 child = text("Killaura")
+                width = 200.0
             }
 
             + verticalBox {
-                spacing = 10.0
-                + button {
-                    text.source = { "Toggle" }
-                    clickAction = { ka.toggle() }
+                padding = 0.0
+                hidden = true
+
+                + horizontalBox {
+                    placeLeft()
+                    + text("Toggled")
+                    placeRight()
+                    + checkbox {
+                        checked = ka.toggled
+                        onCheck = { ka.toggle() }
+                    }
                 }
 
-                + text { source = { "Reach: ${ka.limiter.maxReach}" } }
-                + slider {
-                    minValue = 3.0
-                    maxValue = 6.0
-                    segmented = true
-                    segmentCount = 6
-                    selectedValue = ka.limiter.maxReach
-                    clickAction = { ka.limiter.maxReach = selectedValue }
-                }
+                + verticalBox {
+                    padding = 0.0
+                    spacing = 5.0
 
-                + text { source = { "FOV: ${ka.limiter.maxFov}" } }
-                + slider {
-                    minValue = 30.0
-                    maxValue = 180.0
-                    segmented = true
-                    segmentCount = 15
-                    selectedValue = ka.limiter.maxFov.toDouble()
-                    clickAction = { ka.limiter.maxFov = selectedValue.toFloat() }
+                    val minReach = 3.0
+                    val maxReach = 6.0
+
+                    + horizontalBox {
+                        hidden = true
+                        placeLeft()
+                        + text("Reach")
+                        placeRight()
+                        + text { source = { ka.limiter.maxReach.toString() } }
+                    }
+                    + horizontalBox {
+                        hidden = true
+                        placeLeft()
+                        + text {
+                            source = { minReach.toString() }
+                            scale = UIText.Scale.SMALL
+                        }
+                        placeRight()
+                        + text {
+                            source = { maxReach.toString() }
+                            scale = UIText.Scale.SMALL
+                        }
+                    }
+                    + slider {
+                        minValue = minReach
+                        maxValue = maxReach
+                        segmented = true
+                        segmentCount = 6
+                        selectedValue = ka.limiter.maxReach
+                        clickAction = { ka.limiter.maxReach = selectedValue }
+                    }
                 }
             }
         }

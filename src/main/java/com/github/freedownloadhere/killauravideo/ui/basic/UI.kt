@@ -19,7 +19,7 @@ abstract class UI {
         if(!toggled) return
         Renderer.renderIterator.dfs(this) {
             if(this is IDrawable && !hidden)
-                draw()
+                renderCallback()
         }
     }
 

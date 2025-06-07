@@ -32,15 +32,15 @@ class InteractionManager(private val mouseInfo: MouseInfo, private val topUI: UI
 
     fun handleKeyTyped(typedChar : Char, keyCode : Int) {
         if(focused != null && focused is ITypable)
-            (focused as ITypable).onKeyTyped(typedChar, keyCode)
+            (focused as ITypable).keyTypedCallback(typedChar, keyCode)
     }
 
     private fun onHover() {
         if(lastMouseOn != hovered) {
             if(hovered != null && hovered is IHoverable)
-                (hovered as IHoverable).onHoverStop()
+                (hovered as IHoverable).hoverStopCallback()
             if(lastMouseOn != null && lastMouseOn is IHoverable)
-                (lastMouseOn as IHoverable).onHoverStart()
+                (lastMouseOn as IHoverable).hoverStartCallback()
             hovered = lastMouseOn
         }
     }
@@ -50,7 +50,7 @@ class InteractionManager(private val mouseInfo: MouseInfo, private val topUI: UI
         focused = lastMouseOn
         if(focused == null) return
         if(focused is IClickable)
-            (focused as IClickable).onClick(
+            (focused as IClickable).clickCallback(
                 mouseInfo.buttonmask,
                 mouseInfo.lastX.toDouble() - lastMouseUIAbsX,
                 mouseInfo.lastY.toDouble() - lastMouseUIAbsY
@@ -63,7 +63,7 @@ class InteractionManager(private val mouseInfo: MouseInfo, private val topUI: UI
         if(!mouseInfo.isHeldDown) return
         if(focused != lastMouseOn) return
         if(focused is IClickHoldable)
-            (focused as IClickHoldable).onClickHold(
+            (focused as IClickHoldable).clickHoldCallback(
                 mouseInfo.buttonmask,
                 mouseInfo.lastX.toDouble() - lastMouseUIAbsX,
                 mouseInfo.lastY.toDouble() - lastMouseUIAbsY
@@ -74,7 +74,7 @@ class InteractionManager(private val mouseInfo: MouseInfo, private val topUI: UI
         if(mouseInfo.lastDwheel != 0) {
             val d = mouseInfo.lastDwheel / mouseInfo.scrollSens
             if(focused != null && focused is IScrollable)
-                (focused as IScrollable).onScroll(d)
+                (focused as IScrollable).scrollCallback(d)
         }
     }
 

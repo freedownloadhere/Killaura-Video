@@ -3,6 +3,7 @@ package com.github.freedownloadhere.killauravideo.ui.dsl
 import com.github.freedownloadhere.killauravideo.ui.basic.UI
 import com.github.freedownloadhere.killauravideo.ui.basic.UIText
 import com.github.freedownloadhere.killauravideo.ui.composite.UIButton
+import com.github.freedownloadhere.killauravideo.ui.composite.UICheckbox
 import com.github.freedownloadhere.killauravideo.ui.composite.UISlider
 import com.github.freedownloadhere.killauravideo.ui.containers.UICenteredBox
 import com.github.freedownloadhere.killauravideo.ui.containers.UIHorizontalBox
@@ -19,6 +20,8 @@ fun text(defaultText: String = "Text", init: UIText.() -> Unit = {}) = newUI(UIT
 fun button(init: UIButton.() -> Unit = {}) = newUI(UIButton(), init)
 
 fun slider(init: UISlider.() -> Unit = {}) = newUI(UISlider(), init)
+
+fun checkbox(init: UICheckbox.() -> Unit = {}) = newUI(UICheckbox(), init)
 
 private fun <T: UI> newUI(ui: T, init: T.() -> Unit): T {
     ui.init()

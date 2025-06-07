@@ -27,7 +27,7 @@ class UIButton
     override var hidden: Boolean = false
     override val child: UI = UIText()
 
-    var clickAction: () -> Unit = { }
+    var onClick: () -> Unit = { }
 
     val text: UIText
         get() = child as UIText
@@ -37,25 +37,25 @@ class UIButton
         super.update(deltaTime)
     }
 
-    override fun onClick(button: Int, mouseRelX: Double, mouseRelY: Double) {
+    override fun clickCallback(button: Int, mouseRelX: Double, mouseRelY: Double) {
         if(button == 0 && clickCooldown == 0L) {
-            clickAction()
+            onClick()
             clickCooldown = GlobalManager.core!!.config.buttonClickCooldown
             baseColor = UIColorEnum.NEUTRAL_DARK
         }
     }
 
-    override fun onHoverStart() {
+    override fun hoverStartCallback() {
         if(clickCooldown == 0L)
             baseColor = UIColorEnum.NEUTRAL_LIGHT
     }
 
-    override fun onHoverStop() {
+    override fun hoverStopCallback() {
         if(clickCooldown == 0L)
             baseColor = UIColorEnum.NEUTRAL
     }
 
-    override fun applyLayoutPost() = uiCenterBoxLayout()
+    override fun layoutPostCallback() = uiCenterBoxLayout()
 
-    override fun draw() = uiBasicDraw()
+    override fun renderCallback() = uiBasicDraw()
 }

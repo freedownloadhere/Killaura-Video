@@ -28,7 +28,7 @@ class UIText(
     override var hidden: Boolean = false
     override var baseColor: UIColorEnum = UIColorEnum.WHITE
 
-    override fun draw() {
+    override fun renderCallback() {
         if (text.isEmpty()) return
         GlobalManager.core!!.renderer.withTextState {
             val fr = Minecraft.getMinecraft().fontRendererObj
@@ -39,7 +39,7 @@ class UIText(
         }
     }
 
-    override fun applyLayoutPost() {
+    override fun layoutPostCallback() {
         val fr = Minecraft.getMinecraft().fontRendererObj
         width = scale.numeric * fr.getStringWidth(text).toDouble()
         height = scale.numeric * fr.FONT_HEIGHT.toDouble()

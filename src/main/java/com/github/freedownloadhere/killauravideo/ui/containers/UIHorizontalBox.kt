@@ -32,7 +32,7 @@ class UIHorizontalBox: UIBox(), IParentExtendable
         }
     }
 
-    override fun applyLayoutPost() {
+    override fun layoutPostCallback() {
         stretchSelf()
         var leftX = padding
         var rightX = width - padding

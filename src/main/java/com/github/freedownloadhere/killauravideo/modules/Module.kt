@@ -7,7 +7,8 @@ abstract class Module(
     val name: String
 ) : IInitializable, IDestructible
 {
-    protected var toggled = false
+    var toggled = false
+        protected set
 
     fun isEnabled() = toggled
     fun toggle() { toggled = !toggled }

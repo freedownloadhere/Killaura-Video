@@ -26,7 +26,7 @@ class UIVerticalBox: UIBox(), IParentExtendable
         }
     }
 
-    override fun applyLayoutPost() {
+    override fun layoutPostCallback() {
         stretchSelf()
         var topY = padding
         var bottomY = height - padding

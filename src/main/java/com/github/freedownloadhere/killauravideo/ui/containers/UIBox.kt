@@ -17,15 +17,12 @@ abstract class UIBox
     IParent,
     IDrawable,
     IMovable,
-    IPadded,
-    IHoverable
+    IPadded
 {
     override var padding: Double = GlobalManager.core!!.config.padding
     override var canBeMoved: Boolean = false
     override var hidden: Boolean = false
     override var baseColor: UIColorEnum = UIColorEnum.NEUTRAL
 
-    override fun draw() = uiBasicDraw()
-    override fun onHoverStart() { baseColor = UIColorEnum.NEUTRAL_LIGHT }
-    override fun onHoverStop() { baseColor = UIColorEnum.NEUTRAL }
+    override fun renderCallback() = uiBasicDraw()
 }

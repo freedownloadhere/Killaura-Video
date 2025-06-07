@@ -5,5 +5,5 @@ import com.github.freedownloadhere.killauravideo.utils.UIColorEnum
 interface IDrawable {
     var hidden: Boolean
     var baseColor: UIColorEnum
-    fun draw()
+    fun renderCallback()
 }

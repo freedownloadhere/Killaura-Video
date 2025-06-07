@@ -15,7 +15,7 @@ class UIFreeBox: UIBox(), IParentExtendable
         childrenList += ui
     }
 
-    override fun applyLayoutPost() {
+    override fun layoutPostCallback() {
 
     }
 }

@@ -11,6 +11,7 @@ import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.client.renderer.Tessellator
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
 import org.lwjgl.opengl.GL11
+import org.lwjgl.opengl.GL45
 
 class Renderer(
     private val config: Config,
@@ -100,7 +101,7 @@ class Renderer(
         GlStateManager.disableTexture2D()
     }
 
-    private fun drawRect(col: UIColorEnum, filled: Boolean) {
+     fun drawRect(col: UIColorEnum, filled: Boolean) {
         val worldRenderer = Tessellator.getInstance().worldRenderer
         val type = if(filled) GL11.GL_QUADS else GL11.GL_LINE_LOOP
         worldRenderer.begin(type, DefaultVertexFormats.POSITION_COLOR)

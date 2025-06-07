@@ -14,5 +14,5 @@ class UICenteredBox
 {
     override lateinit var child: UI
 
-    override fun applyLayoutPost() = uiCenterBoxLayout()
+    override fun layoutPostCallback() = uiCenterBoxLayout()
 }
