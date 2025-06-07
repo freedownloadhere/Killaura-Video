@@ -12,30 +12,31 @@ abstract class UI {
     internal var width = 0.0
     internal var height = 0.0
 
-    var toggled = true
-        set(value) { changeToggleState(value) }
+    var active = true
+        set(value) { changeActiveState(value) }
 
-    fun renderRecursive() {
-        if(!toggled) return
+    open fun update(deltaTime: Long) { }
+
+    fun toggleActive() = changeActiveState(!active)
+    fun enable() = changeActiveState(true)
+    fun disable() = changeActiveState(false)
+
+    fun renderRecursive(renderer: Renderer) {
+        if(!active) return
         Renderer.renderIterator.dfs(this) {
             if(this is IDrawable && !hidden)
-                renderCallback()
+                renderCallback(renderer)
         }
     }
 
     fun updateRecursive(deltaTime: Long) {
-        if(!toggled) return
+        if(!active) return
         RecursiveIterator.basic.dfs(this) {
             update(deltaTime)
         }
     }
 
-    open fun update(deltaTime: Long) { }
-
-    open fun toggle() = changeToggleState(!toggled)
-    open fun enable() = changeToggleState(true)
-    open fun disable() = changeToggleState(false)
-    private fun changeToggleState(state: Boolean) = RecursiveIterator.basic.dfs(this) {
-        toggled = state
+    private fun changeActiveState(state: Boolean) = RecursiveIterator.basic.dfs(this) {
+        active = state
     }
 }

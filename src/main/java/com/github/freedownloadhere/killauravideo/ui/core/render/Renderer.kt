@@ -26,6 +26,8 @@ class Renderer(
     }
 
     val scissorStack = RenderScissorStack()
+    val baseRectangleColor = UIColorEnum.NEUTRAL
+    val baseTextColor = UIColorEnum.WHITE
 
     fun drawBasicBG(gui: UI, baseColor: UIColorEnum) {
         drawBG(gui, baseColor)

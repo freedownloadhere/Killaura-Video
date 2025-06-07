@@ -13,7 +13,7 @@ fun verticalBox(init: UIVerticalBox.() -> Unit = {}) = newUI(UIVerticalBox(), in
 
 fun horizontalBox(init: UIHorizontalBox.() -> Unit = {}) = newUI(UIHorizontalBox(), init)
 
-fun centerBox(init: UICenteredBox.() -> Unit = {}) = newUI(UICenteredBox(), init)
+fun centerBox(init: UICenteredBox<UI>.() -> Unit = {}) = newUI(UICenteredBox(), init)
 
 fun text(defaultText: String = "Text", init: UIText.() -> Unit = {}) = newUI(UIText(defaultText), init)
 

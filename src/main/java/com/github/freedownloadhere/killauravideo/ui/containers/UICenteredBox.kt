@@ -7,12 +7,9 @@ import com.github.freedownloadhere.killauravideo.ui.interfaces.layout.ILayoutPos
 import com.github.freedownloadhere.killauravideo.ui.interfaces.parents.IUniqueParent
 import com.github.freedownloadhere.killauravideo.utils.UIColorEnum
 
-class UICenteredBox
-    : UIBox(),
-    IUniqueParent,
-    ILayoutPost
+open class UICenteredBox<T>: UIBox(), IUniqueParent<T>, ILayoutPost where T: UI
 {
-    override lateinit var child: UI
+    override lateinit var child: T
 
     override fun layoutPostCallback() = uiCenterBoxLayout()
 }

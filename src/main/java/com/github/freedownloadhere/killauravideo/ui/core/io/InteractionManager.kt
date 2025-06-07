@@ -89,7 +89,7 @@ class InteractionManager(private val mouseInfo: MouseInfo, private val topUI: UI
     }
 
     private fun UI.findMouseOn(absX: Double, absY: Double): Triple<UI, Double, Double>? {
-        if(!toggled)
+        if(!active)
             return null
 
         if(this is IParent)

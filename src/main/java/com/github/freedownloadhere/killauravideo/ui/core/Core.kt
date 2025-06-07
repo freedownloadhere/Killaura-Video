@@ -105,7 +105,7 @@ class Core: GuiScreen() {
             if(topLevelUI is ILayout)
                 (topLevelUI as ILayout).applyLayout()
             topLevelUI.updateRecursive(deltaTime)
-            topLevelUI.renderRecursive()
+            topLevelUI.renderRecursive(renderer)
         }
     }
 

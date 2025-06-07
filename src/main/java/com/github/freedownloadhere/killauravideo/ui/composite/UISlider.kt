@@ -2,6 +2,7 @@ package com.github.freedownloadhere.killauravideo.ui.composite
 
 import com.github.freedownloadhere.killauravideo.GlobalManager
 import com.github.freedownloadhere.killauravideo.ui.basic.UI
+import com.github.freedownloadhere.killauravideo.ui.core.render.Renderer
 import com.github.freedownloadhere.killauravideo.ui.interfaces.io.IClickHoldable
 import com.github.freedownloadhere.killauravideo.ui.interfaces.layout.ILayoutPost
 import com.github.freedownloadhere.killauravideo.ui.interfaces.layout.IPadded
@@ -47,26 +48,26 @@ class UISlider
     }
 
     override var hidden: Boolean = false
-    override var baseColor: UIColorEnum = UIColorEnum.NEUTRAL_LIGHT
-    override fun renderCallback() {
+    override fun renderCallback(renderer: Renderer) {
         val tess = Tessellator.getInstance()
         val wr = tess.worldRenderer
         val lineWidth = GL11.glGetFloat(GL11.GL_LINE_WIDTH)
+        val col = UIColorEnum.NEUTRAL_LIGHT
         GL11.glLineWidth(2.0f)
         wr.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION_COLOR)
-        wr.pos(0.0, 0.5 * height - 1.0, 0.0).color(baseColor.r, baseColor.g, baseColor.b, baseColor.a).endVertex()
-        wr.pos(width, 0.5 * height - 1.0, 0.0).color(baseColor.r, baseColor.g, baseColor.b, baseColor.a).endVertex()
+        wr.pos(0.0, 0.5 * height - 1.0, 0.0).color(col.r, col.g, col.b, col.a).endVertex()
+        wr.pos(width, 0.5 * height - 1.0, 0.0).color(col.r, col.g, col.b, col.a).endVertex()
         tess.draw()
         for(i in 0..segmentCount) {
             wr.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION_COLOR)
-            wr.pos((width * i) / segmentCount, height * 0.25, 0.0).color(baseColor.r, baseColor.g, baseColor.b, baseColor.a).endVertex()
-            wr.pos((width * i) / segmentCount, height * 0.75, 0.0).color(baseColor.r, baseColor.g, baseColor.b, baseColor.a).endVertex()
+            wr.pos((width * i) / segmentCount, height * 0.25, 0.0).color(col.r, col.g, col.b, col.a).endVertex()
+            wr.pos((width * i) / segmentCount, height * 0.75, 0.0).color(col.r, col.g, col.b, col.a).endVertex()
             tess.draw()
         }
         GL11.glLineWidth(4.0f)
         wr.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION_COLOR)
-        wr.pos(width * position, 0.0, 0.0).color(baseColor.r, baseColor.g, baseColor.b, baseColor.a).endVertex()
-        wr.pos(width * position, height, 0.0).color(baseColor.r, baseColor.g, baseColor.b, baseColor.a).endVertex()
+        wr.pos(width * position, 0.0, 0.0).color(col.r, col.g, col.b, col.a).endVertex()
+        wr.pos(width * position, height, 0.0).color(col.r, col.g, col.b, col.a).endVertex()
         tess.draw()
         GL11.glLineWidth(lineWidth)
     }
