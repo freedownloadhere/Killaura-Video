@@ -4,6 +4,7 @@ import com.github.freedownloadhere.killauravideo.GlobalManager
 import com.github.freedownloadhere.killauravideo.ui.core.render.Renderer
 import com.github.freedownloadhere.killauravideo.ui.interfaces.layout.ILayoutPost
 import com.github.freedownloadhere.killauravideo.ui.interfaces.render.IDrawable
+import com.github.freedownloadhere.killauravideo.ui.util.UIColorEnum
 import com.github.freedownloadhere.killauravideo.ui.util.UIConfig
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.GlStateManager
@@ -23,6 +24,7 @@ class UIText(config: UIConfig, default: String = "Text"): UI(config), IDrawable,
         get() = source()
 
     override var hidden: Boolean = false
+    var baseColor: UIColorEnum = UIColorEnum.TEXT_PRIMARY
 
     override fun renderCallback(renderer: Renderer) {
         if (text.isEmpty()) return
@@ -30,7 +32,7 @@ class UIText(config: UIConfig, default: String = "Text"): UI(config), IDrawable,
             val fr = Minecraft.getMinecraft().fontRendererObj
             GlStateManager.pushMatrix()
             GlStateManager.scale(scale.numeric, scale.numeric, 1.0)
-            fr.drawStringWithShadow(text, 0.0f, 0.0f, renderer.baseTextColor.toPackedARGB())
+            fr.drawStringWithShadow(text, 0.0f, 0.0f, baseColor.toPackedARGB())
             GlStateManager.popMatrix()
         }
     }

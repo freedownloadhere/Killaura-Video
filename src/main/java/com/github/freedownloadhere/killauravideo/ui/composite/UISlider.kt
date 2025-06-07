@@ -7,7 +7,7 @@ import com.github.freedownloadhere.killauravideo.ui.interfaces.layout.ILayoutPos
 import com.github.freedownloadhere.killauravideo.ui.interfaces.layout.IPadded
 import com.github.freedownloadhere.killauravideo.ui.interfaces.render.IDrawable
 import com.github.freedownloadhere.killauravideo.ui.util.UIConfig
-import com.github.freedownloadhere.killauravideo.utils.UIColorEnum
+import com.github.freedownloadhere.killauravideo.ui.util.UIColorEnum
 import net.minecraft.client.renderer.Tessellator
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
 import org.apache.logging.log4j.LogManager
@@ -47,22 +47,23 @@ class UISlider(config: UIConfig): UI(config), IPadded, IClickHoldable, IDrawable
         val tess = Tessellator.getInstance()
         val wr = tess.worldRenderer
         val lineWidth = GL11.glGetFloat(GL11.GL_LINE_WIDTH)
-        val col = UIColorEnum.NEUTRAL_LIGHT
+        val sliderCol = UIColorEnum.ACCENT
+        val barCol = UIColorEnum.TEXT_SECONDARY
         GL11.glLineWidth(2.0f)
         wr.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION_COLOR)
-        wr.pos(0.0, 0.5 * height - 1.0, 0.0).color(col.r, col.g, col.b, col.a).endVertex()
-        wr.pos(width, 0.5 * height - 1.0, 0.0).color(col.r, col.g, col.b, col.a).endVertex()
+        wr.pos(0.0, 0.5 * height - 1.0, 0.0).color(barCol.r, barCol.g, barCol.b, barCol.a).endVertex()
+        wr.pos(width, 0.5 * height - 1.0, 0.0).color(barCol.r, barCol.g, barCol.b, barCol.a).endVertex()
         tess.draw()
         for(i in 0..segmentCount) {
             wr.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION_COLOR)
-            wr.pos((width * i) / segmentCount, height * 0.25, 0.0).color(col.r, col.g, col.b, col.a).endVertex()
-            wr.pos((width * i) / segmentCount, height * 0.75, 0.0).color(col.r, col.g, col.b, col.a).endVertex()
+            wr.pos((width * i) / segmentCount, height * 0.25, 0.0).color(barCol.r, barCol.g, barCol.b, barCol.a).endVertex()
+            wr.pos((width * i) / segmentCount, height * 0.75, 0.0).color(barCol.r, barCol.g, barCol.b, barCol.a).endVertex()
             tess.draw()
         }
         GL11.glLineWidth(4.0f)
         wr.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION_COLOR)
-        wr.pos(width * position, 0.0, 0.0).color(col.r, col.g, col.b, col.a).endVertex()
-        wr.pos(width * position, height, 0.0).color(col.r, col.g, col.b, col.a).endVertex()
+        wr.pos(width * position, 0.0, 0.0).color(sliderCol.r, sliderCol.g, sliderCol.b, sliderCol.a).endVertex()
+        wr.pos(width * position, height, 0.0).color(sliderCol.r, sliderCol.g, sliderCol.b, sliderCol.a).endVertex()
         tess.draw()
         GL11.glLineWidth(lineWidth)
     }

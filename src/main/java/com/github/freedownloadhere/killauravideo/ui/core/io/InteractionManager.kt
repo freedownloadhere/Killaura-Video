@@ -7,7 +7,8 @@ import com.github.freedownloadhere.killauravideo.ui.interfaces.parents.IParent
 class InteractionManager(private val mouseInfo: MouseInfo, private val topUI: UI) {
     var focused: UI? = null
         private set
-    private var hovered: UI? = null
+    var hovered: UI? = null
+        private set
     private var lastMouseOn: UI? = null
     private var lastMouseUIAbsX: Double = 0.0
     private var lastMouseUIAbsY: Double = 0.0

@@ -3,18 +3,17 @@ package com.github.freedownloadhere.killauravideo.ui.composite
 import com.github.freedownloadhere.killauravideo.ui.basic.UI
 import com.github.freedownloadhere.killauravideo.ui.basic.UIText
 import com.github.freedownloadhere.killauravideo.ui.core.render.Renderer
-import com.github.freedownloadhere.killauravideo.ui.implementations.uiBasicDraw
+import com.github.freedownloadhere.killauravideo.ui.implementations.uiBoxDraw
 import com.github.freedownloadhere.killauravideo.ui.implementations.uiCenterBoxLayout
 import com.github.freedownloadhere.killauravideo.ui.interfaces.io.IClickable
-import com.github.freedownloadhere.killauravideo.ui.interfaces.io.IHoverable
 import com.github.freedownloadhere.killauravideo.ui.interfaces.layout.ILayoutPost
 import com.github.freedownloadhere.killauravideo.ui.interfaces.parents.IUniqueParent
 import com.github.freedownloadhere.killauravideo.ui.interfaces.render.IDrawable
 import com.github.freedownloadhere.killauravideo.ui.util.UIConfig
-import com.github.freedownloadhere.killauravideo.utils.UIColorEnum
+import com.github.freedownloadhere.killauravideo.ui.util.UIColorEnum
 import kotlin.math.max
 
-class UIButton(config: UIConfig) : UI(config), IUniqueParent<UIText>, ILayoutPost, IClickable, IHoverable, IDrawable
+class UIButton(config: UIConfig): UI(config), IUniqueParent<UIText>, ILayoutPost, IClickable, IDrawable
 {
     private val cooldown = config.buttonClickCooldown
     private var cooldownLeft: Long  = 0L
@@ -23,10 +22,11 @@ class UIButton(config: UIConfig) : UI(config), IUniqueParent<UIText>, ILayoutPos
     var onClick: () -> Unit = { }
     val text: UIText
         get() = child
-    var color: UIColorEnum = UIColorEnum.NEUTRAL
+    private var color: UIColorEnum = UIColorEnum.BOX_SECONDARY
 
     override fun update(deltaTime: Long) {
         cooldownLeft = max(0L, cooldownLeft - deltaTime)
+        if(cooldownLeft == 0L) color = UIColorEnum.BOX_SECONDARY
         super.update(deltaTime)
     }
 
@@ -34,21 +34,11 @@ class UIButton(config: UIConfig) : UI(config), IUniqueParent<UIText>, ILayoutPos
         if(button == 0 && cooldownLeft == 0L) {
             onClick()
             cooldownLeft = cooldown
-            color = UIColorEnum.NEUTRAL_DARK
+            color = UIColorEnum.BOX_TERNARY
         }
-    }
-
-    override fun hoverStartCallback() {
-        if(cooldownLeft == 0L)
-            color = UIColorEnum.NEUTRAL_LIGHT
-    }
-
-    override fun hoverStopCallback() {
-        if(cooldownLeft == 0L)
-            color = UIColorEnum.NEUTRAL
     }
 
     override fun layoutPostCallback() = uiCenterBoxLayout()
 
-    override fun renderCallback(renderer: Renderer) = uiBasicDraw(renderer)
+    override fun renderCallback(renderer: Renderer) = uiBoxDraw(renderer, color)
 }

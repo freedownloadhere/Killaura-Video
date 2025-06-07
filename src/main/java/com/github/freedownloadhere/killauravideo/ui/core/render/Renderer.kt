@@ -5,7 +5,7 @@ import com.github.freedownloadhere.killauravideo.ui.basic.UI
 import com.github.freedownloadhere.killauravideo.ui.core.io.InteractionManager
 import com.github.freedownloadhere.killauravideo.ui.util.RecursiveIterator
 import com.github.freedownloadhere.killauravideo.ui.util.UIConfig
-import com.github.freedownloadhere.killauravideo.utils.UIColorEnum
+import com.github.freedownloadhere.killauravideo.ui.util.UIColorEnum
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.client.renderer.Tessellator
@@ -15,7 +15,7 @@ import org.lwjgl.opengl.GL11
 
 class Renderer(
     private val config: UIConfig,
-    private val interactionManager: InteractionManager
+    val interactionManager: InteractionManager
 )
 {
     companion object {
@@ -26,11 +26,9 @@ class Renderer(
     }
 
     val scissorStack = RenderScissorStack()
-    val baseRectangleColor = UIColorEnum.NEUTRAL
-    val baseTextColor = UIColorEnum.WHITE
 
-    fun drawBasicBG(gui: UI, baseColor: UIColorEnum) {
-        drawBG(gui, baseColor)
+    fun drawBasicBG(gui: UI, color: UIColorEnum) {
+        drawBG(gui, color)
         if(gui == interactionManager.focused)
             drawHL(gui)
         else
@@ -40,10 +38,10 @@ class Renderer(
     private fun drawHL(ui: UI) {
         GlStateManager.pushMatrix()
         GlStateManager.translate(0.0, 0.0, 0.1)
-        drawUIrect(ui, UIColorEnum.PRIMARY, filled = false)
+        drawUIrect(ui, UIColorEnum.ACCENT, filled = false)
         GlStateManager.popMatrix()
     }
-    private fun drawBorder(ui: UI) = drawUIrect(ui, UIColorEnum.NEUTRAL_LIGHT, filled = false)
+    private fun drawBorder(ui: UI) = drawUIrect(ui, UIColorEnum.BOX_SECONDARY, filled = false)
     private fun drawBG(ui: UI, col: UIColorEnum) = drawUIrect(ui, col, filled = true)
 
     private fun drawUIrect(ui: UI, col: UIColorEnum, filled: Boolean) {
@@ -68,7 +66,7 @@ class Renderer(
         GlStateManager.disableLighting()
 
         val oldLineWidth = GL11.glGetFloat(GL11.GL_LINE_WIDTH)
-        GL11.glLineWidth(1.0f)
+        GL11.glLineWidth(config.borderThickness)
 
 //        scissorStack.enable()
 

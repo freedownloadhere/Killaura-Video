@@ -11,6 +11,7 @@ import com.github.freedownloadhere.killauravideo.ui.core.render.Renderer
 import com.github.freedownloadhere.killauravideo.ui.dsl.*
 import com.github.freedownloadhere.killauravideo.ui.interfaces.layout.ILayout
 import com.github.freedownloadhere.killauravideo.ui.util.TimeUtil
+import com.github.freedownloadhere.killauravideo.ui.util.UIColorEnum
 import com.github.freedownloadhere.killauravideo.ui.util.UIConfig
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiScreen
@@ -58,13 +59,13 @@ class Core: GuiScreen() {
                 }
 
                 + verticalBox {
-                    padding = 0.0
                     spacing = 5.0
 
                     val minReach = 3.0
                     val maxReach = 6.0
 
                     + horizontalBox {
+                        padding = 0.0
                         hidden = true
                         placeLeft()
                         + text("Reach")
@@ -72,16 +73,19 @@ class Core: GuiScreen() {
                         + text { source = { ka.limiter.maxReach.toString() } }
                     }
                     + horizontalBox {
+                        padding = 0.0
                         hidden = true
                         placeLeft()
                         + text {
                             source = { minReach.toString() }
                             scale = UIText.Scale.SMALL
+                            baseColor = UIColorEnum.TEXT_SECONDARY
                         }
                         placeRight()
                         + text {
                             source = { maxReach.toString() }
                             scale = UIText.Scale.SMALL
+                            baseColor = UIColorEnum.TEXT_SECONDARY
                         }
                     }
                     + slider {
