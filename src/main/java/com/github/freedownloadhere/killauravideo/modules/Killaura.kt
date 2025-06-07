@@ -3,7 +3,9 @@ package com.github.freedownloadhere.killauravideo.modules
 import com.github.freedownloadhere.killauravideo.interfaces.IRenderable
 import com.github.freedownloadhere.killauravideo.rendering.ColorEnum
 import com.github.freedownloadhere.killauravideo.rendering.EntityTracker
-import com.github.freedownloadhere.killauravideo.utils.*
+import com.github.freedownloadhere.killauravideo.utils.AttackRangeLimiter
+import com.github.freedownloadhere.killauravideo.utils.EntityPositions
+import com.github.freedownloadhere.killauravideo.utils.RayTrace
 import com.github.freedownloadhere.killauravideo.utils.extensions.minus
 import com.github.freedownloadhere.killauravideo.utils.timer.TimerManager
 import net.minecraft.client.entity.EntityPlayerSP

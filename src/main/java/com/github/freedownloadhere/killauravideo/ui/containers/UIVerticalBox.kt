@@ -2,9 +2,10 @@ package com.github.freedownloadhere.killauravideo.ui.containers
 
 import com.github.freedownloadhere.killauravideo.ui.basic.UI
 import com.github.freedownloadhere.killauravideo.ui.interfaces.parents.IParentExtendable
+import com.github.freedownloadhere.killauravideo.ui.util.UIConfig
 import kotlin.math.max
 
-class UIVerticalBox: UIBox(), IParentExtendable
+class UIVerticalBox(config: UIConfig) : UIBox(config), IParentExtendable
 {
     enum class Placement { TOP, BOTTOM }
     private var placementState = Placement.TOP

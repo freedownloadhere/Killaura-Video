@@ -1,12 +1,12 @@
 package com.github.freedownloadhere.killauravideo.ui.composite
 
-import com.github.freedownloadhere.killauravideo.GlobalManager
 import com.github.freedownloadhere.killauravideo.ui.basic.UI
 import com.github.freedownloadhere.killauravideo.ui.core.render.Renderer
 import com.github.freedownloadhere.killauravideo.ui.interfaces.io.IClickHoldable
 import com.github.freedownloadhere.killauravideo.ui.interfaces.layout.ILayoutPost
 import com.github.freedownloadhere.killauravideo.ui.interfaces.layout.IPadded
 import com.github.freedownloadhere.killauravideo.ui.interfaces.render.IDrawable
+import com.github.freedownloadhere.killauravideo.ui.util.UIConfig
 import com.github.freedownloadhere.killauravideo.utils.UIColorEnum
 import net.minecraft.client.renderer.Tessellator
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
@@ -15,14 +15,9 @@ import org.lwjgl.opengl.GL11
 import kotlin.math.floor
 import kotlin.math.max
 
-class UISlider
-    : UI(),
-    IPadded,
-    IClickHoldable,
-    IDrawable,
-    ILayoutPost
+class UISlider(config: UIConfig): UI(config), IPadded, IClickHoldable, IDrawable, ILayoutPost
 {
-    override var padding: Double = GlobalManager.core!!.config.padding
+    override var padding: Double = config.padding
 
     var minValue: Double = 0.0
     var maxValue: Double = 1.0

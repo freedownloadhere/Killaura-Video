@@ -2,7 +2,8 @@ package com.github.freedownloadhere.killauravideo
 
 import com.github.freedownloadhere.killauravideo.rendering.RenderUtils
 import com.github.freedownloadhere.killauravideo.ui.core.Core
-import com.github.freedownloadhere.killauravideo.utils.*
+import com.github.freedownloadhere.killauravideo.utils.EntityPositions
+import com.github.freedownloadhere.killauravideo.utils.KeybindMap
 import net.minecraft.client.Minecraft
 import net.minecraft.client.entity.EntityPlayerSP
 import net.minecraft.client.multiplayer.WorldClient

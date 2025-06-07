@@ -3,14 +3,15 @@ package com.github.freedownloadhere.killauravideo.ui.core
 import com.github.freedownloadhere.killauravideo.GlobalManager
 import com.github.freedownloadhere.killauravideo.modules.Killaura
 import com.github.freedownloadhere.killauravideo.ui.basic.UI
+import com.github.freedownloadhere.killauravideo.ui.basic.UIIcon
 import com.github.freedownloadhere.killauravideo.ui.basic.UIText
-import com.github.freedownloadhere.killauravideo.ui.core.io.MouseInfo
 import com.github.freedownloadhere.killauravideo.ui.core.io.InteractionManager
+import com.github.freedownloadhere.killauravideo.ui.core.io.MouseInfo
 import com.github.freedownloadhere.killauravideo.ui.core.render.Renderer
 import com.github.freedownloadhere.killauravideo.ui.dsl.*
 import com.github.freedownloadhere.killauravideo.ui.interfaces.layout.ILayout
-import com.github.freedownloadhere.killauravideo.ui.util.Config
 import com.github.freedownloadhere.killauravideo.ui.util.TimeUtil
+import com.github.freedownloadhere.killauravideo.ui.util.UIConfig
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiScreen
 
@@ -20,7 +21,7 @@ class Core: GuiScreen() {
         height = Minecraft.getMinecraft().displayHeight
     }
 
-    val config = Config(screenWidth = width.toDouble(), screenHeight = height.toDouble())
+    val config = UIConfig(screenWidth = width.toDouble(), screenHeight = height.toDouble())
     private lateinit var topLevelUI: UI
 
     private val mouseInfo = MouseInfo()
@@ -31,6 +32,8 @@ class Core: GuiScreen() {
     private val timeUtil = TimeUtil()
 
     override fun initGui() {
+        UIBuilderGlobals.uiConfig = config
+
         topLevelUI = verticalBox {
             val ka = GlobalManager.clientInstance!!.moduleMap.module("killaura") as Killaura
 
@@ -49,6 +52,7 @@ class Core: GuiScreen() {
                     placeRight()
                     + checkbox {
                         checked = ka.toggled
+                        child.scale = UIIcon.Scale.SMALL
                         onCheck = { ka.toggle() }
                     }
                 }

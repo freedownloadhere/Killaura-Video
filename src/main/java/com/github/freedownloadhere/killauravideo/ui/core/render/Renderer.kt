@@ -1,20 +1,20 @@
 package com.github.freedownloadhere.killauravideo.ui.core.render
 
-import com.github.freedownloadhere.killauravideo.ui.basic.UI
 import com.github.freedownloadhere.killauravideo.mixin.AccessorFontRenderer
-import com.github.freedownloadhere.killauravideo.ui.util.Config
+import com.github.freedownloadhere.killauravideo.ui.basic.UI
 import com.github.freedownloadhere.killauravideo.ui.core.io.InteractionManager
 import com.github.freedownloadhere.killauravideo.ui.util.RecursiveIterator
+import com.github.freedownloadhere.killauravideo.ui.util.UIConfig
 import com.github.freedownloadhere.killauravideo.utils.UIColorEnum
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.client.renderer.Tessellator
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
+import net.minecraft.util.ResourceLocation
 import org.lwjgl.opengl.GL11
-import org.lwjgl.opengl.GL45
 
 class Renderer(
-    private val config: Config,
+    private val config: UIConfig,
     private val interactionManager: InteractionManager
 )
 {
@@ -103,14 +103,34 @@ class Renderer(
         GlStateManager.disableTexture2D()
     }
 
-     fun drawRect(col: UIColorEnum, filled: Boolean) {
+    fun drawRect(col: UIColorEnum, filled: Boolean) {
         val worldRenderer = Tessellator.getInstance().worldRenderer
-        val type = if(filled) GL11.GL_QUADS else GL11.GL_LINE_LOOP
-        worldRenderer.begin(type, DefaultVertexFormats.POSITION_COLOR)
+        val drawType = if(filled) GL11.GL_QUADS else GL11.GL_LINE_LOOP
+        worldRenderer.begin(drawType, DefaultVertexFormats.POSITION_COLOR)
         worldRenderer.pos(0.0, 0.0, 0.0).color(col.r, col.g, col.b, col.a).endVertex()
         worldRenderer.pos(0.0, 1.0, 0.0).color(col.r, col.g, col.b, col.a).endVertex()
         worldRenderer.pos(1.0, 1.0, 0.0).color(col.r, col.g, col.b, col.a).endVertex()
         worldRenderer.pos(1.0, 0.0, 0.0).color(col.r, col.g, col.b, col.a).endVertex()
         Tessellator.getInstance().draw()
+    }
+
+    fun drawRect(tex: ResourceLocation, filled: Boolean) {
+        val wr = Tessellator.getInstance().worldRenderer
+        val drawType = if(filled) GL11.GL_QUADS else GL11.GL_LINE_LOOP
+
+        GlStateManager.enableTexture2D()
+        GlStateManager.enableBlend()
+        GlStateManager.blendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA)
+        Minecraft.getMinecraft().textureManager.bindTexture(tex)
+
+        wr.begin(drawType, DefaultVertexFormats.POSITION_TEX)
+        wr.pos(0.0, 0.0, 0.0).tex(0.0, 0.0).endVertex()
+        wr.pos(0.0, 1.0, 0.0).tex(0.0, 1.0).endVertex()
+        wr.pos(1.0, 1.0, 0.0).tex(1.0, 1.0).endVertex()
+        wr.pos(1.0, 0.0, 0.0).tex(1.0, 0.0).endVertex()
+        Tessellator.getInstance().draw()
+
+        GlStateManager.disableTexture2D()
+        GlStateManager.disableBlend()
     }
 }

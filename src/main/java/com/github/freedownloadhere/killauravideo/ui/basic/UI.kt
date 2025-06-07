@@ -4,9 +4,10 @@ import com.github.freedownloadhere.killauravideo.ui.core.render.Renderer
 import com.github.freedownloadhere.killauravideo.ui.dsl.UIScopeMarker
 import com.github.freedownloadhere.killauravideo.ui.interfaces.render.IDrawable
 import com.github.freedownloadhere.killauravideo.ui.util.RecursiveIterator
+import com.github.freedownloadhere.killauravideo.ui.util.UIConfig
 
 @UIScopeMarker
-abstract class UI {
+abstract class UI(config: UIConfig) {
     internal var relX = 0.0
     internal var relY = 0.0
     internal var width = 0.0

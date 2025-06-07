@@ -4,14 +4,11 @@ import com.github.freedownloadhere.killauravideo.GlobalManager
 import com.github.freedownloadhere.killauravideo.ui.core.render.Renderer
 import com.github.freedownloadhere.killauravideo.ui.interfaces.layout.ILayoutPost
 import com.github.freedownloadhere.killauravideo.ui.interfaces.render.IDrawable
+import com.github.freedownloadhere.killauravideo.ui.util.UIConfig
 import net.minecraft.client.Minecraft
 import net.minecraft.client.renderer.GlStateManager
 
-class UIText(
-    defaultText: String = "Text"
-)   : UI(),
-    IDrawable,
-    ILayoutPost
+class UIText(config: UIConfig, default: String = "Text"): UI(config), IDrawable, ILayoutPost
 {
     enum class Scale(val numeric: Double) {
         SMALL(1.5),
@@ -20,7 +17,7 @@ class UIText(
     }
 
     var scale: Scale = Scale.MEDIUM
-    var source: () -> String = { defaultText }
+    var source: () -> String = { default }
 
     val text: String
         get() = source()
