@@ -3,6 +3,7 @@ package com.github.freedownloadhere.killauravideo.ui.composite
 import com.github.freedownloadhere.killauravideo.ui.basic.UI
 import com.github.freedownloadhere.killauravideo.ui.core.render.Renderer
 import com.github.freedownloadhere.killauravideo.ui.interfaces.io.IClickHoldable
+import com.github.freedownloadhere.killauravideo.ui.interfaces.io.IGrabbable
 import com.github.freedownloadhere.killauravideo.ui.interfaces.layout.ILayoutPost
 import com.github.freedownloadhere.killauravideo.ui.interfaces.layout.IPadded
 import com.github.freedownloadhere.killauravideo.ui.interfaces.render.IDrawable
@@ -15,7 +16,7 @@ import org.lwjgl.opengl.GL11
 import kotlin.math.floor
 import kotlin.math.max
 
-class UISlider(config: UIConfig): UI(config), IPadded, IClickHoldable, IDrawable, ILayoutPost
+class UISlider(config: UIConfig): UI(config), IPadded, IDrawable, ILayoutPost, IGrabbable
 {
     override var padding: Double = config.padding
 
@@ -32,15 +33,15 @@ class UISlider(config: UIConfig): UI(config), IPadded, IClickHoldable, IDrawable
     var segmented: Boolean = true
     var segmentCount: Int = 5
 
-    override fun clickHoldCallback(button: Int, mouseRelX: Double, mouseRelY: Double) {
-        LogManager.getLogger().info("$mouseRelX : $position")
-        position = mouseRelX / width
-        if(segmented) {
-            val segmentLength = 1.0 / segmentCount
-            position = floor(position / segmentLength) * segmentLength
-        }
-        clickAction()
-    }
+    // TODO bring back
+//    override fun clickHoldCallback(button: Int, mouseRelX: Double, mouseRelY: Double) {
+//        position = mouseRelX / width
+//        if(segmented) {
+//            val segmentLength = 1.0 / segmentCount
+//            position = floor(position / segmentLength) * segmentLength
+//        }
+//        clickAction()
+//    }
 
     override var hidden: Boolean = false
     override fun renderCallback(renderer: Renderer) {
@@ -71,5 +72,8 @@ class UISlider(config: UIConfig): UI(config), IPadded, IClickHoldable, IDrawable
     override fun layoutPostCallback() {
         width = max(width, 2.0 * padding)
         height = max(height, 2.0 * padding)
+    }
+
+    override fun grabCallback(mouseRelDX: Double, mouseRelDY: Double) {
     }
 }

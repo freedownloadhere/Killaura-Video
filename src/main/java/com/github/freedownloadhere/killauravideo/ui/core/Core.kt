@@ -7,6 +7,7 @@ import com.github.freedownloadhere.killauravideo.ui.basic.UIIcon
 import com.github.freedownloadhere.killauravideo.ui.basic.UIText
 import com.github.freedownloadhere.killauravideo.ui.core.io.InteractionManager
 import com.github.freedownloadhere.killauravideo.ui.core.io.MouseInfo
+import com.github.freedownloadhere.killauravideo.ui.core.render.SomeTestRenderer
 import com.github.freedownloadhere.killauravideo.ui.core.render.Renderer
 import com.github.freedownloadhere.killauravideo.ui.dsl.*
 import com.github.freedownloadhere.killauravideo.ui.interfaces.layout.ILayout
@@ -105,20 +106,23 @@ class Core: GuiScreen() {
     }
 
     override fun drawScreen(mouseX: Int, mouseY: Int, partialTicks: Float) {
-        val deltaTime = timeUtil.newDeltaTime()
+//        val deltaTime = timeUtil.newDeltaTime()
+//
+//        drawDefaultBackground()
+//
+//        renderer.withUIState {
+//            if(topLevelUI is ILayout)
+//                (topLevelUI as ILayout).applyLayout()
+//            topLevelUI.updateRecursive(deltaTime)
+//            topLevelUI.renderRecursive(renderer)
+//        }
 
-        drawDefaultBackground()
-
-        renderer.withUIState {
-            if(topLevelUI is ILayout)
-                (topLevelUI as ILayout).applyLayout()
-            topLevelUI.updateRecursive(deltaTime)
-            topLevelUI.renderRecursive(renderer)
-        }
+        // TODO remove
+        SomeTestRenderer.renderTriangle()
     }
 
     override fun handleMouseInput() {
-        mouseInfo.update()
+        mouseInfo.update(topLevelUI, config)
         interactionManager.handleMouseInput()
     }
 

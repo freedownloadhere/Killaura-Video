@@ -12,7 +12,7 @@ class InteractionManager(private val mouseInfo: MouseInfo, private val topUI: UI
     private var lastMouseOn: UI? = null
     private var lastMouseUIAbsX: Double = 0.0
     private var lastMouseUIAbsY: Double = 0.0
-    private var moveLock: UI? = null
+    private var grabLock: UI? = null
 
     fun handleMouseInput() {
         val findMouseResult = topUI.findMouseOn(0.0, 0.0)
@@ -28,7 +28,7 @@ class InteractionManager(private val mouseInfo: MouseInfo, private val topUI: UI
         onClick()
         onHold()
         onScroll()
-        onMove()
+        onGrab()
     }
 
     fun handleKeyTyped(typedChar : Char, keyCode : Int) {
@@ -56,8 +56,8 @@ class InteractionManager(private val mouseInfo: MouseInfo, private val topUI: UI
                 mouseInfo.lastX.toDouble() - lastMouseUIAbsX,
                 mouseInfo.lastY.toDouble() - lastMouseUIAbsY
             )
-        else if(focused is IMovable && moveLock == null)
-            moveLock = focused
+        else if(focused is IGrabbable && grabLock == null)
+            grabLock = focused
     }
 
     private fun onHold() {
@@ -79,14 +79,16 @@ class InteractionManager(private val mouseInfo: MouseInfo, private val topUI: UI
         }
     }
 
-    private fun onMove() {
+    private fun onGrab() {
         if(!mouseInfo.isHeldDown) {
-            moveLock = null
+            grabLock = null
             return
         }
-        if(moveLock == null) return
-        moveLock!!.relX += mouseInfo.dX
-        moveLock!!.relY += mouseInfo.dY
+        if(grabLock == null) return
+        (grabLock as IGrabbable).grabCallback(
+            mouseInfo.lastX.toDouble() - lastMouseUIAbsX,
+            mouseInfo.lastY.toDouble() - lastMouseUIAbsY
+        )
     }
 
     private fun UI.findMouseOn(absX: Double, absY: Double): Triple<UI, Double, Double>? {
