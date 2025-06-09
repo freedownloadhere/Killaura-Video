@@ -2,7 +2,7 @@ package com.github.freedownloadhere.killauravideo.ui.composite
 
 import com.github.freedownloadhere.killauravideo.ui.basic.UI
 import com.github.freedownloadhere.killauravideo.ui.basic.UIIcon
-import com.github.freedownloadhere.killauravideo.ui.core.render.Renderer
+import com.github.freedownloadhere.killauravideo.ui.core.render.UINewRenderer
 import com.github.freedownloadhere.killauravideo.ui.implementations.uiBoxDraw
 import com.github.freedownloadhere.killauravideo.ui.implementations.uiCenterBoxLayout
 import com.github.freedownloadhere.killauravideo.ui.interfaces.io.IClickable
@@ -13,7 +13,7 @@ import com.github.freedownloadhere.killauravideo.ui.interfaces.render.IDrawable
 import com.github.freedownloadhere.killauravideo.ui.util.UIColorEnum
 import com.github.freedownloadhere.killauravideo.ui.util.UIConfig
 
-class UICheckbox(config: UIConfig) : UI(config), IUniqueParent<UIIcon>, IDrawable, IClickable, ILayoutPost, IPadded
+class UICheckbox(config: UIConfig): UI(config), IUniqueParent<UIIcon>, IDrawable, IClickable, ILayoutPost, IPadded
 {
     var checked: Boolean = false
         set(value) {
@@ -32,5 +32,5 @@ class UICheckbox(config: UIConfig) : UI(config), IUniqueParent<UIIcon>, IDrawabl
 
     override fun layoutPostCallback() = uiCenterBoxLayout()
 
-    override fun renderCallback(renderer: Renderer) = uiBoxDraw(renderer, UIColorEnum.BOX_SECONDARY)
+    override fun renderCallback(info: UINewRenderer.RenderInfo) = uiBoxDraw(info, UIColorEnum.BOX_SECONDARY)
 }

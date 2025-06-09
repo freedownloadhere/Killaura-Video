@@ -1,7 +1,10 @@
 package com.github.freedownloadhere.killauravideo.ui.core.render
 
+import com.github.freedownloadhere.killauravideo.mixin.AccessorFontRenderer
+import com.github.freedownloadhere.killauravideo.ui.basic.UIText
 import com.github.freedownloadhere.killauravideo.ui.util.UIColorEnum
 import net.minecraft.client.Minecraft
+import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.util.ResourceLocation
 import org.apache.logging.log4j.LogManager
 import org.joml.Matrix4fStack
@@ -9,35 +12,31 @@ import org.lwjgl.BufferUtils
 import org.lwjgl.opengl.GL11.*
 import org.lwjgl.opengl.GL15.*
 import org.lwjgl.opengl.GL20.*
-import org.lwjgl.opengl.GL30.*
+import org.lwjgl.opengl.GL30.glBindVertexArray
+import org.lwjgl.opengl.GL30.glGenVertexArrays
 import java.nio.FloatBuffer
 import java.nio.IntBuffer
 
 private const val MOD_ID = "killauravideo"
 
-object SomeTestRenderer {
-    private val rectVertices = floatArrayOf(
+object RenderingBackend {
+    private val rectVertices = BufferUtils.createFloatBuffer(12).put(floatArrayOf(
         0.0f, 0.0f, 0.0f,
         0.0f, 1.0f, 0.0f,
         1.0f, 1.0f, 0.0f,
         1.0f, 0.0f, 0.0f,
-    )
+    )).flip() as FloatBuffer
 
-    private val rectIndices = intArrayOf(
+    private val rectIndices = BufferUtils.createIntBuffer(6).put(intArrayOf(
         0, 1, 2, 2, 3, 0
-    )
+    )).flip() as IntBuffer
 
     private var program: Int = 0
     private var vao: Int = 0
     private var vbo: Int = 0
     private var ebo: Int = 0
 
-    fun init() {
-        if(program != 0) glDeleteProgram(program)
-        if(vao != 0) glDeleteVertexArrays(vao)
-        if(vbo != 0) glDeleteBuffers(vbo)
-        if(ebo != 0) glDeleteBuffers(ebo)
-
+    init {
         val vertShader = readAndCreateShader("uiRect.vert", GL_VERTEX_SHADER)
         val fragShader = readAndCreateShader("uiRect.frag", GL_FRAGMENT_SHADER)
 
@@ -69,39 +68,24 @@ object SomeTestRenderer {
     }
 
     fun drawRect(
-        x: Float,
-        y: Float,
-        width: Float,
-        height: Float,
-        screenWidth: Float,
-        screenHeight: Float,
-        baseColor: UIColorEnum,
-        borderColor: UIColorEnum,
-        rounding: Float,
-        bordering: Float,
+        x: Float, y: Float, z: Float,
+        width: Float, height: Float,
+        screenWidth: Float, screenHeight: Float,
+        baseColor: UIColorEnum, borderColor: UIColorEnum,
+        rounding: Float, bordering: Float,
     ) {
-        val vertexBuffer = BufferUtils
-            .createFloatBuffer(rectVertices.size)
-            .put(rectVertices)
-            .flip() as FloatBuffer
-
-        val indexBuffer = BufferUtils
-            .createIntBuffer(rectIndices.size)
-            .put(rectIndices)
-            .flip() as IntBuffer
-
         glBindVertexArray(vao)
         glBindBuffer(GL_ARRAY_BUFFER, vbo)
-        glBufferData(GL_ARRAY_BUFFER, vertexBuffer, GL_STATIC_DRAW)
+        glBufferData(GL_ARRAY_BUFFER, rectVertices, GL_STATIC_DRAW)
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo)
-        glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexBuffer, GL_STATIC_DRAW)
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, rectIndices, GL_STATIC_DRAW)
 
         glUseProgram(program)
 
         val fb = BufferUtils.createFloatBuffer(16)
 
         val modelStack = Matrix4fStack(1)
-        modelStack.translate(x, y, 0.0f)
+        modelStack.translate(x, y, z)
         modelStack.scale(width, height, 1.0f)
         modelStack.get(fb)
         val modelUni = glGetUniformLocation(program, "uModel")
@@ -134,6 +118,26 @@ object SomeTestRenderer {
         glBindBuffer(GL_ARRAY_BUFFER, 0)
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0)
         glUseProgram(0)
+    }
+
+    // TODO un-immediate this
+    fun drawText(
+        string: String,
+        color: UIColorEnum,
+        scale: UIText.Scale,
+    ) {
+        val fr = Minecraft.getMinecraft().fontRendererObj
+        val fontTex = (fr as AccessorFontRenderer).fontLocation_killauravideo
+        GlStateManager.enableTexture2D()
+        GlStateManager.enableBlend()
+        GlStateManager.blendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
+        Minecraft.getMinecraft().textureManager.bindTexture(fontTex)
+        GlStateManager.pushMatrix()
+        GlStateManager.scale(scale.numeric, scale.numeric, 1.0)
+        fr.drawStringWithShadow(string, 0.0f, 0.0f, color.toPackedARGB())
+        GlStateManager.popMatrix()
+        GlStateManager.disableBlend()
+        GlStateManager.disableTexture2D()
     }
 
     private fun readAndCreateShader(filename: String, vertOrFrag: Int): Int {

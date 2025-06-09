@@ -1,19 +1,16 @@
 package com.github.freedownloadhere.killauravideo.ui.composite
 
 import com.github.freedownloadhere.killauravideo.ui.basic.UI
-import com.github.freedownloadhere.killauravideo.ui.core.render.Renderer
-import com.github.freedownloadhere.killauravideo.ui.interfaces.io.IClickHoldable
+import com.github.freedownloadhere.killauravideo.ui.core.render.UINewRenderer
 import com.github.freedownloadhere.killauravideo.ui.interfaces.io.IGrabbable
 import com.github.freedownloadhere.killauravideo.ui.interfaces.layout.ILayoutPost
 import com.github.freedownloadhere.killauravideo.ui.interfaces.layout.IPadded
 import com.github.freedownloadhere.killauravideo.ui.interfaces.render.IDrawable
-import com.github.freedownloadhere.killauravideo.ui.util.UIConfig
 import com.github.freedownloadhere.killauravideo.ui.util.UIColorEnum
+import com.github.freedownloadhere.killauravideo.ui.util.UIConfig
 import net.minecraft.client.renderer.Tessellator
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
-import org.apache.logging.log4j.LogManager
 import org.lwjgl.opengl.GL11
-import kotlin.math.floor
 import kotlin.math.max
 
 class UISlider(config: UIConfig): UI(config), IPadded, IDrawable, ILayoutPost, IGrabbable
@@ -44,7 +41,7 @@ class UISlider(config: UIConfig): UI(config), IPadded, IDrawable, ILayoutPost, I
 //    }
 
     override var hidden: Boolean = false
-    override fun renderCallback(renderer: Renderer) {
+    override fun renderCallback(info: UINewRenderer.RenderInfo) {
         val tess = Tessellator.getInstance()
         val wr = tess.worldRenderer
         val lineWidth = GL11.glGetFloat(GL11.GL_LINE_WIDTH)

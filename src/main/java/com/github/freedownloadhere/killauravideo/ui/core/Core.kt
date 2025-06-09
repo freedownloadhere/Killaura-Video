@@ -7,8 +7,7 @@ import com.github.freedownloadhere.killauravideo.ui.basic.UIIcon
 import com.github.freedownloadhere.killauravideo.ui.basic.UIText
 import com.github.freedownloadhere.killauravideo.ui.core.io.InteractionManager
 import com.github.freedownloadhere.killauravideo.ui.core.io.MouseInfo
-import com.github.freedownloadhere.killauravideo.ui.core.render.SomeTestRenderer
-import com.github.freedownloadhere.killauravideo.ui.core.render.Renderer
+import com.github.freedownloadhere.killauravideo.ui.core.render.UINewRenderer
 import com.github.freedownloadhere.killauravideo.ui.dsl.*
 import com.github.freedownloadhere.killauravideo.ui.interfaces.layout.ILayout
 import com.github.freedownloadhere.killauravideo.ui.util.TimeUtil
@@ -29,14 +28,11 @@ class Core: GuiScreen() {
     private val mouseInfo = MouseInfo()
 
     private lateinit var interactionManager: InteractionManager
-    lateinit var renderer: Renderer
+    lateinit var renderer: UINewRenderer
 
     private val timeUtil = TimeUtil()
 
     override fun initGui() {
-        // TODO remove
-        SomeTestRenderer.init()
-
         UIBuilderGlobals.uiConfig = config
 
         topLevelUI = verticalBox {
@@ -105,7 +101,7 @@ class Core: GuiScreen() {
         }
 
         interactionManager = InteractionManager(mouseInfo, topLevelUI)
-        renderer = Renderer(config, interactionManager)
+        renderer = UINewRenderer(config)
     }
 
     override fun drawScreen(mouseX: Int, mouseY: Int, partialTicks: Float) {
@@ -113,22 +109,12 @@ class Core: GuiScreen() {
 
         drawDefaultBackground()
 
-        renderer.withUIState {
-            if(topLevelUI is ILayout)
-                (topLevelUI as ILayout).applyLayout()
-            topLevelUI.updateRecursive(deltaTime)
-            topLevelUI.renderRecursive(renderer)
-        }
+        if(topLevelUI is ILayout)
+            (topLevelUI as ILayout).applyLayout()
 
-        // TODO remove
-        SomeTestRenderer.drawRect(
-            100.0f, 100.0f,
-            300.0f, 200.0f,
-            width.toFloat(), height.toFloat(),
-            UIColorEnum.BOX_SECONDARY,
-            UIColorEnum.BOX_PRIMARY,
-            10.0f, 2.0f
-        )
+        topLevelUI.updateRecursive(deltaTime)
+
+        renderer.renderEverything(topLevelUI)
     }
 
     override fun handleMouseInput() {

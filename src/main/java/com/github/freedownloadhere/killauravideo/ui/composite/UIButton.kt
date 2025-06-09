@@ -2,15 +2,15 @@ package com.github.freedownloadhere.killauravideo.ui.composite
 
 import com.github.freedownloadhere.killauravideo.ui.basic.UI
 import com.github.freedownloadhere.killauravideo.ui.basic.UIText
-import com.github.freedownloadhere.killauravideo.ui.core.render.Renderer
+import com.github.freedownloadhere.killauravideo.ui.core.render.UINewRenderer
 import com.github.freedownloadhere.killauravideo.ui.implementations.uiBoxDraw
 import com.github.freedownloadhere.killauravideo.ui.implementations.uiCenterBoxLayout
 import com.github.freedownloadhere.killauravideo.ui.interfaces.io.IClickable
 import com.github.freedownloadhere.killauravideo.ui.interfaces.layout.ILayoutPost
 import com.github.freedownloadhere.killauravideo.ui.interfaces.parents.IUniqueParent
 import com.github.freedownloadhere.killauravideo.ui.interfaces.render.IDrawable
-import com.github.freedownloadhere.killauravideo.ui.util.UIConfig
 import com.github.freedownloadhere.killauravideo.ui.util.UIColorEnum
+import com.github.freedownloadhere.killauravideo.ui.util.UIConfig
 import kotlin.math.max
 
 class UIButton(config: UIConfig): UI(config), IUniqueParent<UIText>, ILayoutPost, IClickable, IDrawable
@@ -40,5 +40,5 @@ class UIButton(config: UIConfig): UI(config), IUniqueParent<UIText>, ILayoutPost
 
     override fun layoutPostCallback() = uiCenterBoxLayout()
 
-    override fun renderCallback(renderer: Renderer) = uiBoxDraw(renderer, color)
+    override fun renderCallback(info: UINewRenderer.RenderInfo) = uiBoxDraw(info, color)
 }
