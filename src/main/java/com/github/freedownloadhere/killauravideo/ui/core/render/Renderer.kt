@@ -28,11 +28,19 @@ class Renderer(
     val scissorStack = RenderScissorStack()
 
     fun drawBasicBG(gui: UI, color: UIColorEnum) {
-        drawBG(gui, color)
-        if(gui == interactionManager.focused)
-            drawHL(gui)
-        else
-            drawBorder(gui)
+        SomeTestRenderer.drawRect(
+            gui.relX.toFloat(), gui.relY.toFloat(),
+            gui.width.toFloat(), gui.height.toFloat(),
+            config.screenWidth.toFloat(), config.screenHeight.toFloat(),
+            color, UIColorEnum.BOX_PRIMARY,
+            10.0f, 1.0f
+        )
+//
+//        drawBG(gui, color)
+//        if(gui == interactionManager.focused)
+//            drawHL(gui)
+//        else
+//            drawBorder(gui)
     }
 
     private fun drawHL(ui: UI) {

@@ -34,6 +34,9 @@ class Core: GuiScreen() {
     private val timeUtil = TimeUtil()
 
     override fun initGui() {
+        // TODO remove
+        SomeTestRenderer.init()
+
         UIBuilderGlobals.uiConfig = config
 
         topLevelUI = verticalBox {
@@ -106,19 +109,26 @@ class Core: GuiScreen() {
     }
 
     override fun drawScreen(mouseX: Int, mouseY: Int, partialTicks: Float) {
-//        val deltaTime = timeUtil.newDeltaTime()
-//
-//        drawDefaultBackground()
-//
-//        renderer.withUIState {
-//            if(topLevelUI is ILayout)
-//                (topLevelUI as ILayout).applyLayout()
-//            topLevelUI.updateRecursive(deltaTime)
-//            topLevelUI.renderRecursive(renderer)
-//        }
+        val deltaTime = timeUtil.newDeltaTime()
+
+        drawDefaultBackground()
+
+        renderer.withUIState {
+            if(topLevelUI is ILayout)
+                (topLevelUI as ILayout).applyLayout()
+            topLevelUI.updateRecursive(deltaTime)
+            topLevelUI.renderRecursive(renderer)
+        }
 
         // TODO remove
-        SomeTestRenderer.renderTriangle()
+        SomeTestRenderer.drawRect(
+            100.0f, 100.0f,
+            300.0f, 200.0f,
+            width.toFloat(), height.toFloat(),
+            UIColorEnum.BOX_SECONDARY,
+            UIColorEnum.BOX_PRIMARY,
+            10.0f, 2.0f
+        )
     }
 
     override fun handleMouseInput() {
