@@ -7,6 +7,10 @@ public class JavaNativeRendering {
         float screenWidth, float screenHeight
     );
 
+    public static native void nUpdateScreenSize(
+        float screenWidth, float screenHeight
+    );
+
     public static native void nDrawRect(
         float x, float y, float z,
         float width, float height,

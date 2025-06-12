@@ -37,7 +37,6 @@ object RenderingBackend {
     private var vao: Int
     private var vbo: Int
     private var ebo: Int
-    private var fontBitMap: ByteBuffer
 
     init {
         val vertShader = readAndCreateShader("uiRect.vert", GL_VERTEX_SHADER)
@@ -68,31 +67,6 @@ object RenderingBackend {
         glBindVertexArray(0)
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0)
         glBindBuffer(GL_ARRAY_BUFFER, 0)
-
-        val fontLocation = ResourceLocation(MOD_ID, "fonts/arial.ttf")
-        val fontInputStream = Minecraft.getMinecraft().resourceManager
-            .getResource(fontLocation)
-            .inputStream
-        val fontByteArray = fontInputStream.readBytes()
-        fontInputStream.close()
-        val fontBuffer = BufferUtils.createByteBuffer(fontByteArray.size).put(fontByteArray).flip() as ByteBuffer
-
-        val fontInfo = STBTTFontinfo.create()
-        stbtt_InitFont(fontInfo, fontBuffer)
-
-        val bitMapWidth = 512
-        val bitMapHeight = 512
-        val fontHeight = 24.0f
-
-        val bakedCharBuffer = STBTTBakedChar.malloc(96)
-
-        val bitmap = BufferUtils.createByteBuffer(bitMapWidth * bitMapHeight)
-        stbtt_BakeFontBitmap(fontBuffer, fontHeight, bitmap, bitMapWidth, bitMapHeight, 32, bakedCharBuffer)
-
-        bakedCharBuffer.free()
-        fontInfo.free()
-
-        fontBitMap = bitmap
     }
 
     fun drawRect(

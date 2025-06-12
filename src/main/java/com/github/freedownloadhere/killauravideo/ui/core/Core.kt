@@ -8,6 +8,7 @@ import com.github.freedownloadhere.killauravideo.ui.basic.UIText
 import com.github.freedownloadhere.killauravideo.ui.core.io.InteractionManager
 import com.github.freedownloadhere.killauravideo.ui.core.io.MouseInfo
 import com.github.freedownloadhere.killauravideo.ui.core.render.JavaNativeRendering
+import com.github.freedownloadhere.killauravideo.ui.core.render.RenderingBackend
 import com.github.freedownloadhere.killauravideo.ui.core.render.UINewRenderer
 import com.github.freedownloadhere.killauravideo.ui.dsl.*
 import com.github.freedownloadhere.killauravideo.ui.interfaces.layout.ILayout
@@ -109,6 +110,15 @@ class Core: GuiScreen() {
         val deltaTime = timeUtil.newDeltaTime()
 
         drawDefaultBackground()
+
+        JavaNativeRendering.nUpdateScreenSize(width.toFloat(), height.toFloat())
+
+        JavaNativeRendering.nDrawRect(
+            100.0f, 100.0f, 0.0f,
+            200.0f, 100.0f,
+            UIColorEnum.BOX_SECONDARY.toColor(), UIColorEnum.BOX_PRIMARY.toColor(),
+            10.0f, 1.0f
+        )
 
 //        if(topLevelUI is ILayout)
 //            (topLevelUI as ILayout).applyLayout()

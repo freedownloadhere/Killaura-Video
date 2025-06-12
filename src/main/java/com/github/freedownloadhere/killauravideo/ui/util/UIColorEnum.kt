@@ -1,5 +1,7 @@
 package com.github.freedownloadhere.killauravideo.ui.util
 
+import java.awt.Color
+
 enum class UIColorEnum(val r: Int, val g: Int, val b: Int, val a: Int = 255) {
     BOX_PRIMARY(51, 51, 51),
     BOX_SECONDARY(26, 26, 26),
@@ -21,4 +23,6 @@ enum class UIColorEnum(val r: Int, val g: Int, val b: Int, val a: Int = 255) {
         get() = a / 255.0f
 
     fun toPackedARGB(): Int = (a shl 24) or (r shl 16) or (g shl 8) or b
+
+    fun toColor(): Color = Color(r, g, b, a)
 }
