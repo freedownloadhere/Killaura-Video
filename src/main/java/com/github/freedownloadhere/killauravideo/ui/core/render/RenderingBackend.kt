@@ -1,10 +1,8 @@
 package com.github.freedownloadhere.killauravideo.ui.core.render
 
-import com.github.freedownloadhere.killauravideo.mixin.AccessorFontRenderer
 import com.github.freedownloadhere.killauravideo.ui.basic.UIText
 import com.github.freedownloadhere.killauravideo.ui.util.UIColorEnum
 import net.minecraft.client.Minecraft
-import net.minecraft.client.renderer.GlStateManager
 import net.minecraft.util.ResourceLocation
 import org.apache.logging.log4j.LogManager
 import org.joml.Matrix4fStack
@@ -14,6 +12,10 @@ import org.lwjgl.opengl.GL15.*
 import org.lwjgl.opengl.GL20.*
 import org.lwjgl.opengl.GL30.glBindVertexArray
 import org.lwjgl.opengl.GL30.glGenVertexArrays
+import org.lwjgl.stb.STBTTBakedChar
+import org.lwjgl.stb.STBTTFontinfo
+import org.lwjgl.stb.STBTruetype.*
+import java.nio.ByteBuffer
 import java.nio.FloatBuffer
 import java.nio.IntBuffer
 
@@ -31,10 +33,11 @@ object RenderingBackend {
         0, 1, 2, 2, 3, 0
     )).flip() as IntBuffer
 
-    private var program: Int = 0
-    private var vao: Int = 0
-    private var vbo: Int = 0
-    private var ebo: Int = 0
+    private var program: Int
+    private var vao: Int
+    private var vbo: Int
+    private var ebo: Int
+    private var fontBitMap: ByteBuffer
 
     init {
         val vertShader = readAndCreateShader("uiRect.vert", GL_VERTEX_SHADER)
@@ -65,6 +68,31 @@ object RenderingBackend {
         glBindVertexArray(0)
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0)
         glBindBuffer(GL_ARRAY_BUFFER, 0)
+
+        val fontLocation = ResourceLocation(MOD_ID, "fonts/arial.ttf")
+        val fontInputStream = Minecraft.getMinecraft().resourceManager
+            .getResource(fontLocation)
+            .inputStream
+        val fontByteArray = fontInputStream.readBytes()
+        fontInputStream.close()
+        val fontBuffer = BufferUtils.createByteBuffer(fontByteArray.size).put(fontByteArray).flip() as ByteBuffer
+
+        val fontInfo = STBTTFontinfo.create()
+        stbtt_InitFont(fontInfo, fontBuffer)
+
+        val bitMapWidth = 512
+        val bitMapHeight = 512
+        val fontHeight = 24.0f
+
+        val bakedCharBuffer = STBTTBakedChar.malloc(96)
+
+        val bitmap = BufferUtils.createByteBuffer(bitMapWidth * bitMapHeight)
+        stbtt_BakeFontBitmap(fontBuffer, fontHeight, bitmap, bitMapWidth, bitMapHeight, 32, bakedCharBuffer)
+
+        bakedCharBuffer.free()
+        fontInfo.free()
+
+        fontBitMap = bitmap
     }
 
     fun drawRect(
@@ -122,22 +150,12 @@ object RenderingBackend {
 
     // TODO un-immediate this
     fun drawText(
+        x: Float, y: Float, z: Float,
         string: String,
         color: UIColorEnum,
         scale: UIText.Scale,
     ) {
-        val fr = Minecraft.getMinecraft().fontRendererObj
-        val fontTex = (fr as AccessorFontRenderer).fontLocation_killauravideo
-        GlStateManager.enableTexture2D()
-        GlStateManager.enableBlend()
-        GlStateManager.blendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA)
-        Minecraft.getMinecraft().textureManager.bindTexture(fontTex)
-        GlStateManager.pushMatrix()
-        GlStateManager.scale(scale.numeric, scale.numeric, 1.0)
-        fr.drawStringWithShadow(string, 0.0f, 0.0f, color.toPackedARGB())
-        GlStateManager.popMatrix()
-        GlStateManager.disableBlend()
-        GlStateManager.disableTexture2D()
+
     }
 
     private fun readAndCreateShader(filename: String, vertOrFrag: Int): Int {

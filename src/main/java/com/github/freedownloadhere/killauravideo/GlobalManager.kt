@@ -2,12 +2,14 @@ package com.github.freedownloadhere.killauravideo
 
 import com.github.freedownloadhere.killauravideo.rendering.RenderUtils
 import com.github.freedownloadhere.killauravideo.ui.core.Core
+import com.github.freedownloadhere.killauravideo.ui.core.render.JavaNativeRendering
 import com.github.freedownloadhere.killauravideo.utils.EntityPositions
 import com.github.freedownloadhere.killauravideo.utils.KeybindMap
 import net.minecraft.client.Minecraft
 import net.minecraft.client.entity.EntityPlayerSP
 import net.minecraft.client.multiplayer.WorldClient
 import net.minecraftforge.client.event.DrawBlockHighlightEvent
+import net.minecraftforge.client.event.RenderWorldLastEvent
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent
 import net.minecraftforge.fml.common.gameevent.TickEvent
 
@@ -58,5 +60,16 @@ object GlobalManager {
         }
         clientInstance = ClientInstance(player, world, Minecraft.getMinecraft().gameSettings)
         clientInstance!!.init()
+    }
+
+    private var tempInit = false
+    @SubscribeEvent
+    fun renderWorldEvent(e: RenderWorldLastEvent) {
+        if(!tempInit) {
+            val sw = Minecraft.getMinecraft().displayWidth.toFloat()
+            val sh = Minecraft.getMinecraft().displayHeight.toFloat()
+            JavaNativeRendering.nInit(sw, sh)
+            tempInit = true
+        }
     }
 }

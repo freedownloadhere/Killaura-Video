@@ -99,6 +99,8 @@ dependencies {
     // If you don't want to log in with your real minecraft account, remove this line
     runtimeOnly("me.djtheredstoner:DevAuth-forge-legacy:1.2.1")
     shadowImpl("org.joml:joml:1.10.8")
+    shadowImpl("org.lwjgl:lwjgl-stb:3.2.2")
+    shadowImpl("org.lwjgl:lwjgl-stb:3.2.2:natives-windows")
 }
 
 // Tasks:

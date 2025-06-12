@@ -28,9 +28,12 @@ class UIText(config: UIConfig, default: String = "Text"): UI(config), IDrawable,
     override fun renderCallback(info: UINewRenderer.RenderInfo) {
         if (text.isEmpty()) return
         RenderingBackend.drawText(
+            x = (info.absX + relX).toFloat(),
+            y = (info.absY + relY).toFloat(),
+            z = info.layer * 0.01f,
             string = text,
             color = baseColor,
-            scale = scale
+            scale = scale,
         )
     }
 

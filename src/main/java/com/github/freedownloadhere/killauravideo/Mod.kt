@@ -3,6 +3,7 @@ package com.github.freedownloadhere.killauravideo
 import com.github.freedownloadhere.killauravideo.commands.CommandToggle
 import com.github.freedownloadhere.killauravideo.ui.core.Core
 import com.github.freedownloadhere.killauravideo.utils.KeybindMap
+import com.github.freedownloadhere.killauravideo.utils.LibraryLoading
 import net.minecraft.client.Minecraft
 import net.minecraft.client.settings.KeyBinding
 import net.minecraftforge.client.ClientCommandHandler
@@ -15,6 +16,8 @@ import org.lwjgl.input.Keyboard
 class Mod {
     @Mod.EventHandler
     fun init(e: FMLInitializationEvent) {
+        LibraryLoading.load()
+
         MinecraftForge.EVENT_BUS.register(GlobalManager)
         ClientCommandHandler.instance.registerCommand(CommandToggle())
 

@@ -7,6 +7,7 @@ import com.github.freedownloadhere.killauravideo.ui.basic.UIIcon
 import com.github.freedownloadhere.killauravideo.ui.basic.UIText
 import com.github.freedownloadhere.killauravideo.ui.core.io.InteractionManager
 import com.github.freedownloadhere.killauravideo.ui.core.io.MouseInfo
+import com.github.freedownloadhere.killauravideo.ui.core.render.JavaNativeRendering
 import com.github.freedownloadhere.killauravideo.ui.core.render.UINewRenderer
 import com.github.freedownloadhere.killauravideo.ui.dsl.*
 import com.github.freedownloadhere.killauravideo.ui.interfaces.layout.ILayout
@@ -109,12 +110,12 @@ class Core: GuiScreen() {
 
         drawDefaultBackground()
 
-        if(topLevelUI is ILayout)
-            (topLevelUI as ILayout).applyLayout()
-
-        topLevelUI.updateRecursive(deltaTime)
-
-        renderer.renderEverything(topLevelUI)
+//        if(topLevelUI is ILayout)
+//            (topLevelUI as ILayout).applyLayout()
+//
+//        topLevelUI.updateRecursive(deltaTime)
+//
+//        renderer.renderEverything(topLevelUI)
     }
 
     override fun handleMouseInput() {
