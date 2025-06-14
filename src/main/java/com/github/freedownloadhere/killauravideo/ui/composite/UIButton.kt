@@ -2,10 +2,12 @@ package com.github.freedownloadhere.killauravideo.ui.composite
 
 import com.github.freedownloadhere.killauravideo.ui.basic.UI
 import com.github.freedownloadhere.killauravideo.ui.basic.UIText
+import com.github.freedownloadhere.killauravideo.ui.core.io.MouseInfo
 import com.github.freedownloadhere.killauravideo.ui.core.render.UINewRenderer
 import com.github.freedownloadhere.killauravideo.ui.implementations.uiBoxDraw
 import com.github.freedownloadhere.killauravideo.ui.implementations.uiCenterBoxLayout
 import com.github.freedownloadhere.killauravideo.ui.interfaces.io.IClickable
+import com.github.freedownloadhere.killauravideo.ui.interfaces.io.IMouseEvent
 import com.github.freedownloadhere.killauravideo.ui.interfaces.layout.ILayoutPost
 import com.github.freedownloadhere.killauravideo.ui.interfaces.parents.IUniqueParent
 import com.github.freedownloadhere.killauravideo.ui.interfaces.render.IDrawable
@@ -13,7 +15,7 @@ import com.github.freedownloadhere.killauravideo.ui.util.UIColorEnum
 import com.github.freedownloadhere.killauravideo.ui.util.UIConfig
 import kotlin.math.max
 
-class UIButton(config: UIConfig): UI(config), IUniqueParent<UIText>, ILayoutPost, IClickable, IDrawable
+class UIButton(config: UIConfig): UI(config), IUniqueParent<UIText>, ILayoutPost, IMouseEvent, IDrawable
 {
     private val cooldown = config.buttonClickCooldown
     private var cooldownLeft: Long  = 0L
@@ -30,8 +32,8 @@ class UIButton(config: UIConfig): UI(config), IUniqueParent<UIText>, ILayoutPost
         super.update(deltaTime)
     }
 
-    override fun clickCallback(button: Int, mouseRelX: Double, mouseRelY: Double) {
-        if(button == 0 && cooldownLeft == 0L) {
+    override fun mouseEventCallback(mouseInfo: MouseInfo) {
+        if(mouseInfo.lastLeftClicked?.ui == this && mouseInfo.isClicked && cooldownLeft == 0L) {
             onClick()
             cooldownLeft = cooldown
             color = UIColorEnum.BOX_TERNARY

@@ -1,8 +1,10 @@
 package com.github.freedownloadhere.killauravideo.ui.composite
 
 import com.github.freedownloadhere.killauravideo.ui.basic.UI
+import com.github.freedownloadhere.killauravideo.ui.core.io.MouseInfo
 import com.github.freedownloadhere.killauravideo.ui.core.render.UINewRenderer
 import com.github.freedownloadhere.killauravideo.ui.interfaces.io.IGrabbable
+import com.github.freedownloadhere.killauravideo.ui.interfaces.io.IMouseEvent
 import com.github.freedownloadhere.killauravideo.ui.interfaces.layout.ILayoutPost
 import com.github.freedownloadhere.killauravideo.ui.interfaces.layout.IPadded
 import com.github.freedownloadhere.killauravideo.ui.interfaces.render.IDrawable
@@ -11,9 +13,10 @@ import com.github.freedownloadhere.killauravideo.ui.util.UIConfig
 import net.minecraft.client.renderer.Tessellator
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats
 import org.lwjgl.opengl.GL11
+import kotlin.math.floor
 import kotlin.math.max
 
-class UISlider(config: UIConfig): UI(config), IPadded, IDrawable, ILayoutPost, IGrabbable
+class UISlider(config: UIConfig): UI(config), IPadded, IDrawable, ILayoutPost, IMouseEvent
 {
     override var padding: Double = config.padding
 
@@ -30,15 +33,17 @@ class UISlider(config: UIConfig): UI(config), IPadded, IDrawable, ILayoutPost, I
     var segmented: Boolean = true
     var segmentCount: Int = 5
 
-    // TODO bring back
-//    override fun clickHoldCallback(button: Int, mouseRelX: Double, mouseRelY: Double) {
-//        position = mouseRelX / width
-//        if(segmented) {
-//            val segmentLength = 1.0 / segmentCount
-//            position = floor(position / segmentLength) * segmentLength
-//        }
-//        clickAction()
-//    }
+    override fun mouseEventCallback(mouseInfo: MouseInfo) {
+        if(mouseInfo.lastLeftClicked?.ui != this)
+            return
+        val relX = mouseInfo.lastX - mouseInfo.lastLeftClicked!!.absX
+        position = relX / width
+        if(segmented) {
+            val segmentLength = 1.0 / segmentCount
+            position = floor(position / segmentLength) * segmentLength
+        }
+        clickAction()
+    }
 
     override var hidden: Boolean = false
     override fun renderCallback(info: UINewRenderer.RenderInfo) {
@@ -69,8 +74,5 @@ class UISlider(config: UIConfig): UI(config), IPadded, IDrawable, ILayoutPost, I
     override fun layoutPostCallback() {
         width = max(width, 2.0 * padding)
         height = max(height, 2.0 * padding)
-    }
-
-    override fun grabCallback(mouseRelDX: Double, mouseRelDY: Double) {
     }
 }

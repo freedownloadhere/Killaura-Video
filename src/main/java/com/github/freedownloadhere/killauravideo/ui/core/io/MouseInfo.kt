@@ -44,7 +44,8 @@ class MouseInfo {
         val maybeMouseCurrentlyOn = topUI.findMouseCurrentlyOn(0.0, 0.0)
         if(maybeMouseCurrentlyOn != null) {
             currentHovered = maybeMouseCurrentlyOn
-            
+            if(isClicked)
+                lastLeftClicked = maybeMouseCurrentlyOn
         }
     }
 

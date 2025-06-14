@@ -2,10 +2,12 @@ package com.github.freedownloadhere.killauravideo.ui.composite
 
 import com.github.freedownloadhere.killauravideo.ui.basic.UI
 import com.github.freedownloadhere.killauravideo.ui.basic.UIIcon
+import com.github.freedownloadhere.killauravideo.ui.core.io.MouseInfo
 import com.github.freedownloadhere.killauravideo.ui.core.render.UINewRenderer
 import com.github.freedownloadhere.killauravideo.ui.implementations.uiBoxDraw
 import com.github.freedownloadhere.killauravideo.ui.implementations.uiCenterBoxLayout
 import com.github.freedownloadhere.killauravideo.ui.interfaces.io.IClickable
+import com.github.freedownloadhere.killauravideo.ui.interfaces.io.IMouseEvent
 import com.github.freedownloadhere.killauravideo.ui.interfaces.layout.ILayoutPost
 import com.github.freedownloadhere.killauravideo.ui.interfaces.layout.IPadded
 import com.github.freedownloadhere.killauravideo.ui.interfaces.parents.IUniqueParent
@@ -13,7 +15,7 @@ import com.github.freedownloadhere.killauravideo.ui.interfaces.render.IDrawable
 import com.github.freedownloadhere.killauravideo.ui.util.UIColorEnum
 import com.github.freedownloadhere.killauravideo.ui.util.UIConfig
 
-class UICheckbox(config: UIConfig): UI(config), IUniqueParent<UIIcon>, IDrawable, IClickable, ILayoutPost, IPadded
+class UICheckbox(config: UIConfig): UI(config), IUniqueParent<UIIcon>, IDrawable, IMouseEvent, ILayoutPost, IPadded
 {
     var checked: Boolean = false
         set(value) {
@@ -25,9 +27,11 @@ class UICheckbox(config: UIConfig): UI(config), IUniqueParent<UIIcon>, IDrawable
     override var hidden: Boolean = false
     override var padding: Double = config.padding
 
-    override fun clickCallback(button: Int, mouseRelX: Double, mouseRelY: Double) {
-        checked = !checked
-        onCheck()
+    override fun mouseEventCallback(mouseInfo: MouseInfo) {
+        if(mouseInfo.lastLeftClicked?.ui == this && mouseInfo.isClicked) {
+            checked = !checked
+            onCheck()
+        }
     }
 
     override fun layoutPostCallback() = uiCenterBoxLayout()

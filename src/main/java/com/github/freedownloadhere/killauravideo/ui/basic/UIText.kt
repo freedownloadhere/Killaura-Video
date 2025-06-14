@@ -12,7 +12,7 @@ class UIText(config: UIConfig, default: String = "Text"): UI(config), IDrawable,
 {
     // duplicate data
     enum class Scale(val idx: Int, val vSizePx: Double) {
-        VERY_SMALL(0, 10.0),
+        VERY_SMALL(0, 15.0),
         SMALL(1, 25.0),
         MEDIUM(2, 40.0),
         LARGE(3, 55.0),
