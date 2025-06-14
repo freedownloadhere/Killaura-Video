@@ -7,14 +7,16 @@ import com.github.freedownloadhere.killauravideo.ui.interfaces.layout.ILayoutPos
 import com.github.freedownloadhere.killauravideo.ui.interfaces.render.IDrawable
 import com.github.freedownloadhere.killauravideo.ui.util.UIColorEnum
 import com.github.freedownloadhere.killauravideo.ui.util.UIConfig
-import net.minecraft.client.Minecraft
 
 class UIText(config: UIConfig, default: String = "Text"): UI(config), IDrawable, ILayoutPost
 {
-    enum class Scale(val numeric: Double) {
-        SMALL(1.0),
-        MEDIUM(1.0),
-        LARGE(3.5)
+    // duplicate data
+    enum class Scale(val idx: Int, val vSizePx: Double) {
+        VERY_SMALL(0, 10.0),
+        SMALL(1, 25.0),
+        MEDIUM(2, 40.0),
+        LARGE(3, 55.0),
+        VERY_LARGE(4, 70.0),
     }
 
     var scale: Scale = Scale.MEDIUM
@@ -38,9 +40,8 @@ class UIText(config: UIConfig, default: String = "Text"): UI(config), IDrawable,
         )
     }
 
-    // TODO dont hardcode
     override fun layoutPostCallback() {
-        width = scale.numeric * JavaNativeRendering.nGetTextWidth(text)
-        height = scale.numeric * 20.0f
+        width = JavaNativeRendering.nGetTextWidth(text, scale.idx).toDouble()
+        height = scale.vSizePx
     }
 }

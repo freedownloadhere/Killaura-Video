@@ -36,11 +36,25 @@ class Core: GuiScreen() {
         config = UIConfig(screenWidth = width.toDouble(), screenHeight = height.toDouble())
         UIBuilderGlobals.uiConfig = config
 
+//        topLevelUI = verticalBox {
+//            relX = 300.0
+//            relY = 300.0
+//            padding = 0.0
+//            spacing = 0.0
+//            + text("Very Large") { scale = UIText.Scale.VERY_LARGE }
+//            + text("Large") { scale = UIText.Scale.LARGE }
+//            + text("Medium") { scale = UIText.Scale.MEDIUM }
+//            + text("Small") { scale = UIText.Scale.SMALL }
+//            + text("Very Small") { scale = UIText.Scale.VERY_SMALL }
+//        }
+
         topLevelUI = verticalBox {
             val ka = GlobalManager.clientInstance!!.moduleMap.module("killaura") as Killaura
 
             + centerBox {
-                child = text("Killaura")
+                child = text("Killaura") {
+                    scale = UIText.Scale.SMALL
+                }
                 width = 200.0
             }
 
@@ -50,7 +64,9 @@ class Core: GuiScreen() {
 
                 + horizontalBox {
                     placeLeft()
-                    + text("Toggled")
+                    + text("Toggled") {
+                        scale = UIText.Scale.SMALL
+                    }
                     placeRight()
                     + checkbox {
                         checked = ka.toggled
@@ -69,9 +85,14 @@ class Core: GuiScreen() {
                         padding = 0.0
                         hidden = true
                         placeLeft()
-                        + text("Reach")
+                        + text("Reach") {
+                            scale = UIText.Scale.SMALL
+                        }
                         placeRight()
-                        + text { source = { ka.limiter.maxReach.toString() } }
+                        + text {
+                            scale = UIText.Scale.SMALL
+                            source = { ka.limiter.maxReach.toString() }
+                        }
                     }
                     + horizontalBox {
                         padding = 0.0
@@ -89,14 +110,14 @@ class Core: GuiScreen() {
                             baseColor = UIColorEnum.TEXT_SECONDARY
                         }
                     }
-                    + slider {
-                        minValue = minReach
-                        maxValue = maxReach
-                        segmented = true
-                        segmentCount = 6
-                        selectedValue = ka.limiter.maxReach
-                        clickAction = { ka.limiter.maxReach = selectedValue }
-                    }
+//                    + slider {
+//                        minValue = minReach
+//                        maxValue = maxReach
+//                        segmented = true
+//                        segmentCount = 6
+//                        selectedValue = ka.limiter.maxReach
+//                        clickAction = { ka.limiter.maxReach = selectedValue }
+//                    }
                 }
             }
         }
