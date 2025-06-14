@@ -120,6 +120,13 @@ class Core: GuiScreen() {
             10.0f, 1.0f
         )
 
+        JavaNativeRendering.nDrawText(
+            "Yo yo waddup",
+            20.0f, 20.0f, 0.0f,
+            UIColorEnum.TEXT_PRIMARY.toColor(),
+            0.5f
+        )
+
 //        if(topLevelUI is ILayout)
 //            (topLevelUI as ILayout).applyLayout()
 //
