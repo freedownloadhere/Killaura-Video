@@ -19,12 +19,8 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiScreen
 
 class Core: GuiScreen() {
-    init {
-        width = Minecraft.getMinecraft().displayWidth
-        height = Minecraft.getMinecraft().displayHeight
-    }
-
-    val config = UIConfig(screenWidth = width.toDouble(), screenHeight = height.toDouble())
+    lateinit var config: UIConfig
+        private set
     private lateinit var topLevelUI: UI
 
     private val mouseInfo = MouseInfo()
@@ -35,6 +31,9 @@ class Core: GuiScreen() {
     private val timeUtil = TimeUtil()
 
     override fun initGui() {
+        width = Minecraft.getMinecraft().displayWidth
+        height = Minecraft.getMinecraft().displayHeight
+        config = UIConfig(screenWidth = width.toDouble(), screenHeight = height.toDouble())
         UIBuilderGlobals.uiConfig = config
 
         topLevelUI = verticalBox {
@@ -114,6 +113,13 @@ class Core: GuiScreen() {
         JavaNativeRendering.nUpdateScreenSize(width.toFloat(), height.toFloat())
 
         JavaNativeRendering.nDrawRect(
+            10.0f, 10.0f, 0.0f,
+            width.toFloat() - 20.0f, height.toFloat() - 20.0f,
+            UIColorEnum.BOX_SECONDARY.toColor(), UIColorEnum.ACCENT.toColor(),
+            0.0f, 1.0f
+        )
+
+        JavaNativeRendering.nDrawRect(
             100.0f, 100.0f, 0.0f,
             200.0f, 100.0f,
             UIColorEnum.BOX_SECONDARY.toColor(), UIColorEnum.BOX_PRIMARY.toColor(),
@@ -121,10 +127,10 @@ class Core: GuiScreen() {
         )
 
         JavaNativeRendering.nDrawText(
-            "Yo yo waddup",
-            20.0f, 20.0f, 0.0f,
+            "${Minecraft.getMinecraft().displayWidth} : ${Minecraft.getMinecraft().displayHeight}",
+            0.0f, 20.0f, 0.0f,
             UIColorEnum.TEXT_PRIMARY.toColor(),
-            0.5f
+            1.0f
         )
 
 //        if(topLevelUI is ILayout)
