@@ -12,8 +12,6 @@ fun <T> T.uiBoxDraw(info: UINewRenderer.RenderInfo, baseColor: UIColorEnum) wher
         z = info.layer * 0.01f,
         width = width.toFloat(),
         height = height.toFloat(),
-        screenWidth = info.config.screenWidth.toFloat(),
-        screenHeight = info.config.screenHeight.toFloat(),
         baseColor = baseColor,
         borderColor = UIColorEnum.BOX_PRIMARY,
         rounding = info.config.rounding.toFloat(),

@@ -1,5 +1,6 @@
 package com.github.freedownloadhere.killauravideo.ui.basic
 
+import com.github.freedownloadhere.killauravideo.ui.core.render.JavaNativeRendering
 import com.github.freedownloadhere.killauravideo.ui.core.render.RenderingBackend
 import com.github.freedownloadhere.killauravideo.ui.core.render.UINewRenderer
 import com.github.freedownloadhere.killauravideo.ui.interfaces.layout.ILayoutPost
@@ -11,8 +12,8 @@ import net.minecraft.client.Minecraft
 class UIText(config: UIConfig, default: String = "Text"): UI(config), IDrawable, ILayoutPost
 {
     enum class Scale(val numeric: Double) {
-        SMALL(1.5),
-        MEDIUM(2.0),
+        SMALL(1.0),
+        MEDIUM(1.0),
         LARGE(3.5)
     }
 
@@ -37,9 +38,9 @@ class UIText(config: UIConfig, default: String = "Text"): UI(config), IDrawable,
         )
     }
 
+    // TODO dont hardcode
     override fun layoutPostCallback() {
-        val fr = Minecraft.getMinecraft().fontRendererObj
-        width = scale.numeric * fr.getStringWidth(text).toDouble()
-        height = scale.numeric * fr.FONT_HEIGHT.toDouble()
+        width = scale.numeric * JavaNativeRendering.nGetTextWidth(text)
+        height = scale.numeric * 20.0f
     }
 }

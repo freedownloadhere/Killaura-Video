@@ -112,33 +112,12 @@ class Core: GuiScreen() {
 
         JavaNativeRendering.nUpdateScreenSize(width.toFloat(), height.toFloat())
 
-        JavaNativeRendering.nDrawRect(
-            10.0f, 10.0f, 0.0f,
-            width.toFloat() - 20.0f, height.toFloat() - 20.0f,
-            UIColorEnum.BOX_SECONDARY.toColor(), UIColorEnum.ACCENT.toColor(),
-            0.0f, 1.0f
-        )
+        if(topLevelUI is ILayout)
+            (topLevelUI as ILayout).applyLayout()
 
-        JavaNativeRendering.nDrawRect(
-            100.0f, 100.0f, 0.0f,
-            200.0f, 100.0f,
-            UIColorEnum.BOX_SECONDARY.toColor(), UIColorEnum.BOX_PRIMARY.toColor(),
-            10.0f, 1.0f
-        )
+        topLevelUI.updateRecursive(deltaTime)
 
-        JavaNativeRendering.nDrawText(
-            "${Minecraft.getMinecraft().displayWidth} : ${Minecraft.getMinecraft().displayHeight}",
-            0.0f, 20.0f, 0.0f,
-            UIColorEnum.TEXT_PRIMARY.toColor(),
-            1.0f
-        )
-
-//        if(topLevelUI is ILayout)
-//            (topLevelUI as ILayout).applyLayout()
-//
-//        topLevelUI.updateRecursive(deltaTime)
-//
-//        renderer.renderEverything(topLevelUI)
+        renderer.renderEverything(topLevelUI)
     }
 
     override fun handleMouseInput() {

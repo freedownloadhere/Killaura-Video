@@ -24,4 +24,8 @@ public class JavaNativeRendering {
         Color color,
         float scale
     );
+
+    public static native float nGetTextWidth(
+        String text
+    );
 }
