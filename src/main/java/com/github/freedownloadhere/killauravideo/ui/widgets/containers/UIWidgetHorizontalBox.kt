@@ -1,19 +1,19 @@
 package com.github.freedownloadhere.killauravideo.ui.widgets.containers
 
 import com.github.freedownloadhere.killauravideo.ui.core.hierarchy.IParentExtendable
-import com.github.freedownloadhere.killauravideo.ui.util.UIStyleConfig
-import com.github.freedownloadhere.killauravideo.ui.widgets.basic.UI
+import com.github.freedownloadhere.killauravideo.ui.core.UIStyleConfig
+import com.github.freedownloadhere.killauravideo.ui.widgets.basic.UIWidget
 import kotlin.math.max
 
-class UIHorizontalBox(config: UIStyleConfig) : UIBox(config), IParentExtendable
+class UIWidgetHorizontalBox(config: UIStyleConfig) : UIWidgetBox(config), IParentExtendable
 {
     enum class Placement { LEFT, RIGHT }
     private var placementState = Placement.LEFT
 
-    private val left = mutableListOf<UI>()
-    private val right = mutableListOf<UI>()
+    private val left = mutableListOf<UIWidget>()
+    private val right = mutableListOf<UIWidget>()
 
-    override val children: Sequence<UI>
+    override val children: Sequence<UIWidget>
         get() = left.asSequence() + right.asSequence()
 
     fun placeLeft(block: () -> Unit = { }) {
@@ -26,17 +26,18 @@ class UIHorizontalBox(config: UIStyleConfig) : UIBox(config), IParentExtendable
         block()
     }
 
-    override fun addChild(ui: UI) {
+    override fun addChild(uiWidget: UIWidget) {
         when(placementState) {
-            Placement.LEFT -> left += ui
-            Placement.RIGHT -> right += ui
+            Placement.LEFT -> left += uiWidget
+            Placement.RIGHT -> right += uiWidget
         }
     }
 
     override fun layoutPostCallback() {
         stretchSelf()
-        var leftX = padding
-        var rightX = width - padding
+        val pad = if(enablePadding) config.padding else 0.0f
+        var leftX = pad
+        var rightX = width - pad
         for(child in left) {
             child.relX = leftX
             leftX += child.width
@@ -50,14 +51,15 @@ class UIHorizontalBox(config: UIStyleConfig) : UIBox(config), IParentExtendable
     }
 
     private fun stretchSelf() {
+        val pad = if(enablePadding) config.padding else 0.0f
         var minWidth = 0.0f
         var minHeight = 0.0f
         for(child in children) {
             minWidth += child.width
             minHeight = max(minHeight, child.height)
         }
-        minWidth += 2.0f * padding
-        minHeight += 2.0f * padding
+        minWidth += 2.0f * pad
+        minHeight += 2.0f * pad
         width = max(width, minWidth)
         height = max(height, minHeight)
     }

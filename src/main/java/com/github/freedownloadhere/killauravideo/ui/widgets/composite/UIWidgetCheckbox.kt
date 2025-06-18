@@ -8,12 +8,11 @@ import com.github.freedownloadhere.killauravideo.ui.core.layout.IPadded
 import com.github.freedownloadhere.killauravideo.ui.core.layout.uiCenterBoxLayout
 import com.github.freedownloadhere.killauravideo.ui.core.render.IRenderInfo
 import com.github.freedownloadhere.killauravideo.ui.core.render.uiBoxDraw
-import com.github.freedownloadhere.killauravideo.ui.util.UIColorEnum
-import com.github.freedownloadhere.killauravideo.ui.util.UIStyleConfig
-import com.github.freedownloadhere.killauravideo.ui.widgets.basic.UI
-import com.github.freedownloadhere.killauravideo.ui.widgets.basic.UIIcon
+import com.github.freedownloadhere.killauravideo.ui.core.UIStyleConfig
+import com.github.freedownloadhere.killauravideo.ui.widgets.basic.UIWidget
+import com.github.freedownloadhere.killauravideo.ui.widgets.basic.UIWidgetIcon
 
-class UICheckbox(config: UIStyleConfig): UI(config), IUniqueParent<UIIcon>, IMouseEvent, ILayoutPost, IPadded
+class UIWidgetCheckbox(config: UIStyleConfig): UIWidget(config), IUniqueParent<UIWidgetIcon>, IMouseEvent, ILayoutPost, IPadded
 {
     var checked: Boolean = false
         set(value) {
@@ -21,12 +20,12 @@ class UICheckbox(config: UIStyleConfig): UI(config), IUniqueParent<UIIcon>, IMou
             child.hidden = !value
         }
     var onCheck: () -> Unit = { }
-    override val child: UIIcon = UIIcon(config)
+    override val child: UIWidgetIcon = UIWidgetIcon(config)
 
-    override var padding: Float = config.padding
+    override var enablePadding: Boolean = true
 
     override fun mouseEventCallback(mouseInfo: MouseInfo) {
-        if(mouseInfo.lcmInstant?.ui == this) {
+        if(mouseInfo.lcmInstant?.uiWidget == this) {
             checked = !checked
             onCheck()
         }
@@ -34,5 +33,5 @@ class UICheckbox(config: UIStyleConfig): UI(config), IUniqueParent<UIIcon>, IMou
 
     override fun layoutPostCallback() = uiCenterBoxLayout()
 
-    override fun renderCallback(ri: IRenderInfo) = uiBoxDraw(ri, UIColorEnum.BOX_SECONDARY)
+    override fun renderCallback(ri: IRenderInfo) = uiBoxDraw(ri, config.colorBoxSecondary)
 }

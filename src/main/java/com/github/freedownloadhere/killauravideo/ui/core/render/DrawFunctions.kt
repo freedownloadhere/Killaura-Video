@@ -1,9 +1,9 @@
 package com.github.freedownloadhere.killauravideo.ui.core.render
 
-import com.github.freedownloadhere.killauravideo.ui.util.UIColorEnum
-import com.github.freedownloadhere.killauravideo.ui.widgets.basic.UI
+import com.github.freedownloadhere.killauravideo.ui.widgets.basic.UIWidget
+import java.awt.Color
 
-fun <T> T.uiBoxDraw(ri: IRenderInfo, baseColor: UIColorEnum) where T: UI {
+fun <T> T.uiBoxDraw(ri: IRenderInfo, baseColor: Color) where T: UIWidget {
     RenderingBackend.drawRect(
         x = ri.absX + relX,
         y = ri.absY + relY,
@@ -11,7 +11,7 @@ fun <T> T.uiBoxDraw(ri: IRenderInfo, baseColor: UIColorEnum) where T: UI {
         width = width,
         height = height,
         baseColor = baseColor,
-        borderColor = UIColorEnum.BOX_PRIMARY,
+        borderColor = ri.config.colorBoxPrimary,
         rounding = ri.config.rounding,
         bordering = ri.config.bordering,
     )

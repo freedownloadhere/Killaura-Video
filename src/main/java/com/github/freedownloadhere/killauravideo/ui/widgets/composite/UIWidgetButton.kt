@@ -7,33 +7,33 @@ import com.github.freedownloadhere.killauravideo.ui.core.layout.ILayoutPost
 import com.github.freedownloadhere.killauravideo.ui.core.layout.uiCenterBoxLayout
 import com.github.freedownloadhere.killauravideo.ui.core.render.IRenderInfo
 import com.github.freedownloadhere.killauravideo.ui.core.render.uiBoxDraw
-import com.github.freedownloadhere.killauravideo.ui.util.UIColorEnum
-import com.github.freedownloadhere.killauravideo.ui.util.UIStyleConfig
-import com.github.freedownloadhere.killauravideo.ui.widgets.basic.UI
-import com.github.freedownloadhere.killauravideo.ui.widgets.basic.UIText
+import com.github.freedownloadhere.killauravideo.ui.core.UIStyleConfig
+import com.github.freedownloadhere.killauravideo.ui.widgets.basic.UIWidget
+import com.github.freedownloadhere.killauravideo.ui.widgets.basic.UIWidgetText
+import java.awt.Color
 import kotlin.math.max
 
-class UIButton(config: UIStyleConfig): UI(config), IUniqueParent<UIText>, ILayoutPost, IMouseEvent
+class UIWidgetButton(config: UIStyleConfig): UIWidget(config), IUniqueParent<UIWidgetText>, ILayoutPost, IMouseEvent
 {
     private val cooldown: Long = config.buttonClickCooldown
     private var cooldownLeft: Long  = 0L
 
-    override val child: UIText = UIText(config)
+    override val child: UIWidgetText = UIWidgetText(config)
 
     var onClick: () -> Unit = { }
-    private var color: UIColorEnum = UIColorEnum.BOX_SECONDARY
+    private var color: Color = config.colorBoxSecondary
 
     override fun update(deltaTime: Long) {
         cooldownLeft = max(0L, cooldownLeft - deltaTime)
-        if(cooldownLeft == 0L) color = UIColorEnum.BOX_SECONDARY
+        if(cooldownLeft == 0L) color = config.colorBoxSecondary
         super.update(deltaTime)
     }
 
     override fun mouseEventCallback(mouseInfo: MouseInfo) {
-        if(mouseInfo.lcmInstant?.ui == this && cooldownLeft == 0L) {
+        if(mouseInfo.lcmInstant?.uiWidget == this && cooldownLeft == 0L) {
             onClick()
             cooldownLeft = cooldown
-            color = UIColorEnum.BOX_TERNARY
+            color = config.colorBoxTernary
         }
     }
 

@@ -1,6 +1,6 @@
 package com.github.freedownloadhere.killauravideo.ui.core.render
 
-import com.github.freedownloadhere.killauravideo.ui.util.UIStyleConfig
+import com.github.freedownloadhere.killauravideo.ui.core.UIStyleConfig
 
 interface IRenderInfo {
     val absX: Float

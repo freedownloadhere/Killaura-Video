@@ -1,9 +1,9 @@
 package com.github.freedownloadhere.killauravideo.ui.core.hierarchy
 
-import com.github.freedownloadhere.killauravideo.ui.widgets.basic.UI
+import com.github.freedownloadhere.killauravideo.ui.widgets.basic.UIWidget
 
 interface IParentExtendable: IParent {
-    fun addChild(ui: UI)
+    fun addChild(uiWidget: UIWidget)
 
-    operator fun UI.unaryPlus() = addChild(this)
+    operator fun UIWidget.unaryPlus() = addChild(this)
 }

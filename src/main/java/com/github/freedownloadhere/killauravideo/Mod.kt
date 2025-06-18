@@ -2,7 +2,12 @@ package com.github.freedownloadhere.killauravideo
 
 import com.github.freedownloadhere.killauravideo.commands.CommandToggle
 import com.github.freedownloadhere.killauravideo.ui.core.UICore
+import com.github.freedownloadhere.killauravideo.ui.core.UIStyleConfig
+import com.github.freedownloadhere.killauravideo.ui.dsl.centerBox
+import com.github.freedownloadhere.killauravideo.ui.dsl.slider
 import com.github.freedownloadhere.killauravideo.ui.dsl.text
+import com.github.freedownloadhere.killauravideo.ui.dsl.verticalBox
+import com.github.freedownloadhere.killauravideo.ui.widgets.basic.UIWidgetText
 import com.github.freedownloadhere.killauravideo.utils.KeybindMap
 import com.github.freedownloadhere.killauravideo.utils.LibraryLoading
 import net.minecraft.client.Minecraft
@@ -12,6 +17,7 @@ import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.event.FMLInitializationEvent
 import org.lwjgl.input.Keyboard
+import kotlin.math.roundToInt
 
 @Mod(modid = "killauravideo", useMetadata = true)
 class Mod {
@@ -24,9 +30,46 @@ class Mod {
         ClientCommandHandler.instance.registerCommand(CommandToggle())
 
         KeybindMap.addKey(KeyBinding("Toggle UI", Keyboard.KEY_J, "")) {
-            GlobalManager.core = UICore {
-                text("hello")
+            val config = UIStyleConfig()
+
+            GlobalManager.core = UICore(config) {
+                verticalBox {
+                    canBeMoved = true
+                    + centerBox {
+                        child = text("Modify the config") {
+                            scale = UIWidgetText.Scale.LARGE
+                        }
+                    }
+                    + text {
+                        source = { "Rounding: ${config.rounding.roundToInt()}" }
+                    }
+                    + slider {
+                        minValue = 0.0f
+                        maxValue = 30.0f
+                        selectedValue = config.rounding
+                        clickAction = { config.rounding = selectedValue }
+                    }
+                    + text {
+                        source = { "Bordering: ${config.bordering.roundToInt()}" }
+                    }
+                    + slider {
+                        minValue = 0.0f
+                        maxValue = 10.0f
+                        selectedValue = config.bordering
+                        clickAction = { config.bordering = selectedValue }
+                    }
+                    + text {
+                        source = { "Padding: ${config.padding.roundToInt()}" }
+                    }
+                    + slider {
+                        minValue = 0.0f
+                        maxValue = 10.0f
+                        selectedValue = config.padding
+                        clickAction = { config.padding = selectedValue }
+                    }
+                }
             }
+
             Minecraft.getMinecraft().displayGuiScreen(GlobalManager.core!!)
         }
     }

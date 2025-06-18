@@ -4,10 +4,10 @@ import com.github.freedownloadhere.killauravideo.ui.core.layout.ILayoutPost
 import com.github.freedownloadhere.killauravideo.ui.core.render.IRenderInfo
 import com.github.freedownloadhere.killauravideo.ui.core.render.JavaNativeRendering
 import com.github.freedownloadhere.killauravideo.ui.core.render.RenderingBackend
-import com.github.freedownloadhere.killauravideo.ui.util.UIColorEnum
-import com.github.freedownloadhere.killauravideo.ui.util.UIStyleConfig
+import com.github.freedownloadhere.killauravideo.ui.core.UIStyleConfig
+import java.awt.Color
 
-class UIText(config: UIStyleConfig, default: String = "Text"): UI(config), ILayoutPost
+class UIWidgetText(config: UIStyleConfig, default: String = "Text"): UIWidget(config), ILayoutPost
 {
     // duplicate data
     enum class Scale(val idx: Int, val vSizePx: Float) {
@@ -24,7 +24,7 @@ class UIText(config: UIStyleConfig, default: String = "Text"): UI(config), ILayo
     val text: String
         get() = source()
 
-    var color: UIColorEnum = UIColorEnum.TEXT_PRIMARY
+    var color: Color = config.colorTextPrimary
 
     override fun renderCallback(ri: IRenderInfo) {
         if (text.isEmpty()) return

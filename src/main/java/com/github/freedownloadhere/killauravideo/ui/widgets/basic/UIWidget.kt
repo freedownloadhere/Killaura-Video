@@ -3,11 +3,10 @@ package com.github.freedownloadhere.killauravideo.ui.widgets.basic
 import com.github.freedownloadhere.killauravideo.ui.core.render.IRenderInfo
 import com.github.freedownloadhere.killauravideo.ui.dsl.UIScopeMarker
 import com.github.freedownloadhere.killauravideo.ui.util.RecursiveIterator
-import com.github.freedownloadhere.killauravideo.ui.util.UIStyleConfig
+import com.github.freedownloadhere.killauravideo.ui.core.UIStyleConfig
 
-@Suppress("UNUSED_PARAMETER")
 @UIScopeMarker
-abstract class UI(config: UIStyleConfig) {
+abstract class UIWidget(val config: UIStyleConfig) {
     var relX: Float = 0.0f
     var relY: Float = 0.0f
     var width: Float = 0.0f

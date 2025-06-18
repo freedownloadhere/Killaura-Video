@@ -7,20 +7,19 @@ import com.github.freedownloadhere.killauravideo.ui.core.layout.ILayoutPost
 import com.github.freedownloadhere.killauravideo.ui.core.layout.IPadded
 import com.github.freedownloadhere.killauravideo.ui.core.render.IRenderInfo
 import com.github.freedownloadhere.killauravideo.ui.core.render.uiBoxDraw
-import com.github.freedownloadhere.killauravideo.ui.util.UIColorEnum
-import com.github.freedownloadhere.killauravideo.ui.util.UIStyleConfig
-import com.github.freedownloadhere.killauravideo.ui.widgets.basic.UI
+import com.github.freedownloadhere.killauravideo.ui.core.UIStyleConfig
+import com.github.freedownloadhere.killauravideo.ui.widgets.basic.UIWidget
+import java.awt.Color
 
-abstract class UIBox(config: UIStyleConfig): UI(config), ILayoutPost, IParent, IPadded, IMouseEvent
+abstract class UIWidgetBox(config: UIStyleConfig): UIWidget(config), ILayoutPost, IParent, IPadded, IMouseEvent
 {
-    override var padding: Float = config.padding
-    var baseColor: UIColorEnum = UIColorEnum.BOX_TERNARY
+    override var enablePadding: Boolean = true
     var canBeMoved: Boolean = false
 
-    override fun renderCallback(ri: IRenderInfo) = uiBoxDraw(ri, baseColor)
+    override fun renderCallback(ri: IRenderInfo) = uiBoxDraw(ri, config.colorBoxTernary)
 
     override fun mouseEventCallback(mouseInfo: MouseInfo) {
-        if(canBeMoved && mouseInfo.lcmGrabbed?.ui == this) {
+        if(canBeMoved && mouseInfo.lcmGrabbed?.uiWidget == this) {
             relX += mouseInfo.dX
             relY += mouseInfo.dY
         }

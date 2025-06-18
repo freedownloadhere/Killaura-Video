@@ -1,63 +1,61 @@
 package com.github.freedownloadhere.killauravideo.ui.core
 
-import com.github.freedownloadhere.killauravideo.ui.core.io.InteractionManager
+import com.github.freedownloadhere.killauravideo.ui.core.io.UIInteractionManager
 import com.github.freedownloadhere.killauravideo.ui.core.layout.ILayout
 import com.github.freedownloadhere.killauravideo.ui.core.render.JavaNativeRendering
-import com.github.freedownloadhere.killauravideo.ui.core.render.UINewRenderer
+import com.github.freedownloadhere.killauravideo.ui.core.render.UIRenderManager
 import com.github.freedownloadhere.killauravideo.ui.dsl.UIBuilderGlobals
-import com.github.freedownloadhere.killauravideo.ui.util.TimeUtil
-import com.github.freedownloadhere.killauravideo.ui.util.UIStyleConfig
-import com.github.freedownloadhere.killauravideo.ui.widgets.basic.UI
+import com.github.freedownloadhere.killauravideo.ui.widgets.basic.UIWidget
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiScreen
+import java.time.Instant
 
-class UICore(private val uiProvider: () -> UI): GuiScreen() {
+class UICore(
+    val config: UIStyleConfig = UIStyleConfig(),
+    private val uiWidgetProvider: () -> UIWidget
+): GuiScreen()
+{
     // future reminder:
     // the reason why this is all mutable is because
     // when the screen resizes it needs to keep track of
     // the new width and height
 
-    private lateinit var config: UIStyleConfig
+    private lateinit var mainUIWidget: UIWidget
 
-    private lateinit var topLevelUI: UI
-
-    private lateinit var interactionManager: InteractionManager
-    private lateinit var renderer: UINewRenderer
-
-    private val timeUtil = TimeUtil()
+    private lateinit var interactionManager: UIInteractionManager
+    private lateinit var renderManager: UIRenderManager
 
     override fun initGui() {
         width = Minecraft.getMinecraft().displayWidth
         height = Minecraft.getMinecraft().displayHeight
 
-        config = UIStyleConfig(
-            screenWidth = width.toFloat(),
-            screenHeight = height.toFloat()
-        )
+        config.screenWidth = width.toFloat()
+        config.screenHeight = height.toFloat()
 
         UIBuilderGlobals.uiConfig = config
 
-        topLevelUI = uiProvider()
+        mainUIWidget = uiWidgetProvider()
 
-        interactionManager = InteractionManager(topLevelUI, config)
-        renderer = UINewRenderer(config)
+        interactionManager = UIInteractionManager(mainUIWidget, config)
+        renderManager = UIRenderManager(config)
     }
 
+    private var lastTime: Long = Instant.now().toEpochMilli()
     override fun drawScreen(mouseX: Int, mouseY: Int, partialTicks: Float) {
-        val deltaTime = timeUtil.newDeltaTime()
+        val newTime = Instant.now().toEpochMilli()
+        val deltaTime = newTime - lastTime
+        lastTime = newTime
 
         drawDefaultBackground()
 
-        JavaNativeRendering.nUpdateScreenSize(width.toFloat(), height.toFloat())
-
         interactionManager.handleMouseInput()
 
-        if(topLevelUI is ILayout)
-            (topLevelUI as ILayout).applyLayout()
+        if(mainUIWidget is ILayout)
+            (mainUIWidget as ILayout).applyLayout()
 
-        topLevelUI.updateRecursive(deltaTime)
+        mainUIWidget.updateRecursive(deltaTime)
 
-        renderer.renderEverything(topLevelUI)
+        renderManager.renderEverything(mainUIWidget)
     }
 
     override fun keyTyped(typedChar: Char, keyCode: Int) {

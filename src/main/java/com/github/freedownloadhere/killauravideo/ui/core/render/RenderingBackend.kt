@@ -1,7 +1,7 @@
 package com.github.freedownloadhere.killauravideo.ui.core.render
 
-import com.github.freedownloadhere.killauravideo.ui.util.UIColorEnum
-import com.github.freedownloadhere.killauravideo.ui.widgets.basic.UIText
+import com.github.freedownloadhere.killauravideo.ui.widgets.basic.UIWidgetText
+import java.awt.Color
 import java.io.FileNotFoundException
 
 object RenderingBackend {
@@ -22,25 +22,25 @@ object RenderingBackend {
     fun drawLine(
         x1: Float, y1: Float, z1: Float,
         x2: Float, y2: Float, z2: Float,
-        color: UIColorEnum,
+        color: Color,
         width: Float,
     ) = JavaNativeRendering.nAddLineToMesh(
         x1, y1, z1,
         x2, y2, z2,
-        color.toPackedARGB(),
+        color.rgb,
         width
     )
 
     fun drawRect(
         x: Float, y: Float, z: Float,
         width: Float, height: Float,
-        baseColor: UIColorEnum, borderColor: UIColorEnum,
+        baseColor: Color, borderColor: Color,
         rounding: Float, bordering: Float,
         textureName: String? = null,
     ) = JavaNativeRendering.nAddRectToMesh(
         x, y, z,
         width, height,
-        baseColor.toColor().rgb, borderColor.toColor().rgb,
+        baseColor.rgb, borderColor.rgb,
         rounding, bordering,
         savedTextureToID.getOrDefault(textureName, -1)
     )
@@ -48,12 +48,12 @@ object RenderingBackend {
     fun drawText(
         string: String,
         x: Float, y: Float, z: Float,
-        color: UIColorEnum,
-        scale: UIText.Scale,
+        color: Color,
+        scale: UIWidgetText.Scale,
     ) = JavaNativeRendering.nAddTextToMesh(
         string,
         x, y, z,
-        color.toColor().rgb,
+        color.rgb,
         scale.idx
     )
 }
