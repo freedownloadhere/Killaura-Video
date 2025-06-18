@@ -15,6 +15,7 @@ import org.lwjgl.input.Keyboard
 
 @Mod(modid = "killauravideo", useMetadata = true)
 class Mod {
+    @Suppress("UNUSED_PARAMETER")
     @Mod.EventHandler
     fun init(e: FMLInitializationEvent) {
         LibraryLoading.load()
