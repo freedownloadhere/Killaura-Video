@@ -3,11 +3,11 @@ package com.github.freedownloadhere.killauravideo.ui.core.io
 import com.github.freedownloadhere.killauravideo.ui.basic.UI
 import com.github.freedownloadhere.killauravideo.ui.interfaces.io.IInteractable
 import com.github.freedownloadhere.killauravideo.ui.interfaces.parents.IParent
-import com.github.freedownloadhere.killauravideo.ui.util.UIConfig
+import com.github.freedownloadhere.killauravideo.ui.util.UIStyleConfig
 import org.lwjgl.input.Mouse
 
 class MouseInfo {
-    data class UIAbsoluteData(val ui: UI, val absX: Double, val absY: Double)
+    data class UIAbsoluteData(val ui: UI, val absX: Float, val absY: Float)
 
     var lastX = -1
         private set
@@ -43,7 +43,7 @@ class MouseInfo {
     var rcmHovered: UIAbsoluteData? = null
         private set
 
-    fun update(topUI: UI, config: UIConfig) {
+    fun update(topUI: UI, config: UIStyleConfig) {
         val newX = Mouse.getEventX()
         val newY = config.screenHeight.toInt() - Mouse.getEventY() - 1
         dX = newX - lastX
@@ -67,7 +67,7 @@ class MouseInfo {
         lcmHovered = null
         rcmHovered = null
 
-        val freshUIData = topUI.findMouseCurrentlyOn(0.0, 0.0) ?: return
+        val freshUIData = topUI.findMouseCurrentlyOn() ?: return
 
         lcmInstant = if(lcmHoldTime == 1) freshUIData else null
         rcmInstant = if(rcmHoldTime == 1) freshUIData else null
@@ -82,7 +82,7 @@ class MouseInfo {
         rcmHovered = freshUIData
     }
 
-    private fun UI.findMouseCurrentlyOn(absX: Double, absY: Double): UIAbsoluteData? {
+    private fun UI.findMouseCurrentlyOn(absX: Float = 0.0f, absY: Float = 0.0f): UIAbsoluteData? {
         if(!active) return null
 
         if(this is IParent)

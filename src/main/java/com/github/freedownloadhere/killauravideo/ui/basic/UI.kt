@@ -3,14 +3,14 @@ package com.github.freedownloadhere.killauravideo.ui.basic
 import com.github.freedownloadhere.killauravideo.ui.dsl.UIScopeMarker
 import com.github.freedownloadhere.killauravideo.ui.interfaces.render.IDrawable
 import com.github.freedownloadhere.killauravideo.ui.util.RecursiveIterator
-import com.github.freedownloadhere.killauravideo.ui.util.UIConfig
+import com.github.freedownloadhere.killauravideo.ui.util.UIStyleConfig
 
 @UIScopeMarker
-abstract class UI(config: UIConfig): IDrawable {
-    internal var relX = 0.0
-    internal var relY = 0.0
-    internal var width = 0.0
-    internal var height = 0.0
+abstract class UI(config: UIStyleConfig): IDrawable {
+    var relX: Float = 0.0f
+    var relY: Float = 0.0f
+    var width: Float = 0.0f
+    var height: Float = 0.0f
 
     var active = true
         set(value) { changeActiveState(value) }

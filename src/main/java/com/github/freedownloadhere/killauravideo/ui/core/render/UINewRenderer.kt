@@ -3,23 +3,23 @@ package com.github.freedownloadhere.killauravideo.ui.core.render
 import com.github.freedownloadhere.killauravideo.ui.basic.UI
 import com.github.freedownloadhere.killauravideo.ui.interfaces.parents.IParent
 import com.github.freedownloadhere.killauravideo.ui.interfaces.render.IDrawable
-import com.github.freedownloadhere.killauravideo.ui.util.UIConfig
+import com.github.freedownloadhere.killauravideo.ui.util.UIStyleConfig
 
-class UINewRenderer(config: UIConfig) {
+class UINewRenderer(config: UIStyleConfig) {
     data class RenderInfo(
-        var absX: Double,
-        var absY: Double,
+        var absX: Float,
+        var absY: Float,
         var layer: Int,
-        var config: UIConfig,
+        var config: UIStyleConfig,
     )
 
     private val renderInfo = RenderInfo(
-        absX = 0.0, absY = 0.0, layer = 0, config = config
+        absX = 0.0f, absY = 0.0f, layer = 0, config = config
     )
 
     fun <T> renderEverything(ui: T) where T: UI, T: IDrawable {
-        renderInfo.absX = 0.0
-        renderInfo.absY = 0.0
+        renderInfo.absX = 0.0f
+        renderInfo.absY = 0.0f
         renderInfo.layer = 0
         recursiveRender(ui)
     }

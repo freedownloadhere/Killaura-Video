@@ -2,7 +2,6 @@ package com.github.freedownloadhere.killauravideo
 
 import com.github.freedownloadhere.killauravideo.rendering.RenderUtils
 import com.github.freedownloadhere.killauravideo.ui.core.Core
-import com.github.freedownloadhere.killauravideo.ui.core.render.JavaNativeRendering
 import com.github.freedownloadhere.killauravideo.ui.core.render.RenderingBackend
 import com.github.freedownloadhere.killauravideo.utils.EntityPositions
 import com.github.freedownloadhere.killauravideo.utils.KeybindMap

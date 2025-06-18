@@ -8,18 +8,17 @@ import com.github.freedownloadhere.killauravideo.ui.basic.UIText
 import com.github.freedownloadhere.killauravideo.ui.core.io.InteractionManager
 import com.github.freedownloadhere.killauravideo.ui.core.io.MouseInfo
 import com.github.freedownloadhere.killauravideo.ui.core.render.JavaNativeRendering
-import com.github.freedownloadhere.killauravideo.ui.core.render.RenderingBackend
 import com.github.freedownloadhere.killauravideo.ui.core.render.UINewRenderer
 import com.github.freedownloadhere.killauravideo.ui.dsl.*
 import com.github.freedownloadhere.killauravideo.ui.interfaces.layout.ILayout
 import com.github.freedownloadhere.killauravideo.ui.util.TimeUtil
 import com.github.freedownloadhere.killauravideo.ui.util.UIColorEnum
-import com.github.freedownloadhere.killauravideo.ui.util.UIConfig
+import com.github.freedownloadhere.killauravideo.ui.util.UIStyleConfig
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiScreen
 
 class Core: GuiScreen() {
-    lateinit var config: UIConfig
+    lateinit var config: UIStyleConfig
         private set
     private lateinit var topLevelUI: UI
 
@@ -33,7 +32,7 @@ class Core: GuiScreen() {
     override fun initGui() {
         width = Minecraft.getMinecraft().displayWidth
         height = Minecraft.getMinecraft().displayHeight
-        config = UIConfig(screenWidth = width.toDouble(), screenHeight = height.toDouble())
+        config = UIStyleConfig(screenWidth = width.toFloat(), screenHeight = height.toFloat())
         UIBuilderGlobals.uiConfig = config
 
 //        topLevelUI = verticalBox {
@@ -53,11 +52,11 @@ class Core: GuiScreen() {
                 child = text("Killaura") {
                     scale = UIText.Scale.SMALL
                 }
-                width = 200.0
+                width = 200.0f
             }
 
             + verticalBox {
-                padding = 0.0
+                padding = 0.0f
                 hidden = true
 
                 + horizontalBox {
@@ -74,13 +73,13 @@ class Core: GuiScreen() {
                 }
 
                 + verticalBox {
-                    spacing = 5.0
+                    spacing = 5.0f
 
                     val minReach = 3.0
                     val maxReach = 6.0
 
                     + horizontalBox {
-                        padding = 0.0
+                        padding = 0.0f
                         hidden = true
                         placeLeft()
                         + text("Reach") {
@@ -93,7 +92,7 @@ class Core: GuiScreen() {
                         }
                     }
                     + horizontalBox {
-                        padding = 0.0
+                        padding = 0.0f
                         hidden = true
                         placeLeft()
                         + text {
@@ -109,12 +108,12 @@ class Core: GuiScreen() {
                         }
                     }
                     + slider {
-                        minValue = minReach
-                        maxValue = maxReach
+                        minValue = minReach.toFloat()
+                        maxValue = maxReach.toFloat()
                         segmented = true
                         segmentCount = 6
-                        selectedValue = ka.limiter.maxReach
-                        clickAction = { ka.limiter.maxReach = selectedValue }
+                        selectedValue = ka.limiter.maxReach.toFloat()
+                        clickAction = { ka.limiter.maxReach = selectedValue.toDouble() }
                     }
                 }
             }

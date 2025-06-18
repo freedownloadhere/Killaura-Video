@@ -7,14 +7,14 @@ import com.github.freedownloadhere.killauravideo.ui.util.UIColorEnum
 
 fun <T> T.uiBoxDraw(info: UINewRenderer.RenderInfo, baseColor: UIColorEnum) where T: UI {
     RenderingBackend.drawRect(
-        x = (info.absX + relX).toFloat(),
-        y = (info.absY + relY).toFloat(),
+        x = info.absX + relX,
+        y = info.absY + relY,
         z = info.layer * 0.01f,
-        width = width.toFloat(),
-        height = height.toFloat(),
+        width = width,
+        height = height,
         baseColor = baseColor,
         borderColor = UIColorEnum.BOX_PRIMARY,
-        rounding = info.config.rounding.toFloat(),
-        bordering = info.config.bordering.toFloat(),
+        rounding = info.config.rounding,
+        bordering = info.config.bordering,
     )
 }

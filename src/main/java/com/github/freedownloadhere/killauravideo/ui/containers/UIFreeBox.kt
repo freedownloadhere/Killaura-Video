@@ -2,9 +2,9 @@ package com.github.freedownloadhere.killauravideo.ui.containers
 
 import com.github.freedownloadhere.killauravideo.ui.basic.UI
 import com.github.freedownloadhere.killauravideo.ui.interfaces.parents.IParentExtendable
-import com.github.freedownloadhere.killauravideo.ui.util.UIConfig
+import com.github.freedownloadhere.killauravideo.ui.util.UIStyleConfig
 
-class UIFreeBox(config: UIConfig) : UIBox(config), IParentExtendable
+class UIFreeBox(config: UIStyleConfig) : UIBox(config), IParentExtendable
 {
     private val childrenList = mutableListOf<UI>()
 

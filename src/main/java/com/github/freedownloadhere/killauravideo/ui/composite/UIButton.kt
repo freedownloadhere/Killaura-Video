@@ -6,24 +6,23 @@ import com.github.freedownloadhere.killauravideo.ui.core.io.MouseInfo
 import com.github.freedownloadhere.killauravideo.ui.core.render.UINewRenderer
 import com.github.freedownloadhere.killauravideo.ui.implementations.uiBoxDraw
 import com.github.freedownloadhere.killauravideo.ui.implementations.uiCenterBoxLayout
-import com.github.freedownloadhere.killauravideo.ui.interfaces.io.IClickable
 import com.github.freedownloadhere.killauravideo.ui.interfaces.io.IMouseEvent
 import com.github.freedownloadhere.killauravideo.ui.interfaces.layout.ILayoutPost
 import com.github.freedownloadhere.killauravideo.ui.interfaces.parents.IUniqueParent
 import com.github.freedownloadhere.killauravideo.ui.interfaces.render.IDrawable
 import com.github.freedownloadhere.killauravideo.ui.util.UIColorEnum
-import com.github.freedownloadhere.killauravideo.ui.util.UIConfig
+import com.github.freedownloadhere.killauravideo.ui.util.UIStyleConfig
 import kotlin.math.max
 
-class UIButton(config: UIConfig): UI(config), IUniqueParent<UIText>, ILayoutPost, IMouseEvent, IDrawable
+class UIButton(config: UIStyleConfig): UI(config), IUniqueParent<UIText>, ILayoutPost, IMouseEvent, IDrawable
 {
-    private val cooldown = config.buttonClickCooldown
+    private val cooldown: Long = config.buttonClickCooldown
     private var cooldownLeft: Long  = 0L
+
     override var hidden: Boolean = false
     override val child: UIText = UIText(config)
+
     var onClick: () -> Unit = { }
-    val text: UIText
-        get() = child
     private var color: UIColorEnum = UIColorEnum.BOX_SECONDARY
 
     override fun update(deltaTime: Long) {

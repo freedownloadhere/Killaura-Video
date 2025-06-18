@@ -8,10 +8,10 @@ import com.github.freedownloadhere.killauravideo.ui.composite.UISlider
 import com.github.freedownloadhere.killauravideo.ui.containers.UICenteredBox
 import com.github.freedownloadhere.killauravideo.ui.containers.UIHorizontalBox
 import com.github.freedownloadhere.killauravideo.ui.containers.UIVerticalBox
-import com.github.freedownloadhere.killauravideo.ui.util.UIConfig
+import com.github.freedownloadhere.killauravideo.ui.util.UIStyleConfig
 
 object UIBuilderGlobals {
-    lateinit var uiConfig: UIConfig
+    lateinit var uiConfig: UIStyleConfig
 }
 
 fun verticalBox(init: UIVerticalBox.() -> Unit = {}) = newUI(UIVerticalBox(config = UIBuilderGlobals.uiConfig), init)

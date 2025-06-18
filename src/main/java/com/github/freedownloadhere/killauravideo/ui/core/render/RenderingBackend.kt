@@ -2,7 +2,6 @@ package com.github.freedownloadhere.killauravideo.ui.core.render
 
 import com.github.freedownloadhere.killauravideo.ui.basic.UIText
 import com.github.freedownloadhere.killauravideo.ui.util.UIColorEnum
-import org.apache.logging.log4j.LogManager
 import java.io.FileNotFoundException
 
 object RenderingBackend {

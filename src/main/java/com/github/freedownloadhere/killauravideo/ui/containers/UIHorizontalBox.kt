@@ -2,10 +2,10 @@ package com.github.freedownloadhere.killauravideo.ui.containers
 
 import com.github.freedownloadhere.killauravideo.ui.basic.UI
 import com.github.freedownloadhere.killauravideo.ui.interfaces.parents.IParentExtendable
-import com.github.freedownloadhere.killauravideo.ui.util.UIConfig
+import com.github.freedownloadhere.killauravideo.ui.util.UIStyleConfig
 import kotlin.math.max
 
-class UIHorizontalBox(config: UIConfig) : UIBox(config), IParentExtendable
+class UIHorizontalBox(config: UIStyleConfig) : UIBox(config), IParentExtendable
 {
     enum class Placement { LEFT, RIGHT }
     private var placementState = Placement.LEFT
@@ -40,24 +40,24 @@ class UIHorizontalBox(config: UIConfig) : UIBox(config), IParentExtendable
         for(child in left) {
             child.relX = leftX
             leftX += child.width
-            child.relY = 0.5 * (height - child.height)
+            child.relY = 0.5f * (height - child.height)
         }
         for(child in right) {
             rightX -= child.width
             child.relX = rightX
-            child.relY = 0.5 * (height - child.height)
+            child.relY = 0.5f * (height - child.height)
         }
     }
 
     private fun stretchSelf() {
-        var minWidth = 0.0
-        var minHeight = 0.0
+        var minWidth = 0.0f
+        var minHeight = 0.0f
         for(child in children) {
             minWidth += child.width
             minHeight = max(minHeight, child.height)
         }
-        minWidth += 2.0 * padding
-        minHeight += 2.0 * padding
+        minWidth += 2.0f * padding
+        minHeight += 2.0f * padding
         width = max(width, minWidth)
         height = max(height, minHeight)
     }
