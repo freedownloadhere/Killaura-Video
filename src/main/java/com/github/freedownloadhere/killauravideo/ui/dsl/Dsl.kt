@@ -1,17 +1,17 @@
 package com.github.freedownloadhere.killauravideo.ui.dsl
 
-import com.github.freedownloadhere.killauravideo.ui.basic.UI
-import com.github.freedownloadhere.killauravideo.ui.basic.UIText
-import com.github.freedownloadhere.killauravideo.ui.composite.UIButton
-import com.github.freedownloadhere.killauravideo.ui.composite.UICheckbox
-import com.github.freedownloadhere.killauravideo.ui.composite.UISlider
-import com.github.freedownloadhere.killauravideo.ui.containers.UICenteredBox
-import com.github.freedownloadhere.killauravideo.ui.containers.UIHorizontalBox
-import com.github.freedownloadhere.killauravideo.ui.containers.UIVerticalBox
-import com.github.freedownloadhere.killauravideo.ui.util.UIConfig
+import com.github.freedownloadhere.killauravideo.ui.util.UIStyleConfig
+import com.github.freedownloadhere.killauravideo.ui.widgets.basic.UI
+import com.github.freedownloadhere.killauravideo.ui.widgets.basic.UIText
+import com.github.freedownloadhere.killauravideo.ui.widgets.composite.UIButton
+import com.github.freedownloadhere.killauravideo.ui.widgets.composite.UICheckbox
+import com.github.freedownloadhere.killauravideo.ui.widgets.composite.UISlider
+import com.github.freedownloadhere.killauravideo.ui.widgets.containers.UICenteredBox
+import com.github.freedownloadhere.killauravideo.ui.widgets.containers.UIHorizontalBox
+import com.github.freedownloadhere.killauravideo.ui.widgets.containers.UIVerticalBox
 
 object UIBuilderGlobals {
-    lateinit var uiConfig: UIConfig
+    lateinit var uiConfig: UIStyleConfig
 }
 
 fun verticalBox(init: UIVerticalBox.() -> Unit = {}) = newUI(UIVerticalBox(config = UIBuilderGlobals.uiConfig), init)
