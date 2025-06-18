@@ -21,16 +21,26 @@ class MouseInfo {
         private set
     val scrollSens = 10
 
-    val isClicked: Boolean
-        get() = Mouse.getEventButtonState()
-    val buttonmask: Int
-        get() = Mouse.getEventButton()
-    val isHeldDown: Boolean
-        get() = Mouse.isButtonDown(0)
-
-    var currentHovered: UIAbsoluteData? = null
+    var lcmHoldTime = 0
         private set
-    var lastLeftClicked: UIAbsoluteData? = null
+    var lcmGrabbed: UIAbsoluteData? = null
+        private set
+    var lcmCurrent: UIAbsoluteData? = null
+        private set
+    var lcmInstant: UIAbsoluteData? = null
+        private set
+    var lcmHovered: UIAbsoluteData? = null
+        private set
+
+    var rcmHoldTime = 0
+        private set
+    var rcmGrabbed: UIAbsoluteData? = null
+        private set
+    var rcmCurrent: UIAbsoluteData? = null
+        private set
+    var rcmInstant: UIAbsoluteData? = null
+        private set
+    var rcmHovered: UIAbsoluteData? = null
         private set
 
     fun update(topUI: UI, config: UIConfig) {
@@ -41,12 +51,35 @@ class MouseInfo {
         lastX = newX
         lastY = newY
         lastDwheel = Mouse.getEventDWheel()
-        val maybeMouseCurrentlyOn = topUI.findMouseCurrentlyOn(0.0, 0.0)
-        if(maybeMouseCurrentlyOn != null) {
-            currentHovered = maybeMouseCurrentlyOn
-            if(isClicked)
-                lastLeftClicked = maybeMouseCurrentlyOn
-        }
+
+        lcmHoldTime = if(Mouse.isButtonDown(0)) lcmHoldTime + 1 else 0
+        rcmHoldTime = if(Mouse.isButtonDown(1)) rcmHoldTime + 1 else 0
+
+        lcmInstant = null
+        rcmInstant = null
+
+        lcmCurrent = null
+        rcmCurrent = null
+
+        if(lcmHoldTime == 0) lcmGrabbed = null
+        if(rcmHoldTime == 0) rcmGrabbed = null
+
+        lcmHovered = null
+        rcmHovered = null
+
+        val freshUIData = topUI.findMouseCurrentlyOn(0.0, 0.0) ?: return
+
+        lcmInstant = if(lcmHoldTime == 1) freshUIData else null
+        rcmInstant = if(rcmHoldTime == 1) freshUIData else null
+
+        lcmCurrent = if(lcmHoldTime > 0) freshUIData else null
+        rcmCurrent = if(rcmHoldTime > 0) freshUIData else null
+
+        if(lcmHoldTime > 0 && lcmGrabbed == null) lcmGrabbed = freshUIData
+        if(rcmHoldTime > 0 && rcmGrabbed == null) rcmGrabbed = freshUIData
+
+        lcmHovered = freshUIData
+        rcmHovered = freshUIData
     }
 
     private fun UI.findMouseCurrentlyOn(absX: Double, absY: Double): UIAbsoluteData? {

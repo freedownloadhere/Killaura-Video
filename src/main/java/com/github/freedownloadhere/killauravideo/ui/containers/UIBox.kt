@@ -23,7 +23,7 @@ abstract class UIBox(config: UIConfig): UI(config), ILayoutPost, IParent, IDrawa
     override fun renderCallback(info: UINewRenderer.RenderInfo) = uiBoxDraw(info, baseColor)
 
     override fun mouseEventCallback(mouseInfo: MouseInfo) {
-        if(mouseInfo.lastLeftClicked?.ui == this && canBeMoved) {
+        if(canBeMoved && mouseInfo.lcmGrabbed?.ui == this) {
             relX += mouseInfo.dX
             relY += mouseInfo.dY
         }

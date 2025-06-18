@@ -28,7 +28,7 @@ class UICheckbox(config: UIConfig): UI(config), IUniqueParent<UIIcon>, IDrawable
     override var padding: Double = config.padding
 
     override fun mouseEventCallback(mouseInfo: MouseInfo) {
-        if(mouseInfo.lastLeftClicked?.ui == this && mouseInfo.isClicked) {
+        if(mouseInfo.lcmInstant?.ui == this) {
             checked = !checked
             onCheck()
         }

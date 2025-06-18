@@ -3,6 +3,7 @@ package com.github.freedownloadhere.killauravideo
 import com.github.freedownloadhere.killauravideo.rendering.RenderUtils
 import com.github.freedownloadhere.killauravideo.ui.core.Core
 import com.github.freedownloadhere.killauravideo.ui.core.render.JavaNativeRendering
+import com.github.freedownloadhere.killauravideo.ui.core.render.RenderingBackend
 import com.github.freedownloadhere.killauravideo.utils.EntityPositions
 import com.github.freedownloadhere.killauravideo.utils.KeybindMap
 import net.minecraft.client.Minecraft
@@ -65,11 +66,14 @@ object GlobalManager {
     private var tempInit = false
     @SubscribeEvent
     fun renderWorldEvent(e: RenderWorldLastEvent) {
-        if(!tempInit) {
-            val sw = Minecraft.getMinecraft().displayWidth.toFloat()
-            val sh = Minecraft.getMinecraft().displayHeight.toFloat()
-            JavaNativeRendering.nInit(sw, sh)
-            tempInit = true
-        }
+        if(tempInit) return
+        val sw = Minecraft.getMinecraft().displayWidth.toFloat()
+        val sh = Minecraft.getMinecraft().displayHeight.toFloat()
+        RenderingBackend.init(sw, sh)
+        RenderingBackend.loadTexture(
+            "checkmark",
+            "/assets/killauravideo/textures/gui/check.png"
+        )
+        tempInit = true
     }
 }

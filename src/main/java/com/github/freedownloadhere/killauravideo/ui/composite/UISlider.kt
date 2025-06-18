@@ -2,6 +2,7 @@ package com.github.freedownloadhere.killauravideo.ui.composite
 
 import com.github.freedownloadhere.killauravideo.ui.basic.UI
 import com.github.freedownloadhere.killauravideo.ui.core.io.MouseInfo
+import com.github.freedownloadhere.killauravideo.ui.core.render.RenderingBackend
 import com.github.freedownloadhere.killauravideo.ui.core.render.UINewRenderer
 import com.github.freedownloadhere.killauravideo.ui.interfaces.io.IGrabbable
 import com.github.freedownloadhere.killauravideo.ui.interfaces.io.IMouseEvent
@@ -34,10 +35,10 @@ class UISlider(config: UIConfig): UI(config), IPadded, IDrawable, ILayoutPost, I
     var segmentCount: Int = 5
 
     override fun mouseEventCallback(mouseInfo: MouseInfo) {
-        if(mouseInfo.lastLeftClicked?.ui != this)
+        if(mouseInfo.lcmGrabbed?.ui != this)
             return
-        val relX = mouseInfo.lastX - mouseInfo.lastLeftClicked!!.absX
-        position = relX / width
+        val relX = mouseInfo.lastX - mouseInfo.lcmGrabbed!!.absX
+        position = (relX / width).coerceIn(0.0, 1.0)
         if(segmented) {
             val segmentLength = 1.0 / segmentCount
             position = floor(position / segmentLength) * segmentLength
@@ -47,28 +48,40 @@ class UISlider(config: UIConfig): UI(config), IPadded, IDrawable, ILayoutPost, I
 
     override var hidden: Boolean = false
     override fun renderCallback(info: UINewRenderer.RenderInfo) {
-        val tess = Tessellator.getInstance()
-        val wr = tess.worldRenderer
-        val lineWidth = GL11.glGetFloat(GL11.GL_LINE_WIDTH)
-        val sliderCol = UIColorEnum.ACCENT
-        val barCol = UIColorEnum.TEXT_SECONDARY
-        GL11.glLineWidth(2.0f)
-        wr.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION_COLOR)
-        wr.pos(0.0, 0.5 * height - 1.0, 0.0).color(barCol.r, barCol.g, barCol.b, barCol.a).endVertex()
-        wr.pos(width, 0.5 * height - 1.0, 0.0).color(barCol.r, barCol.g, barCol.b, barCol.a).endVertex()
-        tess.draw()
+        RenderingBackend.drawLine(
+            info.absX.toFloat() + relX.toFloat() + 0.0f,
+            info.absY.toFloat() + relY.toFloat() + 0.5f * height.toFloat() - 1.0f,
+            info.layer * 0.01f,
+            info.absX.toFloat() + relX.toFloat() + width.toFloat(),
+            info.absY.toFloat() + relY.toFloat() + 0.5f * height.toFloat() - 1.0f,
+            info.layer * 0.01f,
+            UIColorEnum.TEXT_SECONDARY,
+            2.0f
+        )
+
         for(i in 0..segmentCount) {
-            wr.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION_COLOR)
-            wr.pos((width * i) / segmentCount, height * 0.25, 0.0).color(barCol.r, barCol.g, barCol.b, barCol.a).endVertex()
-            wr.pos((width * i) / segmentCount, height * 0.75, 0.0).color(barCol.r, barCol.g, barCol.b, barCol.a).endVertex()
-            tess.draw()
+            RenderingBackend.drawLine(
+                info.absX.toFloat() + relX.toFloat() + (width.toFloat() * i) / segmentCount,
+                info.absY.toFloat() + relY.toFloat() + height.toFloat() * 0.25f,
+                info.layer * 0.01f,
+                info.absX.toFloat() + relX.toFloat() + (width.toFloat() * i) / segmentCount,
+                info.absY.toFloat() + relY.toFloat() + height.toFloat() * 0.75f,
+                info.layer * 0.01f,
+                UIColorEnum.TEXT_SECONDARY,
+                2.0f
+            )
         }
-        GL11.glLineWidth(4.0f)
-        wr.begin(GL11.GL_LINES, DefaultVertexFormats.POSITION_COLOR)
-        wr.pos(width * position, 0.0, 0.0).color(sliderCol.r, sliderCol.g, sliderCol.b, sliderCol.a).endVertex()
-        wr.pos(width * position, height, 0.0).color(sliderCol.r, sliderCol.g, sliderCol.b, sliderCol.a).endVertex()
-        tess.draw()
-        GL11.glLineWidth(lineWidth)
+
+        RenderingBackend.drawLine(
+            info.absX.toFloat() + relX.toFloat() + width.toFloat() * position.toFloat(),
+            info.absY.toFloat() + relY.toFloat() + 0.0f,
+            info.layer * 0.01f,
+            info.absX.toFloat() + relX.toFloat() + width.toFloat() * position.toFloat(),
+            info.absY.toFloat() + relY.toFloat() + height.toFloat(),
+            info.layer * 0.01f,
+            UIColorEnum.ACCENT,
+            4.0f
+        )
     }
 
     override fun layoutPostCallback() {

@@ -33,7 +33,7 @@ class UIButton(config: UIConfig): UI(config), IUniqueParent<UIText>, ILayoutPost
     }
 
     override fun mouseEventCallback(mouseInfo: MouseInfo) {
-        if(mouseInfo.lastLeftClicked?.ui == this && mouseInfo.isClicked && cooldownLeft == 0L) {
+        if(mouseInfo.lcmInstant?.ui == this && cooldownLeft == 0L) {
             onClick()
             cooldownLeft = cooldown
             color = UIColorEnum.BOX_TERNARY

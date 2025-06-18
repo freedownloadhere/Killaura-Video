@@ -1,7 +1,9 @@
 package com.github.freedownloadhere.killauravideo.ui.basic
 
+import com.github.freedownloadhere.killauravideo.ui.core.render.RenderingBackend
 import com.github.freedownloadhere.killauravideo.ui.core.render.UINewRenderer
 import com.github.freedownloadhere.killauravideo.ui.interfaces.layout.ILayoutPost
+import com.github.freedownloadhere.killauravideo.ui.util.UIColorEnum
 import com.github.freedownloadhere.killauravideo.ui.util.UIConfig
 import net.minecraft.util.ResourceLocation
 
@@ -12,18 +14,20 @@ class UIIcon(config: UIConfig): UI(config), ILayoutPost {
         LARGE(50.0)
     }
 
-    companion object {
-        var iconLocation = ResourceLocation("killauravideo", "textures/gui/check.png")
-    }
-
     var scale: Scale = Scale.MEDIUM
     override var hidden: Boolean = false
 
     override fun renderCallback(info: UINewRenderer.RenderInfo) {
-//        GlStateManager.pushMatrix()
-//        GlStateManager.scale(width, height, 0.0)
-//        renderer.drawRect(iconLocation, filled = true)
-//        GlStateManager.popMatrix()
+        RenderingBackend.drawRect(
+            (info.absX + relX).toFloat(),
+            (info.absY + relY).toFloat(),
+            info.layer * 0.01f,
+            width.toFloat(), height.toFloat(),
+            UIColorEnum.BOX_SECONDARY, UIColorEnum.BOX_TERNARY,
+            info.config.rounding.toFloat(),
+            info.config.bordering.toFloat(),
+            "checkmark"
+        )
     }
 
     override fun layoutPostCallback() {
