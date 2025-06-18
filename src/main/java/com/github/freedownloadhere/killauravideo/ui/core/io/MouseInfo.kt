@@ -1,9 +1,8 @@
 package com.github.freedownloadhere.killauravideo.ui.core.io
 
-import com.github.freedownloadhere.killauravideo.ui.basic.UI
-import com.github.freedownloadhere.killauravideo.ui.interfaces.io.IInteractable
-import com.github.freedownloadhere.killauravideo.ui.interfaces.parents.IParent
+import com.github.freedownloadhere.killauravideo.ui.core.hierarchy.IParent
 import com.github.freedownloadhere.killauravideo.ui.util.UIStyleConfig
+import com.github.freedownloadhere.killauravideo.ui.widgets.basic.UI
 import org.lwjgl.input.Mouse
 
 class MouseInfo {

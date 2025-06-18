@@ -1,7 +1,8 @@
 package com.github.freedownloadhere.killauravideo
 
 import com.github.freedownloadhere.killauravideo.commands.CommandToggle
-import com.github.freedownloadhere.killauravideo.ui.core.Core
+import com.github.freedownloadhere.killauravideo.ui.core.UICore
+import com.github.freedownloadhere.killauravideo.ui.dsl.text
 import com.github.freedownloadhere.killauravideo.utils.KeybindMap
 import com.github.freedownloadhere.killauravideo.utils.LibraryLoading
 import net.minecraft.client.Minecraft
@@ -22,7 +23,9 @@ class Mod {
         ClientCommandHandler.instance.registerCommand(CommandToggle())
 
         KeybindMap.addKey(KeyBinding("Toggle UI", Keyboard.KEY_J, "")) {
-            GlobalManager.core = Core()
+            GlobalManager.core = UICore {
+                text("hello")
+            }
             Minecraft.getMinecraft().displayGuiScreen(GlobalManager.core!!)
         }
     }
