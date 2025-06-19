@@ -6,6 +6,7 @@ import com.github.freedownloadhere.killauravideo.ui.widgets.basic.UIWidgetText
 import com.github.freedownloadhere.killauravideo.ui.widgets.composite.UIWidgetButton
 import com.github.freedownloadhere.killauravideo.ui.widgets.composite.UIWidgetCheckbox
 import com.github.freedownloadhere.killauravideo.ui.widgets.composite.UIWidgetSlider
+import com.github.freedownloadhere.killauravideo.ui.widgets.composite.UIWidgetTextInput
 import com.github.freedownloadhere.killauravideo.ui.widgets.containers.UIWidgetCenteredBox
 import com.github.freedownloadhere.killauravideo.ui.widgets.containers.UIWidgetHorizontalBox
 import com.github.freedownloadhere.killauravideo.ui.widgets.containers.UIWidgetVerticalBox
@@ -27,6 +28,8 @@ fun button(init: UIWidgetButton.() -> Unit = {}) = newUI(UIWidgetButton(config =
 fun slider(init: UIWidgetSlider.() -> Unit = {}) = newUI(UIWidgetSlider(config = UIBuilderGlobals.uiConfig), init)
 
 fun checkbox(init: UIWidgetCheckbox.() -> Unit = {}) = newUI(UIWidgetCheckbox(config = UIBuilderGlobals.uiConfig), init)
+
+fun textInput(init: UIWidgetTextInput.() -> Unit = {}) = newUI(UIWidgetTextInput(config = UIBuilderGlobals.uiConfig), init)
 
 private fun <T: UIWidget> newUI(ui: T, init: T.() -> Unit): T {
     ui.init()

@@ -28,10 +28,10 @@ class UIWidgetText(config: UIStyleConfig, default: String = "Text"): UIWidget(co
 
     override fun renderCallback(ri: IRenderInfo) {
         if (text.isEmpty()) return
+        RenderingBackend.translateBy(ri, relX, relY)
         RenderingBackend.drawText(
-            x = ri.absX + relX,
-            y = ri.absY + relY,
-            z = ri.layer * 0.01f,
+            x = 0.0f,
+            y = 0.0f,
             string = text,
             color = color,
             scale = scale,

@@ -19,7 +19,7 @@ class UIInteractionManager(
     }
 
     fun handleKeyTyped(typedChar : Char, keyCode : Int) {
-        if(mi.lcmCurrent != null && mi.lcmCurrent?.uiWidget is IKeyboardEvent)
-            (mi.lcmCurrent!!.uiWidget as IKeyboardEvent).keyTypedCallback(typedChar, keyCode)
+        if(mi.lcmHovered != null && mi.lcmHovered?.uiWidget is IKeyboardEvent)
+            (mi.lcmHovered!!.uiWidget as IKeyboardEvent).keyTypedCallback(typedChar, keyCode)
     }
 }

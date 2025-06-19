@@ -7,6 +7,10 @@ import java.io.FileNotFoundException
 object RenderingBackend {
     private val savedTextureToID = mutableMapOf<String, Int>()
 
+    private var absX: Float = 0.0f
+    private var absY: Float = 0.0f
+    private var absZ: Float = 0.0f
+
     fun init(screenWidth: Float, screenHeight: Float) {
         JavaNativeRendering.nInit(screenWidth, screenHeight)
     }
@@ -19,26 +23,32 @@ object RenderingBackend {
         inputStream.close()
     }
 
+    fun translateBy(ri: IRenderInfo, relX: Float, relY: Float) {
+        absX = ri.absX + relX
+        absY = ri.absY + relY
+        absZ = ri.layer * 0.01f
+    }
+
     fun drawLine(
-        x1: Float, y1: Float, z1: Float,
-        x2: Float, y2: Float, z2: Float,
+        x1: Float, y1: Float,
+        x2: Float, y2: Float,
         color: Color,
         width: Float,
     ) = JavaNativeRendering.nAddLineToMesh(
-        x1, y1, z1,
-        x2, y2, z2,
+        absX + x1, absY + y1, absZ,
+        absX + x2, absY + y2, absZ,
         color.rgb,
         width
     )
 
     fun drawRect(
-        x: Float, y: Float, z: Float,
+        x: Float, y: Float,
         width: Float, height: Float,
         baseColor: Color, borderColor: Color,
         rounding: Float, bordering: Float,
         textureName: String? = null,
     ) = JavaNativeRendering.nAddRectToMesh(
-        x, y, z,
+        absX + x, absY + y, absZ,
         width, height,
         baseColor.rgb, borderColor.rgb,
         rounding, bordering,
@@ -47,12 +57,12 @@ object RenderingBackend {
 
     fun drawText(
         string: String,
-        x: Float, y: Float, z: Float,
+        x: Float, y: Float,
         color: Color,
         scale: UIWidgetText.Scale,
     ) = JavaNativeRendering.nAddTextToMesh(
         string,
-        x, y, z,
+        absX + x, absY + y, absZ,
         color.rgb,
         scale.idx
     )

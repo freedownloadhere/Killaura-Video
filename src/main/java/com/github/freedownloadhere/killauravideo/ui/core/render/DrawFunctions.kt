@@ -4,10 +4,10 @@ import com.github.freedownloadhere.killauravideo.ui.widgets.basic.UIWidget
 import java.awt.Color
 
 fun <T> T.uiBoxDraw(ri: IRenderInfo, baseColor: Color) where T: UIWidget {
+    RenderingBackend.translateBy(ri, relX, relY)
     RenderingBackend.drawRect(
-        x = ri.absX + relX,
-        y = ri.absY + relY,
-        z = ri.layer * 0.01f,
+        x = 0.0f,
+        y = 0.0f,
         width = width,
         height = height,
         baseColor = baseColor,

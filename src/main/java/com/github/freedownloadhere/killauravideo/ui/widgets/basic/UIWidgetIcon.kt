@@ -18,7 +18,6 @@ class UIWidgetIcon(config: UIStyleConfig): UIWidget(config), ILayoutPost {
         RenderingBackend.drawRect(
             ri.absX + relX,
             ri.absY + relY,
-            ri.layer * 0.01f,
             width, height,
             config.colorBoxSecondary, config.colorBoxTernary,
             ri.config.rounding,

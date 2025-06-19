@@ -39,37 +39,33 @@ class UIWidgetSlider(config: UIStyleConfig): UIWidget(config), ILayoutPost, IMou
     }
 
     override fun renderCallback(ri: IRenderInfo) {
+        RenderingBackend.translateBy(ri, relX, relY)
+
         RenderingBackend.drawLine(
-            ri.absX + relX + 0.0f,
-            ri.absY + relY + 0.5f * height - 1.0f,
-            ri.layer * 0.01f,
-            ri.absX + relX + width,
-            ri.absY + relY + 0.5f * height - 1.0f,
-            ri.layer * 0.01f,
+            0.0f,
+            0.5f * height - 1.0f,
+            width,
+            0.5f * height - 1.0f,
             ri.config.colorTextSecondary,
             2.0f
         )
 
         for(i in 0..segmentCount) {
             RenderingBackend.drawLine(
-                ri.absX + relX + (width * i) / segmentCount,
-                ri.absY + relY + height * 0.25f,
-                ri.layer * 0.01f,
-                ri.absX + relX + (width * i) / segmentCount,
-                ri.absY + relY + height * 0.75f,
-                ri.layer * 0.01f,
+                (width * i) / segmentCount,
+                height * 0.25f,
+                (width * i) / segmentCount,
+                height * 0.75f,
                 ri.config.colorTextSecondary,
                 2.0f
             )
         }
 
         RenderingBackend.drawLine(
-            ri.absX + relX + width * position,
-            ri.absY + relY + 0.0f,
-            ri.layer * 0.01f,
-            ri.absX + relX + width * position,
-            ri.absY + relY + height,
-            ri.layer * 0.01f,
+            width * position,
+            0.0f,
+            width * position,
+            height,
             ri.config.colorAccent,
             4.0f
         )
