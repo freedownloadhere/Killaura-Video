@@ -37,4 +37,8 @@ public class JavaNativeRendering {
     public static native int nUploadTexture(
         byte[] texBytes
     );
+
+    public static native void nSetScissor(
+        float x1, float y1, float x2, float y2
+    );
 }

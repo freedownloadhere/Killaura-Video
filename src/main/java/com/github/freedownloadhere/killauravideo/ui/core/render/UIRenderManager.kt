@@ -32,9 +32,14 @@ class UIRenderManager(config: UIStyleConfig) {
         renderInfo.absX += ui.relX
         renderInfo.absY += ui.relY
         ++renderInfo.layer
+        if(!ui.hidden) RenderingBackend.pushScissor(
+            renderInfo.absX, renderInfo.absY,
+            renderInfo.absX + ui.width, renderInfo.absY + ui.height,
+        )
         if(ui is IParent) for(child in ui.children) {
             recursiveRender(child)
         }
+        if(!ui.hidden) RenderingBackend.popScissor()
         --renderInfo.layer
         renderInfo.absY -= ui.relY
         renderInfo.absX -= ui.relX

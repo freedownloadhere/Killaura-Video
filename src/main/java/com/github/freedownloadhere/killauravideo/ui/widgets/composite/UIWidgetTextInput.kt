@@ -7,6 +7,7 @@ import com.github.freedownloadhere.killauravideo.ui.core.layout.ILayoutPost
 import com.github.freedownloadhere.killauravideo.ui.core.layout.IPadded
 import com.github.freedownloadhere.killauravideo.ui.core.render.IRenderInfo
 import com.github.freedownloadhere.killauravideo.ui.core.render.JavaNativeRendering
+import com.github.freedownloadhere.killauravideo.ui.core.render.RenderingBackend
 import com.github.freedownloadhere.killauravideo.ui.core.render.uiBoxDraw
 import com.github.freedownloadhere.killauravideo.ui.widgets.basic.UIWidget
 import com.github.freedownloadhere.killauravideo.ui.widgets.basic.UIWidgetText
@@ -61,6 +62,12 @@ class UIWidgetTextInput(
 
     override fun renderCallback(ri: IRenderInfo) {
         uiBoxDraw(ri, config.colorBoxSecondary)
+        RenderingBackend.drawLine(
+            cursorPosX, 0.0f,
+            cursorPosX, height,
+            config.colorTextPrimary,
+            1.0f
+        )
     }
 
     override fun layoutPostCallback() {

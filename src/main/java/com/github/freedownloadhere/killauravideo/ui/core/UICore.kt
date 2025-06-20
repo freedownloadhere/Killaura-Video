@@ -3,6 +3,7 @@ package com.github.freedownloadhere.killauravideo.ui.core
 import com.github.freedownloadhere.killauravideo.ui.core.io.UIInteractionManager
 import com.github.freedownloadhere.killauravideo.ui.core.layout.ILayout
 import com.github.freedownloadhere.killauravideo.ui.core.render.JavaNativeRendering
+import com.github.freedownloadhere.killauravideo.ui.core.render.RenderingBackend
 import com.github.freedownloadhere.killauravideo.ui.core.render.UIRenderManager
 import com.github.freedownloadhere.killauravideo.ui.dsl.UIBuilderGlobals
 import com.github.freedownloadhere.killauravideo.ui.widgets.basic.UIWidget
@@ -31,6 +32,11 @@ class UICore(
 
         config.screenWidth = width.toFloat()
         config.screenHeight = height.toFloat()
+
+        RenderingBackend.updateScreenSize(
+            config.screenWidth,
+            config.screenHeight
+        )
 
         UIBuilderGlobals.uiConfig = config
 
