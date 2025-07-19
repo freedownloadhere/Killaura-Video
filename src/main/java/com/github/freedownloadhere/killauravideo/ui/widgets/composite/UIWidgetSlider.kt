@@ -1,9 +1,8 @@
 package com.github.freedownloadhere.killauravideo.ui.widgets.composite
 
-import com.github.freedownloadhere.killauravideo.ui.core.io.IMouseEvent
-import com.github.freedownloadhere.killauravideo.ui.core.io.MouseInfo
+import com.github.freedownloadhere.killauravideo.ui.core.io.IInputUpdate
+import com.github.freedownloadhere.killauravideo.ui.core.io.InputData
 import com.github.freedownloadhere.killauravideo.ui.core.layout.ILayoutPost
-import com.github.freedownloadhere.killauravideo.ui.core.layout.IPadded
 import com.github.freedownloadhere.killauravideo.ui.core.render.IRenderInfo
 import com.github.freedownloadhere.killauravideo.ui.core.render.RenderingBackend
 import com.github.freedownloadhere.killauravideo.ui.core.UIStyleConfig
@@ -11,7 +10,7 @@ import com.github.freedownloadhere.killauravideo.ui.widgets.basic.UIWidget
 import kotlin.math.floor
 import kotlin.math.max
 
-class UIWidgetSlider(config: UIStyleConfig): UIWidget(config), ILayoutPost, IMouseEvent
+class UIWidgetSlider(config: UIStyleConfig): UIWidget(config), ILayoutPost, IInputUpdate
 {
     var minValue: Float = 0.0f
     var maxValue: Float = 1.0f
@@ -26,10 +25,10 @@ class UIWidgetSlider(config: UIStyleConfig): UIWidget(config), ILayoutPost, IMou
     var snapToSegment: Boolean = false
     var segmentCount: Int = 5
 
-    override fun mouseEventCallback(mouseInfo: MouseInfo) {
-        if(mouseInfo.lcmGrabbed?.uiWidget != this)
+    override fun inputUpdateCallback(io: InputData) {
+        if(io.lcmGrabbed?.uiWidget != this)
             return
-        val relX = mouseInfo.lastX - mouseInfo.lcmGrabbed!!.absX
+        val relX = io.lastX - io.lcmGrabbed!!.absX
         position = (relX / width).coerceIn(0.0f, 1.0f)
         if(snapToSegment) {
             val segmentLength = 1.0f / segmentCount

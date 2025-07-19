@@ -2,6 +2,7 @@ package com.github.freedownloadhere.killauravideo.ui.core.render
 
 import com.github.freedownloadhere.killauravideo.ui.widgets.basic.UIWidgetText
 import org.apache.logging.log4j.LogManager
+import org.lwjgl.stb.STBTTFontinfo
 import java.awt.Color
 import java.io.FileNotFoundException
 import java.util.*
@@ -56,17 +57,21 @@ object RenderingBackend {
     fun pushScissor(x1: Float, y1: Float, x2: Float, y2: Float) {
         val top = scissorStack.peek()
 
-        val sr = ScissorRectangle(
+        val intersect = ScissorRectangle(
             max(x1, top.x1),
             max(y1, top.y1),
             min(x2, top.x2),
             min(y2, top.y2),
         )
 
-        scissorStack.push(sr)
+        if(intersect.x1 < intersect.x2 && intersect.y1 < intersect.y2)
+            scissorStack.push(intersect)
+        else
+            scissorStack.push(ScissorRectangle(0.0f, 0.0f, 0.0f, 0.0f))
 
+        val newTop = scissorStack.peek()
         JavaNativeRendering.nSetScissor(
-            sr.x1, sr.y1, sr.x2, sr.y2
+            newTop.x1, newTop.y1, newTop.x2, newTop.y2
         )
     }
 

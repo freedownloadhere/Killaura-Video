@@ -1,8 +1,8 @@
 package com.github.freedownloadhere.killauravideo.ui.widgets.composite
 
 import com.github.freedownloadhere.killauravideo.ui.core.hierarchy.IUniqueParent
-import com.github.freedownloadhere.killauravideo.ui.core.io.IMouseEvent
-import com.github.freedownloadhere.killauravideo.ui.core.io.MouseInfo
+import com.github.freedownloadhere.killauravideo.ui.core.io.IInputUpdate
+import com.github.freedownloadhere.killauravideo.ui.core.io.InputData
 import com.github.freedownloadhere.killauravideo.ui.core.layout.ILayoutPost
 import com.github.freedownloadhere.killauravideo.ui.core.layout.IPadded
 import com.github.freedownloadhere.killauravideo.ui.core.layout.uiCenterBoxLayout
@@ -12,7 +12,7 @@ import com.github.freedownloadhere.killauravideo.ui.core.UIStyleConfig
 import com.github.freedownloadhere.killauravideo.ui.widgets.basic.UIWidget
 import com.github.freedownloadhere.killauravideo.ui.widgets.basic.UIWidgetIcon
 
-class UIWidgetCheckbox(config: UIStyleConfig): UIWidget(config), IUniqueParent<UIWidgetIcon>, IMouseEvent, ILayoutPost, IPadded
+class UIWidgetCheckbox(config: UIStyleConfig): UIWidget(config), IUniqueParent<UIWidgetIcon>, IInputUpdate, ILayoutPost, IPadded
 {
     var checked: Boolean = false
         set(value) {
@@ -24,8 +24,8 @@ class UIWidgetCheckbox(config: UIStyleConfig): UIWidget(config), IUniqueParent<U
 
     override var enablePadding: Boolean = true
 
-    override fun mouseEventCallback(mouseInfo: MouseInfo) {
-        if(mouseInfo.lcmInstant?.uiWidget == this) {
+    override fun inputUpdateCallback(io: InputData) {
+        if(io.lcmInstant?.uiWidget == this) {
             checked = !checked
             onCheck()
         }

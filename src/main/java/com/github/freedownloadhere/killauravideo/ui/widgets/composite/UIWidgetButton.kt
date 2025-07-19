@@ -1,8 +1,8 @@
 package com.github.freedownloadhere.killauravideo.ui.widgets.composite
 
 import com.github.freedownloadhere.killauravideo.ui.core.hierarchy.IUniqueParent
-import com.github.freedownloadhere.killauravideo.ui.core.io.IMouseEvent
-import com.github.freedownloadhere.killauravideo.ui.core.io.MouseInfo
+import com.github.freedownloadhere.killauravideo.ui.core.io.IInputUpdate
+import com.github.freedownloadhere.killauravideo.ui.core.io.InputData
 import com.github.freedownloadhere.killauravideo.ui.core.layout.ILayoutPost
 import com.github.freedownloadhere.killauravideo.ui.core.layout.uiCenterBoxLayout
 import com.github.freedownloadhere.killauravideo.ui.core.render.IRenderInfo
@@ -13,7 +13,7 @@ import com.github.freedownloadhere.killauravideo.ui.widgets.basic.UIWidgetText
 import java.awt.Color
 import kotlin.math.max
 
-class UIWidgetButton(config: UIStyleConfig): UIWidget(config), IUniqueParent<UIWidgetText>, ILayoutPost, IMouseEvent
+class UIWidgetButton(config: UIStyleConfig): UIWidget(config), IUniqueParent<UIWidgetText>, ILayoutPost, IInputUpdate
 {
     private val cooldown: Long = config.buttonClickCooldown
     private var cooldownLeft: Long  = 0L
@@ -29,8 +29,8 @@ class UIWidgetButton(config: UIStyleConfig): UIWidget(config), IUniqueParent<UIW
         super.update(deltaTime)
     }
 
-    override fun mouseEventCallback(mouseInfo: MouseInfo) {
-        if(mouseInfo.lcmInstant?.uiWidget == this && cooldownLeft == 0L) {
+    override fun inputUpdateCallback(io: InputData) {
+        if(io.lcmInstant?.uiWidget == this && cooldownLeft == 0L) {
             onClick()
             cooldownLeft = cooldown
             color = config.colorBoxTernary

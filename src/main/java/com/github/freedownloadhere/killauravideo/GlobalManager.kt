@@ -1,7 +1,7 @@
 package com.github.freedownloadhere.killauravideo
 
 import com.github.freedownloadhere.killauravideo.rendering.RenderUtils
-import com.github.freedownloadhere.killauravideo.ui.core.UICore
+import com.github.freedownloadhere.killauravideo.ui.core.MinecraftUIManager
 import com.github.freedownloadhere.killauravideo.ui.core.render.RenderingBackend
 import com.github.freedownloadhere.killauravideo.utils.EntityPositions
 import com.github.freedownloadhere.killauravideo.utils.KeybindMap
@@ -16,7 +16,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent
 object GlobalManager {
     var clientInstance: ClientInstance? = null
         private set
-    var core: UICore? = null
+    var core: MinecraftUIManager? = null
 
     private var lastPlayer: EntityPlayerSP? = null
     private var lastWorld: WorldClient? = null

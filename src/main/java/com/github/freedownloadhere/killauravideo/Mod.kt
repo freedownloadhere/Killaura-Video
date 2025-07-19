@@ -1,10 +1,9 @@
 package com.github.freedownloadhere.killauravideo
 
 import com.github.freedownloadhere.killauravideo.commands.CommandToggle
-import com.github.freedownloadhere.killauravideo.ui.core.UICore
+import com.github.freedownloadhere.killauravideo.ui.core.MinecraftUIManager
 import com.github.freedownloadhere.killauravideo.ui.core.UIStyleConfig
 import com.github.freedownloadhere.killauravideo.ui.dsl.*
-import com.github.freedownloadhere.killauravideo.ui.widgets.basic.UIWidgetText
 import com.github.freedownloadhere.killauravideo.utils.KeybindMap
 import com.github.freedownloadhere.killauravideo.utils.LibraryLoading
 import net.minecraft.client.Minecraft
@@ -14,7 +13,6 @@ import net.minecraftforge.common.MinecraftForge
 import net.minecraftforge.fml.common.Mod
 import net.minecraftforge.fml.common.event.FMLInitializationEvent
 import org.lwjgl.input.Keyboard
-import kotlin.math.roundToInt
 
 @Mod(modid = "killauravideo", useMetadata = true)
 class Mod {
@@ -29,11 +27,9 @@ class Mod {
         KeybindMap.addKey(KeyBinding("Toggle UI", Keyboard.KEY_J, "")) {
             val config = UIStyleConfig()
 
-            GlobalManager.core = UICore(config) {
+            GlobalManager.core = MinecraftUIManager(config) {
                 verticalBox {
-                    canBeMoved = true
-
-                    + text("Input something here:")
+                    + text("This is a text")
                     + textInput()
                 }
             }
