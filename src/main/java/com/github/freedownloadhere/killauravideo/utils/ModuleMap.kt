@@ -1,7 +1,8 @@
-package com.github.freedownloadhere.killauravideo.modules
+package com.github.freedownloadhere.killauravideo.utils
 
 import com.github.freedownloadhere.killauravideo.interfaces.IDestructible
 import com.github.freedownloadhere.killauravideo.interfaces.IInitializable
+import com.github.freedownloadhere.killauravideo.modules.Module
 
 class ModuleMap(
     vararg modules: Module

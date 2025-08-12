@@ -3,8 +3,9 @@ package com.github.freedownloadhere.killauravideo
 import com.github.freedownloadhere.killauravideo.interfaces.IDestructible
 import com.github.freedownloadhere.killauravideo.interfaces.IInitializable
 import com.github.freedownloadhere.killauravideo.interfaces.IRenderable
+import com.github.freedownloadhere.killauravideo.modules.FakeBlocks
 import com.github.freedownloadhere.killauravideo.modules.Killaura
-import com.github.freedownloadhere.killauravideo.modules.ModuleMap
+import com.github.freedownloadhere.killauravideo.utils.ModuleMap
 import com.github.freedownloadhere.killauravideo.modules.SprintReset
 import com.github.freedownloadhere.killauravideo.utils.Chat
 import com.github.freedownloadhere.killauravideo.utils.timer.TimerManager
@@ -22,7 +23,8 @@ class ClientInstance(
 
     val moduleMap = ModuleMap(
         Killaura(player, world, timerManager),
-        SprintReset(player, gameSettings.keyBindForward, timerManager)
+        SprintReset(player, gameSettings.keyBindForward, timerManager),
+        FakeBlocks()
     )
 
     fun toggleModule(name: String) {
